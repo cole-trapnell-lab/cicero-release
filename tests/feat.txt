@@ -1,0 +1,4 @@
+chr18	10000	10700	Acetylated
+chr18	10800	11000	Methylated
+chr18	50000	60000	Acetylated
+chr18	1e+05	110000	Methylated

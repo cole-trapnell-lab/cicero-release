@@ -1,0 +1,49 @@
+Package: cicero
+Type: Package
+Title: Precict cis co-accessibility from single-cell chromatin accessibility data
+Version: 0.1.1
+Date: 2018-03-22
+Authors@R: c(
+    person("Hannah", "Pliner", email = "hpliner@uw.edu", role = c("aut", "cre")), 
+    person("Cole", "Trapnell", email = "coletrap@uw.edu", role = c("aut")))
+Description: Cicero computes putative cis-regulatory maps from single-cell chromatin 
+    accessibility data. It also extends monocle 2 for use in chromatin accessibility
+    data.
+Depends:
+    R (>= 3.4.0),
+    monocle,
+    Gviz (>= 1.22.3)
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+Imports:
+    AnnotationDbi (>= 1.38.2),
+    assertthat (>= 0.2.0),
+    Biobase (>= 2.37.2),
+    BiocGenerics (>= 0.23.0),
+    data.table (>= 1.10.4),
+    dplyr (>= 0.7.4),
+    FNN (>= 1.1),
+    GenomicRanges (>= 1.30.3),
+    ggplot2 (>= 2.2.1),
+    glasso (>= 1.8),
+    grDevices,
+    igraph (>= 1.1.0),
+    IRanges (>= 2.10.5),
+    Matrix (>= 1.2-12),
+    methods,
+    parallel,
+    plyr (>= 1.8.4),
+    reshape2 (>= 1.4.3),
+    rtracklayer (>= 1.36.6),
+    S4Vectors (>= 0.14.7),
+    stringr (>= 1.2.0),    
+    tibble (>= 1.4.2),
+    vdiffr (>= 0.2.1),
+    VGAM (>= 1.0-5)
+RoxygenNote: 6.0.1
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
