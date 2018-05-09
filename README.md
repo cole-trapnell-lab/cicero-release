@@ -3,4 +3,4 @@
 # Cicero
 ### Predicting the cis-regulatory landscape
 
-Please see our [website](http://cole-trapnell-lab.github.io/cicero/) for information on installing and using Cicero
+Please see our [website](http://cole-trapnell-lab.github.io/cicero-release/) for information on installing and using Cicero
