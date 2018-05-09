@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+{% include head.html %}
+
+<body>
+  {% include header.html %}
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron" style="background-image: url(images/cicero_banner.png); background-size: 1650px;">
+    <div class="container">
+      <div class="text-center">
+        <h1>Cicero</h1>
+        <p>Predicting the cis-regulatory landscape</p>
+        <p><a class="btn btn-warning btn-lg" href="{{ site.baseurl }}/docs/#installing-monocle" role="button">Get started&raquo;</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="text-center">
+          <img src="images/cicero_diagram_fp.png" height=300 width=300></img>
+          <h2>Cis-regulatory networks</h2>
+          <p>Predict cis-regulatory connections and assign enhancers to genes.</p>
+          <p><a class="btn btn-default" href="{{ site.baseurl }}/docs/#constructing-single-cell-trajectories" role="button">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="text-center">
+          <img src="images/HSMM_trajectory.png" height=300 width=300></img>
+          <h2>Pseudotime</h2>
+          <p>Build single-cell trajectories from chromatin accessibility data.</p>
+          <p><a class="btn btn-default" href="{{ site.baseurl }}/docs/#classifying-and-counting-cells" role="button">View details &raquo;</a></p>
+        </div>
+      </div>
+    </div>
+
+
+                  <hr>
+                  <!--
+                  <ul class="post-list">
+                  {% for post in site.posts %}
+                  <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }} <span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a></article></li>
+                  {% endfor %}
+                </ul> -->
+
+                <footer>
+                  <p>&copy; 2018 Cole Trapnell</p>
+
+                </footer>
+              </div> <!-- /container -->
+
+              {% include footer.html %}
+
+            </body>
+
+            </html>
