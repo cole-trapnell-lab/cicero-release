@@ -564,7 +564,7 @@ assemble_connections <- function(cicero_model_list, silent = FALSE) {
   }
 
   cors <- lapply(gl_only, function(gl)  {
-    cors <- cov2cor(gl$w)
+    cors <- stats::cov2cor(gl$w)
     data.table::melt(cors)
   })
 

@@ -554,7 +554,7 @@ plotBedpe <- function(bedpedata,
     spacing <- 0.2
     vspace <- .05
     for (i in 1:length(color_names)) {
-      grid::grid.lines(unit(c(spacing,spacing + boxSize), "inches"), c(1 - vspace*i, 1 - vspace*i), gp=gpar(col=color_names[i], lwd=width))
+      grid::grid.lines(unit(c(spacing,spacing + boxSize), "inches"), c(1 - vspace*i, 1 - vspace*i), gp=grid::gpar(col=color_names[i], lwd=width))
       grid::grid.text(x=unit(.1 + (boxSize + spacing), "inches"), y=1 - vspace*i, just=c(0, 0.5), label=names(color_names)[i])
     }
   }

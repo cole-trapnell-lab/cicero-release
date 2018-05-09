@@ -113,7 +113,7 @@ ranges_for_coords <- function(coord_strings,
     if (!is.null(meta_data_df)) {
       for (n in names(meta_data_df)) {
         newname <- paste0("mcols.", n)
-        names(mcols(gr))[which(names(mcols(gr)) == newname)] <- n
+        names(GenomicRanges::mcols(gr))[which(names(GenomicRanges::mcols(gr)) == newname)] <- n
       }
     }
     if (with_names) {

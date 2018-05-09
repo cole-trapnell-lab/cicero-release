@@ -141,7 +141,7 @@ build_composite_gene_activity_matrix <- function(input_cds,
   total_linked_site_weights[is.finite(total_linked_site_weights) == FALSE] = 0
   total_linked_site_weights[is.na(total_linked_site_weights)] = 0
   total_linked_site_weights[is.nan(total_linked_site_weights)] = 0
-  total_linked_site_weights = Diagonal(x=total_linked_site_weights)
+  total_linked_site_weights = Matrix::Diagonal(x=total_linked_site_weights)
   scaled_site_weights = total_linked_site_weights %*%
     promoter_conn_matrix[,distal_safe_sites] %*%
     scaled_site_weights
@@ -245,7 +245,7 @@ normalize_gene_activities = function(activity_matrices,
 
   sum_activity_scores <- Matrix::colSums(scores)
 
-  scale_factors <- Diagonal(x=1/sum_activity_scores)
+  scale_factors <- Matrix::Diagonal(x=1/sum_activity_scores)
   row.names(scale_factors) <- normalization_df$cell
   colnames(scale_factors) <- row.names(scale_factors)
 
