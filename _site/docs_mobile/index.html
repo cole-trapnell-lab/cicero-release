@@ -174,7 +174,7 @@
         <p> 
           <strong>Cicero</strong> is an R package that provides tools for analyzing single-cell chromatin accessibility 
           experiments. The main function of Cicero is to use single-cell chromatin accessibility data to predict 
-          <strong>cis-regulatory interactions</strong> (such as those between enhancers and promoters) in the genome by 
+          <strong><i>cis</i>-regulatory interactions</strong> (such as those between enhancers and promoters) in the genome by 
           examining co-accessibility. In addition, Cicero extends <a 
           href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> to allow clustering, ordering, and 
           differential accessibility analysis of single cells using chromatin accessibility. For more information about 
@@ -186,7 +186,7 @@
         <p>
           The main purpose of Cicero is to use single-cell chromatin accessibility data to predict regions of the 
           genome that are more likely to be in physical proximity in the nucleus. This can be used to identify putative 
-          enhancer-promoter pairs, and to get a sense of the overall stucture of the cis-architecture of a genomic 
+          enhancer-promoter pairs, and to get a sense of the overall stucture of the <i>cis</i>-architecture of a genomic 
           region.
         </p>
 
@@ -211,8 +211,8 @@
         <p>
           Cicero can help you perform two main types of analysis:
           <ul>
-            <li><strong>Constructing and analysing cis-regulatory networks.</strong> Cicero analyzes co-accessibility 
-              to identify putative cis-regulatory interactions, and uses various techniques to visualize and analyze 
+            <li><strong>Constructing and analysing <i>cis</i>-regulatory networks.</strong> Cicero analyzes co-accessibility 
+              to identify putative <i>cis</i>-regulatory interactions, and uses various techniques to visualize and analyze 
               them.
             <li><strong>General single-cell chromatin accessibility analysis .</strong> Cicero also extends the 
               software package <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> to allow for 
@@ -233,6 +233,20 @@
           need R version 3.4 or higher, Bioconductor version 3.6, and Cicero 1.0.0 or higher to have access to the 
           latest features.
         </p>
+        <p>
+          Cicero builds upon a package called <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
+          Before installing Cicero, first, follow 
+          <a href= "http://cole-trapnell-lab.github.io/monocle-release/docs/#installing-monocle" target="_blank">these instructions</a> 
+          to install Monocle. After installing Monocle, you can install Cicero using the commands below:
+        </p>
+
+        <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">install.packages</span><span class="p">(</span><span class="s2">"devtools"</span><span class="p">)</span><span class="w">
+</span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"cole-trapnell-lab/cicero-release"</span><span class="p">)</span></code></pre></figure>
+
+        <p>
+          After installation, test that Cicero installed correctly by opening a new R session and typing:
+        </p>
+        <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">cicero</span><span class="p">)</span></code></pre></figure>
         <h2> Getting help </h2>
 
         <p>
@@ -264,7 +278,7 @@
           </tbody>
         </table>
 
-        <h2>Constructing cis-regulatory networks</h2>
+        <h2>Constructing <i>cis</i>-regulatory networks</h2>
         <h3>Running Cicero</h3>
         <h4>The CellDataSet class</h4>
         <p>
@@ -492,7 +506,7 @@
 
         <p>
           The main function of the Cicero package is to estimate the co-accessiblity of sites in the genome in order to 
-          predict cis-regulatory interactions. There are two ways to get this information:
+          predict <i>cis</i>-regulatory interactions. There are two ways to get this information:
           <ul>
             <li><strong><code>run_cicero</code>: get Cicero outputs with all defaults</strong> The function 
               <code>run_cicero</code> will call each of the relevant pieces of Cicero code using default values, and 
@@ -573,7 +587,7 @@
               of the genome using a distance-based penalty.
             <li><strong><code>assemble_connections</code></strong>. This function takes as input the output of 
               <code>generate_cicero_models</code> and reconciles the overlapping models to create the final list of 
-              coaccessibility scores.
+              co-accessibility scores.
           </ul>
         </p>
 
@@ -621,7 +635,7 @@
                 </tr>
                 <tr>
                   <td colspan="2" style='border-top:none'><strong>Notes:</strong> The <code>distance_constraint</code> 
-                    controls the distance at which Cicero expects few meaningful cis-regulatory contacts. 
+                    controls the distance at which Cicero expects few meaningful <i>cis</i>-regulatory contacts. 
                     <code>estimate_distance_parameter</code> uses this value to estimate the distance parameter by 
                     increasing regularization until there are few contacts at a distance beyond the 
                     <code>distance_constraint</code>. The <code>distance_constraint</code> <strong>must</strong> be 
@@ -726,14 +740,14 @@
         <h3>Visualizing Cicero Connections</h3>
 
         <p>
-          The Cicero package includes a general plotting function for visualizing coaccessibility called
+          The Cicero package includes a general plotting function for visualizing co-accessibility called
           <code>plot_connections</code>. This function uses the 
           <a href="https://bioconductor.org/packages/release/bioc/html/Gviz.html">Gviz</a> framework for plotting 
           genome browser-style plots. We have adapted a function from the
            <a href="https://bioconductor.org/packages/release/bioc/html/Sushi.html">Sushi</a> R package for 
            mapping connections. <code>plot_connections</code> has many options, some detailed in the 
           <a href = "/cicero-release/docs/#advanced-visualizaton">Advanced Visualization</a> section, but to get a 
-          basic plot from your coaccessibility table is quite simple:
+          basic plot from your co-accessibility table is quite simple:
         </p>
 
         <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">data</span><span class="p">(</span><span class="n">gene_annotation_sample</span><span class="p">)</span><span class="w">
@@ -836,12 +850,12 @@
         <div class= "text-center">
           <img src= "/cicero-release/images/comparison_track.png" width="100%">
         </div>
-        <h3>Finding Cis-Coaccessibility Networks (CCANS)</h3>
+        <h3>Finding <i>cis</i>-Co-accessibility Networks (CCANS)</h3>
         <p>
-          In addition to pairwise coaccessibility scores, Cicero also has a function to find Cis-Coaccessibility 
-          Networks (CCANs), which are modules of sites that are highly coaccessible with one another. We use the 
+          In addition to pairwise co-accessibility scores, Cicero also has a function to find <i>cis</i>-Co-accessibility 
+          Networks (CCANs), which are modules of sites that are highly co-accessible with one another. We use the 
           Louvain community detection algorithm (Blondel et al., 2008) to find clusters of sites that tended to be 
-          coaccessible. The function <code>generate_ccans</code> takes as input a connection data frame and outputs a 
+          co-accessible. The function <code>generate_ccans</code> takes as input a connection data frame and outputs a 
           data frame with CCAN assignments for each input peak. Sites not included in the output data frame were not 
           assigned a CCAN.
         </p>
@@ -855,7 +869,7 @@
         <p>
           The function <code>generate_ccans</code> has one optional input called <code>coaccess_cutoff_override</code>. 
           When <code>coaccess_cutoff_override</code> is NULL, the function will determine and report an appropriate 
-          coaccessibility score cutoff value for CCAN generation based on the number of overall CCANs at varying 
+          co-accessibility score cutoff value for CCAN generation based on the number of overall CCANs at varying 
           cutoffs. You can also set <code>coaccess_cutoff_override</code> to be a numeric between 0 and 1, to override 
           the cutoff-finding part of the function. This option is useful if you feel that the cutoff found 
           automatically was too strict or loose, or for speed if you are rerunning the code and know what the cutoff 
@@ -863,7 +877,7 @@
         </p>
         <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">CCAN_assigns</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">generate_ccans</span><span class="p">(</span><span class="n">conns</span><span class="p">)</span><span class="w">
 
-</span><span class="c1"># [1] "Coaccessibility cutoff used: 0.24"
+</span><span class="c1"># [1] "Co-accessibility cutoff used: 0.24"
 </span><span class="w">
 </span><span class="n">head</span><span class="p">(</span><span class="n">CCAN_assigns</span><span class="p">)</span><span class="w">
 
@@ -971,7 +985,7 @@
         <p>
             <strong><code>alpha_by_coaccess</code>:</strong> the <code>alpha_by_coaccess</code> parameter lets you is 
             useful when you are concerned about overplotting. This parameter causes the alpha (transparency) of the 
-            connection curves to be scaled based on the magnitude of the coaccessibility. Compare the following two 
+            connection curves to be scaled based on the magnitude of the co-accessibility. Compare the following two 
             plots.
         </p>
         <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot_connections</span><span class="p">(</span><span class="n">conns</span><span class="p">,</span><span class="w"> 
@@ -1218,8 +1232,8 @@
                     </tr>
                   <tr>
                     <td colspan="2" style='border-top:none'><strong>Notes:</strong> The value <code>distance_constraint</code> is the distance in base pairs at beyond which few
-                      (less than 5%) meaningful cis-regulatory connections are expected to exist. While there are 
-                      examples of very long range cis-regulatory contacts in various organisms, this value should be 
+                      (less than 5%) meaningful <i>cis</i>-regulatory connections are expected to exist. While there are 
+                      examples of very long range <i>cis</i>-regulatory contacts in various organisms, this value should be 
                       more of a general rule as Cicero can still detect longer range connections with high 
                       co-accessibility.
                     </td>
@@ -1595,7 +1609,7 @@
 
         <h2>Acknowledgements </h2>
 
-        Cicero was developed in Cole Trapnell's and Jay Shendure's labs.
+        Cicero was developed by Hannah Pliner in Cole Trapnell's and Jay Shendure's labs.
         <br>
         <br>
         This vignette was created from Wolfgang Huber's Bioconductor vignette style document, and patterned after the 
@@ -1690,3 +1704,4 @@
 </body>
 
 </html>
+
