@@ -42,7 +42,7 @@ Imports:
     VGAM (>= 1.0-5)
 RoxygenNote: 6.0.1
 Remotes: 
-    bioc::3.6/Gviz (>= 1.22.3)
+    bioc::3.6/Gviz
     bioc::3.6/GenomicRanges
     bioc::3.6/rtracklayer
 Suggests:
