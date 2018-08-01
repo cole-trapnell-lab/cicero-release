@@ -91,7 +91,16 @@ tags: [monocle, manual, vignette]
           <a href= "http://cole-trapnell-lab.github.io/monocle-release/docs/#installing-monocle" target="_blank">these instructions</a> 
           to install Monocle. After installing Monocle, you can install Cicero using the commands below:
         </p>
-
+      <p>
+        In addition to Monocle, Cicero requires the following packages from Bioconductor
+      </p>
+        {% highlight R %}
+source("https://bioconductor.org/biocLite.R")
+biocLite(c("Gviz", "GenomicRanges", "rtracklayer"))
+{% endhighlight %}
+      <p>
+        You're now ready to install Cicero:
+        </p>
         {% highlight R %}
 install.packages("devtools")
 devtools::install_github("cole-trapnell-lab/cicero-release")
