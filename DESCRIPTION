@@ -11,8 +11,7 @@ Description: Cicero computes putative cis-regulatory maps from single-cell chrom
     data.
 Depends:
     R (>= 3.4.0),
-    monocle,
-    Gviz (>= 1.22.3)
+    monocle
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
@@ -42,6 +41,10 @@ Imports:
     vdiffr (>= 0.2.1),
     VGAM (>= 1.0-5)
 RoxygenNote: 6.0.1
+Remotes: 
+    bioc::3.6/Gviz (>= 1.22.3)
+    bioc::3.6/GenomicRanges
+    bioc::3.6/rtracklayer
 Suggests:
     knitr,
     rmarkdown,
