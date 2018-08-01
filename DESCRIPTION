@@ -12,7 +12,7 @@ Description: Cicero computes putative cis-regulatory maps from single-cell chrom
 Depends:
     R (>= 3.4.0),
     monocle,
-    Gviz 
+    Gviz (>= 1.22.3)
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
