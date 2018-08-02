@@ -5,5 +5,7 @@ r: bioc-release
 sudo: false
 cache: packages
 
+r_github_packages: lionel-/vdiffr
+
 after_success:
     - Rscript -e 'covr::codecov()'
