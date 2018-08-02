@@ -7,5 +7,10 @@ cache: packages
 r_build_args: --no-build-vignettes
 r_check_args: --no-build-vignettes
 
+install:
+- R -e 'devtools::install_deps(dep = T)'
+
+script:
+
 after_success:
     - Rscript -e 'covr::codecov()'
