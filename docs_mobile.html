@@ -822,6 +822,9 @@ names(num_genes) <- row.names(pData(input_cds))
 cicero_gene_activities <- normalize_gene_activities(unnorm_ga, 
                                                     num_genes)
 
+# generate fake second unnormalized gene activity matrix
+unnorm_ga2 <- build_gene_activity_matrix(input_cds, conns)                    
+     
 # if you had two datasets to normalize, you would pass both:
 # num_genes should then include all cells from both sets
 cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga, 
