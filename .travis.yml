@@ -4,9 +4,8 @@ language: r
 r: bioc-release
 sudo: false
 cache: packages
-env:
-  global:
-    - R_CHECK_ARGS="--no-build-vignettes"
+r_build_args: --no-build-vignettes
+r_check_args: --no-build-vignettes
 
 after_success:
     - Rscript -e 'covr::codecov()'
