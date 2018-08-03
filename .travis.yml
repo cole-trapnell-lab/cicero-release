@@ -2,7 +2,10 @@ language: r
 r: bioc-release
 os: osx
 cache: packages
-  
+
+before install:
+- Rscript -e 'gdtools::version_freetype()'
+
 after_success:
 - Rscript -e 'gdtools::version_freetype()'
 - Rscript -e 'covr::codecov()'
