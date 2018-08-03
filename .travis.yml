@@ -2,6 +2,13 @@ language: r
 r: bioc-release
 sudo: false
 cache: packages
+
+addons:
+  apt:
+    packages:
+      - libfreetype6
+      
+ 
 after_success:
 - Rscript -e 'covr::codecov()'
 notifications:
