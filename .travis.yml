@@ -1,6 +1,6 @@
 language: r
 r: bioc-release
-sudo: false
+os: osx
 cache: packages
 
 before_install:
