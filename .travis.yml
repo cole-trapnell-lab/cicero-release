@@ -9,7 +9,7 @@ before_install:
 - cd freetype-2.7.1
 - ./configure
 - make
-- make install
+- sudo make install
 
 after_success:
 - Rscript -e 'gdtools::version_freetype()'
