@@ -72,7 +72,7 @@ make_atac_cds <- function(input, binarize = FALSE) {
     atac_cds@expressionFamily@vfamily <- "binomialff"
   }
   pData(atac_cds)$temp <- NULL
-  fData(atac_cds)$chr <- as.numeric(as.character(fData(atac_cds)$chr))
+  fData(atac_cds)$chr <- as.character(fData(atac_cds)$chr)
   fData(atac_cds)$bp1 <- as.numeric(as.character(fData(atac_cds)$bp1))
   fData(atac_cds)$bp2 <- as.numeric(as.character(fData(atac_cds)$bp2))
   atac_cds <- atac_cds[order(fData(atac_cds)$chr, fData(atac_cds)$bp1),]

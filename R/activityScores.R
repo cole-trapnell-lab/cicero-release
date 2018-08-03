@@ -206,7 +206,7 @@ normalize_gene_activities = function(activity_matrices,
     normalization_df <- data.frame(cell = colnames(activity_matrices),
                                             cell_group=1)
   } else {
-    scores <- do.call(Matrix::cBind, activity_matrices)
+    scores <- do.call(cbind, activity_matrices)
 
     normalization_df <- do.call(rbind,
                                lapply(seq_along(activity_matrices), function(x) {

@@ -1,7 +1,7 @@
 Package: cicero
 Type: Package
 Title: Precict cis co-accessibility from single-cell chromatin accessibility data
-Version: 1.0.0
+Version: 1.0.1
 Date: 2018-03-22
 Authors@R: c(
     person("Hannah", "Pliner", email = "hpliner@uw.edu", role = c("aut", "cre")), 
@@ -39,7 +39,7 @@ Imports:
     S4Vectors (>= 0.14.7),
     stringr (>= 1.2.0),    
     tibble (>= 1.4.2),
-    vdiffr (>= 0.2.1),
+    vdiffr (>= 0.2.3),
     VGAM (>= 1.0-5)
 RoxygenNote: 6.0.1
 Suggests:
