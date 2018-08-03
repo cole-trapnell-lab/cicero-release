@@ -3,7 +3,7 @@ r: bioc-release
 os: osx
 cache: packages
 
-before install:
+before_install:
 - Rscript -e 'gdtools::version_freetype()'
 
 after_success:
