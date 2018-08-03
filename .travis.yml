@@ -4,13 +4,14 @@ sudo: required
 cache: packages
 
 before_install:
+- cd ../..
 - wget https://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz
 - tar xzf freetype-2.7.1.tar.gz
 - cd freetype-2.7.1
 - ./configure
 - make
 - sudo make install
-- cd ..
+- cd ../cole-trapnell-lab/cicero-release
 
 after_success:
 - Rscript -e 'gdtools::version_freetype()'
