@@ -1,10 +1,11 @@
 language: r
 r: bioc-release
+sudo: false
 cache: packages
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y libfreetype6
+  - sudo apt-get install -y libfreetype6-dev
   
 after_success:
 - Rscript -e 'gdtools::version_freetype()'
