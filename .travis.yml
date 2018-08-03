@@ -1,14 +1,11 @@
 language: r
 r: bioc-release
-sudo: false
 cache: packages
 
-addons:
-  apt:
-    packages:
-      - libfreetype6
-      
- 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libfreetype6
+  
 after_success:
 - Rscript -e 'gdtools::version_freetype()'
 - Rscript -e 'covr::codecov()'
