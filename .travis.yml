@@ -1,5 +1,3 @@
-language: r
-r: bioc-release
 sudo: false
 cache: packages
 
@@ -13,16 +11,8 @@ before_install:
 - sudo make install
 - cd ../cole-trapnell-lab/cicero-release
 
-
-r_build_args: --no-build-vignettes
-r_check_args: --no-build-vignettes
-
-install:
-- R -e 'install.packages("devtools")'
-- R -e 'devtools::install_deps(dep = T)'
-
-script:
-- R CMD build . --no-build-vignettes
+language: r
+r: bioc-release
 
 after_success:
 - Rscript -e 'gdtools::version_freetype()'
