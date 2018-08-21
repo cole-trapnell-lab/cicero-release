@@ -675,6 +675,7 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
   mean.wt <- reshape2::melt(with(cds_exprs, tapply(expression, list(br, f_id),
                                                    mean)))
 
+  names(mean.wt) <- c("Var1", "Var2", "value") # fix to avoid reshape v reshape2 incompatability
   mean.wt <- cbind(mean.wt, stringr::str_split_fixed(mean.wt$Var1, ",", 2))
 
   names(mean.wt) <- c("interval", "feature_label", "mean", "int_start", "int_end")
