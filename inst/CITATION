@@ -22,6 +22,6 @@ citEntry(entry="article",
                               as.person("Jay Shendure"),
                               as.person("Cole Trapnell")),
          textVersion =
-           paste("Hannah A. Pliner, Jay Shendure and Cole Trapnell et al (2018):",
-                 "Cicero Predicts cis-Regulatory DNA Interactions from Single-Cell Chromatin Accessibility Data.",
-                 "Molecular Cell" ) )
+           paste("Hannah A. Pliner, Jay Shendure & Cole Trapnell et. al. (2018).",
+           "Cicero Predicts cis-Regulatory DNA Interactions from Single-Cell Chromatin Accessibility Data.",
+           "Molecular Cell,", "71,", "858-871.e8." ) )
