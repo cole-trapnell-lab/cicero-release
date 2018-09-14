@@ -41,6 +41,16 @@
    <![endif]-->
 
    <!--  -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123277373-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123277373-1');
+</script>
+
  </head>
 
 
@@ -80,9 +90,9 @@
           <li><a href="javascript:void(0)" onclick="mobileDetect();">Documentation</a></li>
           <!-- <li><a href="/features/">Features</a></li> -->
           <!-- <li><a href="/getting-started/">Getting started</a></li> -->
-
           <li><a href="/cicero-release/papers/">Publications</a></li>
-          <li><a href="https://github.com/cole-trapnell-lab/cicero">GitHub</a></li>
+          <li><a href="/cicero-release/data/">Data</a></li>
+          <li><a href="https://github.com/cole-trapnell-lab/cicero-release">GitHub</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -239,7 +249,14 @@
           <a href= "http://cole-trapnell-lab.github.io/monocle-release/docs/#installing-monocle" target="_blank">these instructions</a> 
           to install Monocle. After installing Monocle, you can install Cicero using the commands below:
         </p>
-
+      <p>
+        In addition to Monocle, Cicero requires the following packages from Bioconductor
+      </p>
+        <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">source</span><span class="p">(</span><span class="s2">"https://bioconductor.org/biocLite.R"</span><span class="p">)</span><span class="w">
+</span><span class="n">biocLite</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Gviz"</span><span class="p">,</span><span class="w"> </span><span class="s2">"GenomicRanges"</span><span class="p">,</span><span class="w"> </span><span class="s2">"rtracklayer"</span><span class="p">))</span></code></pre></figure>
+      <p>
+        You're now ready to install Cicero:
+        </p>
         <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">install.packages</span><span class="p">(</span><span class="s2">"devtools"</span><span class="p">)</span><span class="w">
 </span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"cole-trapnell-lab/cicero-release"</span><span class="p">)</span></code></pre></figure>
 
@@ -945,6 +962,9 @@
 </span><span class="n">cicero_gene_activities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">normalize_gene_activities</span><span class="p">(</span><span class="n">unnorm_ga</span><span class="p">,</span><span class="w"> 
                                                     </span><span class="n">num_genes</span><span class="p">)</span><span class="w">
 
+</span><span class="c1"># generate fake second unnormalized gene activity matrix
+</span><span class="n">unnorm_ga2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">build_gene_activity_matrix</span><span class="p">(</span><span class="n">input_cds</span><span class="p">,</span><span class="w"> </span><span class="n">conns</span><span class="p">)</span><span class="w">                    
+     
 </span><span class="c1"># if you had two datasets to normalize, you would pass both:
 # num_genes should then include all cells from both sets
 </span><span class="n">cicero_gene_activities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">normalize_gene_activities</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">unnorm_ga</span><span class="p">,</span><span class="w"> 
@@ -1589,22 +1609,27 @@
 
         <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">citation</span><span class="p">(</span><span class="s2">"cicero"</span><span class="p">)</span><span class="w">
 
-</span><span class="c1"># Hannah A. Pliner, Jay Shendure and Cole Trapnell et al (2017): Chromatin 
-# accessibility dynamics of myogenesis at single cell resolution. bioRxiv
+</span><span class="c1"># Hannah A. Pliner, Jay Shendure &amp; Cole Trapnell et. al. (2018). Cicero
+# Predicts cis-Regulatory DNA Interactions from Single-Cell Chromatin
+# Accessibility Data. Molecular Cell, 71, 858 - 871.e8.
 </span><span class="w">
 </span><span class="c1"># A BibTeX entry for LaTeX users is
 </span><span class="w">
-</span><span class="c1">#   @Article{,
-#    title = {Chromatin accessibility dynamics of myogenesis at single cell resolution},
-#    author = {Hannah A. Pliner and Jonathan Packer and José L. McFaline-Figueroa 
-#    and Darren A. Cusanovich and Riza Daza and Delasa Aghamirzaie and Sanjay Srivatsan 
-#    and Xiaojie Qiu and Dana Jackson and Anna Minkina and Andrew Adey and Frank J. 
-#    Steemers and Jay Shendure and Cole Trapnell},
-#    year = {2017},
-#    journal = {bioRxiv},
-#  }
-</span><span class="w">          
-
+</span><span class="c1"># @Article{,
+#   title = {Cicero Predicts cis-Regulatory DNA Interactions from Single-Cell Chromatin Accessibility Data},
+#   journal = {Molecular Cell},
+#   volume = {71},
+#   number = {5},
+#   pages = {858 - 871.e8},
+#   year = {2018},
+#   issn = {1097-2765},
+#   doi = {https://doi.org/10.1016/j.molcel.2018.06.044},
+#   author = {Hannah A. Pliner and Jonathan S. Packer and José L. McFaline-Figueroa and 
+#     Darren A. Cusanovich and Riza M. Daza and Delasa Aghamirzaie and Sanjay Srivatsan 
+#     and Xiaojie Qiu and Dana Jackson and Anna Minkina and Andrew C. Adey and Frank J. 
+#     Steemers and Jay Shendure and Cole Trapnell},
+# }
+</span><span class="w">
         </span></code></pre></figure>
 
         <h2>Acknowledgements </h2>

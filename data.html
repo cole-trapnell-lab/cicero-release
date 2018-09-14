@@ -1,0 +1,95 @@
+---
+layout: vanilla
+permalink: /data/
+description: "Data for Cicero."
+modified: 2017-7-11
+tags: [monocle, manual, vignette]
+---
+
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+{% include head.html %}
+
+{% include header.html %}
+
+<div class="container">
+  <div class="row">
+    <!-- sidebar, which will move to the top on a small screen -->
+    <div class="col-sm-4">
+      <nav id="toc" data-spy="affix" data-toggle="toc"></nav>
+    </div>
+    <!-- main content area -->
+    <div class="col-sm-12">
+
+
+    <div class="text-center">
+      <h3 data-toc-skip>Below are links to the datasets that were used in the development and testing of Cicero</h3>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-3">
+        <img class="featurette-image img-responsive center-block" src="{{site.baseurl}}/images/fx1_lrg_cicero.jpg" alt="Cicero">
+      </div>
+
+      <div class="col-md-9">
+        <h3 data-toc-skip>Cicero Predicts <i>cis</i>-Regulatory DNA Interactions from Single-Cell Chromatin Accessibility Data</h3>
+        <p>Data from this paper are hosted on GEO, accession number <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE109828">GSE109828</a></p>
+        <h4>Available datasets:</h4>
+        <ul>
+          <li>sci-ATAC-seq of human skeletal muscle myoblast (HSMM) differentiation: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970930">GSM2970930</a>, <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970931">GSM2970931</a></li>
+          <li>sci-ATAC-seq of mixed GM12878 and HL60: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970932">GSM2970932</a></li>
+          <li>Bulk ATAC-seq of human skeletal muscle myoblast (HSMM) differentiation: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970933">GSM2970933</a></li>
+          <li>Bulk ATAC-seq of human immortalized myoblast (54-1), no template control (NTC), differentiation day 0: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970934">GSM2970934</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970935">GSM2970935</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970936">GSM2970936</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970937">GSM2970937</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970938">GSM2970938</a></li>
+          <li>Bulk ATAC-seq of human immortalized myoblast (54-1) no template control (NTC), differentiation day 7: <br> 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970948">GSM2970948</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970949">GSM2970949</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970950">GSM2970950</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970951">GSM2970951</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970952">GSM2970952</a></li>
+          <li>Bulk ATAC-seq of human immortalized myoblast (54-1), <i>MEIS1</i> knockout, differentiation day 0: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970939">GSM2970939</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970940">GSM2970940</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970941">GSM2970941</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970942">GSM2970942</a></li>
+          <li>Bulk ATAC-seq of human immortalized myoblast (54-1), <i>MEIS1</i> knockout, differentiation day 7: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970953">GSM2970953</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970954">GSM2970954</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970955">GSM2970955</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970956">GSM2970956</a></li>
+          <li>Bulk ATAC-seq of human immortalized myoblast (54-1), <i>PBX1</i> knockout, differentiation day 0: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970943">GSM2970943</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970944">GSM2970944</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970945">GSM2970945</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970946">GSM2970946</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970947">GSM2970947</a></li>
+          <li>Bulk ATAC-seq of human immortalized myoblast (54-1), <i>PBX1</i> knockout, differentiation day 7: <br>
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970957">GSM2970957</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970958">GSM2970958</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970959">GSM2970959</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970960">GSM2970960</a>, 
+            <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2970961">GSM2970961</a></li>
+        </ul>
+        <br>
+      </div>
+
+      <div class="row featurette">
+        <div class="col-md-3">
+          <img class="featurette-image img-responsive center-block" src="{{site.baseurl}}/images/fx1_lrg.jpg" alt="Mouse Atlas">
+        </div>
+        <div class="col-md-9">
+          <h3 data-toc-skip>A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility</h3>
+          <h4><p>Data from this paper are hosted at the <a href="http://atlas.gs.washington.edu/mouse-atac/data/">Mouse Atlas website</a></p></h4>
+        </div>      
+    </div>
+<br>
