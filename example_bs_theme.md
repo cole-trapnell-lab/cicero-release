@@ -37,7 +37,6 @@ layout: default
 
 <div class="container theme-showcase" role="main">
 
-  <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <h1>Theme example</h1>
     <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
@@ -369,7 +368,7 @@ layout: default
             </ul>
           </li>
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
     </div>
   </nav>
 
@@ -402,7 +401,7 @@ layout: default
             </ul>
           </li>
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
     </div>
   </nav>
 
@@ -464,7 +463,7 @@ layout: default
         <li class="list-group-item">Porta ac consectetur ac</li>
         <li class="list-group-item">Vestibulum at eros</li>
       </ul>
-    </div><!-- /.col-sm-4 -->
+    </div>
     <div class="col-sm-4">
       <div class="list-group">
         <a href="#" class="list-group-item active">
@@ -475,7 +474,7 @@ layout: default
         <a href="#" class="list-group-item">Porta ac consectetur ac</a>
         <a href="#" class="list-group-item">Vestibulum at eros</a>
       </div>
-    </div><!-- /.col-sm-4 -->
+    </div>
     <div class="col-sm-4">
       <div class="list-group">
         <a href="#" class="list-group-item active">
@@ -491,7 +490,7 @@ layout: default
           <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
         </a>
       </div>
-    </div><!-- /.col-sm-4 -->
+    </div>
   </div>
 
 
@@ -516,7 +515,7 @@ layout: default
           Panel content
         </div>
       </div>
-    </div><!-- /.col-sm-4 -->
+    </div>
     <div class="col-sm-4">
       <div class="panel panel-success">
         <div class="panel-heading">
@@ -534,7 +533,7 @@ layout: default
           Panel content
         </div>
       </div>
-    </div><!-- /.col-sm-4 -->
+    </div>
     <div class="col-sm-4">
       <div class="panel panel-warning">
         <div class="panel-heading">
@@ -552,7 +551,7 @@ layout: default
           Panel content
         </div>
       </div>
-    </div><!-- /.col-sm-4 -->
+    </div>
   </div>
 
 

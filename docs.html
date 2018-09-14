@@ -9,19 +9,14 @@ tags: [monocle, manual, vignette]
 <html lang= "{{ page.lang | default: site.lang | default: "en" }}">
 
   {% include head.html %}
-
-  <!-- See here for how to use the TOC control:
-  https://afeld.github.io/bootstrap-toc/ -->
 <body  data-spy= "scroll" data-target= "#toc">
   {% include header.html %}
 
   <div class= "container">
     <div class= "row">
-      <!-- sidebar, which will move to the top on a small screen -->
       <div class= "col-sm-4">
         <nav id= "toc" data-spy= "affix" data-toggle= "toc"></nav>
       </div>
-      <!-- main content area -->
       <div class= "col-sm-8">
         
         <h2>Abstract</h2>
