@@ -1,16 +1,12 @@
 sudo: false
 cache: packages
 
-before_install:
-- cd ../..
-- wget https://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz
-- tar xzf freetype-2.7.1.tar.gz
-- cd freetype-2.7.1
-- ./configure
-- make
-- sudo make install
-- cd ../cole-trapnell-lab/cicero-release
-- sudo apt-get install -y libfreetype6
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - libfreetype6
 
 language: r
 r: bioc-release
