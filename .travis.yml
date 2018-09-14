@@ -1,12 +1,12 @@
 sudo: false
 cache: packages
 
-addons:
-  apt:
-    sources:
-      - debian-sid
-    packages:
-      - libfreetype6
+sudo: required
+ before_install: [
+   "sudo add-apt-repository \"deb http://archive.ubuntu.com/ubuntu/ xenial main\" -y",
+   "sudo apt-get update -q",
+   "sudo apt-get install libfreetype6"
+ ]
 
 language: r
 r: bioc-release
