@@ -48,3 +48,5 @@ Suggests:
     testthat,
     covr
 VignetteBuilder: knitr
+biocViews: Sequencing, Clustering, CellBasedAssays, 
+    GeneRegulation, GeneTarget, Epigenetics, ATACSeq, SingleCell
