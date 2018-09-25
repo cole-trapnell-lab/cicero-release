@@ -468,9 +468,9 @@ make_peak_track <- function(df) {
   df <- df[!duplicated(df[,c("chr", "bp1", "bp2", "peak_color")]),]
 
   if (sum(duplicated(df[,c("chr", "bp1", "bp2")])) > 0)
-    stop(strwrap("Multiple peak colors correspond to a single peak. Be sure
-                   that your peak_color column name assigns colors for Peak1
-                   only"))
+    stop(paste("Multiple peak colors correspond to a single peak. Be sure that",
+               "your peak_color column name assigns colors for Peak1 only",
+               collapse = " "))
   gr <-  GenomicRanges::GRanges(as.character(df$chr),
                  IRanges::IRanges(as.numeric(as.character(df$bp1)),
                          as.numeric(as.character(df$bp2))))
@@ -632,9 +632,9 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
   assertthat::assert_that(assertthat::is.count(breaks))
   assertthat::assert_that(breaks >=2)
   assertthat::assert_that(nrow(fData(cds_subset)) <= 30,
-                          msg = strwrap("Too many sites to plot. Be sure
-                                        you are passing only a subset of
-                                        your CDS."))
+                          msg = paste("Too many sites to plot. Be sure you are",
+                                      "passing only a subset of your CDS.",
+                                      collapse = " "))
 
   min_expr = 0
   fData(cds_subset)$site_name <- row.names(fData(cds_subset))

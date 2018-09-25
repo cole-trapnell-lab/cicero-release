@@ -52,15 +52,17 @@ make_cicero_cds <- function(cds,
   assertthat::assert_that(is.character(summary_stats) | is.null(summary_stats))
   if(!is.null(summary_stats)) {
     assertthat::assert_that(all(summary_stats %in% names(pData(cds))),
-                            msg = strwrap("One of your summary_stats is missing
-                                          from your pData table. Either add a
-                                          column with the name in
-                                          summary_stats, or remove the name
-                                          from the summary_stats parameter."))
+                            msg = paste("One of your summary_stats is missing",
+                                        "from your pData table. Either add a",
+                                        "column with the name in",
+                                        "summary_stats, or remove the name",
+                                        "from the summary_stats parameter.",
+                                        collapse = " "))
     assertthat::assert_that(sum(sapply(summary_stats, function(x) {
       !class(pData(cds)[,x]) %in% c("numeric", "integer")})) == 0,
-                            msg = strwrap("All columns in summary_stats must be
-                                          of class numeric or integer."))
+                            msg = paste("All columns in summary_stats must be",
+                                        "of class numeric or integer.",
+                                        collapse = " "))
   }
   assertthat::assert_that(is.logical(size_factor_normalize))
   assertthat::assert_that(is.logical(silent))
@@ -395,8 +397,8 @@ estimate_distance_parameter <- function(cds,
   }
 
   if(length(distance_parameters) < sample_num)
-    warning(strwrap("Could not calculate sample_num distance_parameters -
-                    see documentation details"))
+    warning(paste("Could not calculate sample_num distance_parameters - see",
+                  "documentation details", collapse = " "))
   if(length(distance_parameters) == 0)
     stop("No distance_parameters calculated")
 
@@ -751,13 +753,14 @@ generate_ccans <- function(connections_df,
   assertthat::assert_that(assertthat::is.number(tolerance_digits))
   assertthat::assert_that(assertthat::is.number(coaccess_cutoff_override) |
                             is.null(coaccess_cutoff_override),
-                          msg = strwrap("coaccess_cutoff_override must be a
-                                        number or NULL"))
+                          msg = paste("coaccess_cutoff_override must be a",
+                                      "number or NULL", collapse = " "))
   if (!is.null(coaccess_cutoff_override)) {
     assertthat::assert_that(coaccess_cutoff_override <= 1 &
                               coaccess_cutoff_override >= 0,
-                            msg = strwrap("coaccess_cutoff_override must be
-                                          between 0 and 1 (or NULL)"))
+                            msg = paste("coaccess_cutoff_override must be",
+                                        "between 0 and 1 (or NULL)",
+                                        collapse = " "))
   }
 
   if (!is.null(coaccess_cutoff_override)) {

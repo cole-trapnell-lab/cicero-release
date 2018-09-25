@@ -493,8 +493,9 @@ test_that("plot_accessibility_in_pseudotime works", {
                          "breaks not greater than or equal to 2")
   testthat::expect_error(plot_accessibility_in_pseudotime(input_cds,
                                                           breaks = 10),
-                         strwrap("Too many sites to plot. Be sure you are
-                                 passing only a subset of your CDS."))
+                         paste("Too many sites to plot. Be sure you are",
+                               "passing only a subset of your CDS.",
+                               collapse = " "))
   testthat::expect_output(plot_accessibility_in_pseudotime(input_cds[2,],
                                 breaks = 4), "Error! Curve fit failed!")
 })
