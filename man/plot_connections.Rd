@@ -125,9 +125,20 @@ Plotting function for Cicero connections. Uses \code{\link[Gviz]{plotTracks}}
 as it's basis
 }
 \examples{
-\dontrun{
-plot_connections(cons, "chr18", 8575097, 8839855,
-                 gene_model = gene_annotation_sample,
-                 coaccess_cutoff = .25)
-}
+  data("cicero_data")
+  data("gene_annotation_sample")
+  data("human.hg19.genome")
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+                               reduction_method = 'tSNE',
+                               norm_method = "none")
+  tsne_coords <- t(reducedDimA(input_cds))
+  row.names(tsne_coords) <- row.names(pData(input_cds))
+  cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+  cicero_cons <- run_cicero(cicero_cds, sample_genome)
+  plot_connections(cicero_cons, "chr18", 8575097, 8839855,
+                   gene_model = gene_annotation_sample,
+                   coaccess_cutoff = .25)
+
 }

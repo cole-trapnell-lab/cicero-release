@@ -88,7 +88,7 @@ plot_connections(conns, "chr18", 10000, 112367,
                  coaccess_cutoff = 0,
                  connection_width = .5,
                  comparison_track = chia_conns,
-                 include_axis_track = F,
+                 include_axis_track = FALSE,
                  collapseTranscripts = "longest") 
 ```
 
@@ -141,7 +141,7 @@ plot_connections(conns, "chr18", 10000, 112367,
                  coaccess_cutoff = 0,
                  connection_width = .5,
                  comparison_track = chia_conns,
-                 include_axis_track = F,
+                 include_axis_track = FALSE,
                  collapseTranscripts = "longest") 
 ```
 
@@ -298,15 +298,15 @@ length(ordering_sites)
 
 #### Option 2
 ```{r, fig.show='hold'}
-plot_pc_variance_explained(agg_cds, return_all = F) #Choose 2 PCs
+plot_pc_variance_explained(agg_cds, return_all = FALSE) #Choose 2 PCs
 agg_cds <- reduceDimension(agg_cds,
                               max_components = 2,
                               norm_method = 'log',
                               num_dim = 2,
                               reduction_method = 'tSNE',
-                              verbose = T)
+                              verbose = TRUE)
 
-agg_cds <- clusterCells(agg_cds, verbose = F)
+agg_cds <- clusterCells(agg_cds, verbose = FALSE)
 
 plot_cell_clusters(agg_cds, color_by = 'as.factor(Cluster)') + theme(text = element_text(size=8))
 clustering_DA_sites <- differentialGeneTest(agg_cds, #Takes a few minutes

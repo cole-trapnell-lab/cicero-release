@@ -25,8 +25,8 @@ This function takes an input CDS object and collapses features
   names must be in the form "chr1:1039013-2309023".
 }
 \examples{
-data("cicero_data")
-input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
+  data("cicero_data")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
 
 }

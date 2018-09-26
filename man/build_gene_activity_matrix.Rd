@@ -9,12 +9,12 @@ build_gene_activity_matrix(input_cds, cicero_cons_info, site_weights = NULL,
 }
 \arguments{
 \item{input_cds}{Binary sci-ATAC-seq input CDS. The input CDS must have a
-column in the fData table called "gene" which is the gene name if the site
-is a promoter, and \code{NA} if the site is distal.}
+column in the fData table called "gene" which is the gene name if the
+site is a promoter, and \code{NA} if the site is distal.}
 
 \item{cicero_cons_info}{Cicero connections table, generally the output of
- \code{\link{run_cicero}}. This table is a data frame with three required
- columns named "Peak1", "Peak2", and "coaccess". Peak1 and Peak2 contain
+\code{\link{run_cicero}}. This table is a data frame with three required
+columns named "Peak1", "Peak2", and "coaccess". Peak1 and Peak2 contain
 coordinates for the two compared elements, and coaccess contains their
 Cicero co-accessiblity score.}
 
@@ -35,8 +35,28 @@ function, the activity matrix should be normalized with any comparison
 matrices using the function \code{\link{normalize_gene_activities}}.
 }
 \examples{
-\dontrun{
-unnorm_ga <- build_gene_activity_matrix(input_cds, conns)
-}
+  data("cicero_data")
+  data("human.hg19.genome")
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  input_cds <- detectGenes(input_cds)
+  input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+                               reduction_method = 'tSNE',
+                               norm_method = "none")
+  tsne_coords <- t(reducedDimA(input_cds))
+  row.names(tsne_coords) <- row.names(pData(input_cds))
+  cicero_cds <- make_cicero_cds(input_cds,
+                                reduced_coordinates = tsne_coords)
+  cons <- run_cicero(cicero_cds, sample_genome)
+
+
+  data(gene_annotation_sample)
+  gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
+  names(gene_annotation_sub)[4] <- "gene"
+  input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
+  num_genes <- pData(input_cds)$num_genes_expressed
+  names(num_genes) <- row.names(pData(input_cds))
+  unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
+
 
 }

@@ -1,7 +1,8 @@
 #' Make ATAC CDS object
 #'
 #' This function takes as input a data frame or a path to a file in a sparse
-#' matrix format and returns a properly formatted \code{CellDataSet} (CDS) object.
+#' matrix format and returns a properly formatted \code{CellDataSet} (CDS)
+#' object.
 #'
 #' @param input Either a data frame or a path to input data. If a file, it
 #'   should be a tab-delimited text file with three columns and no header. For
@@ -23,7 +24,7 @@ make_atac_cds <- function(input, binarize = FALSE) {
   #check input:
   if(class(input) == "character") {
     assertthat::is.readable(input)
-    intersect_lean <- as.data.frame(data.table::fread(input, header=F))
+    intersect_lean <- as.data.frame(data.table::fread(input, header=FALSE))
   } else if (class(input) %in% c("matrix", "data.frame")) {
     intersect_lean <- input
   } else {
@@ -47,9 +48,11 @@ make_atac_cds <- function(input, binarize = FALSE) {
   row.names(dhsinfo) <- dhsinfo$site_name
   names(dhsinfo) <- c("site_name", "chr", "bp1", "bp2")
   dhsinfo$chr <- gsub("chr","", dhsinfo$chr)
-  dhsinfo <- dhsinfo[order(as.character(dhsinfo$chr), as.numeric(as.character(dhsinfo$bp2))),]
+  dhsinfo <- dhsinfo[order(as.character(dhsinfo$chr),
+                           as.numeric(as.character(dhsinfo$bp2))),]
 
-  intersect_lean_ord <- intersect_lean[order(intersect_lean$site_name, intersect_lean$cell_name),]
+  intersect_lean_ord <- intersect_lean[order(intersect_lean$site_name,
+                                             intersect_lean$cell_name),]
   dhsinfo <- dhsinfo[order(dhsinfo$site_name),]
   cellinfo <- cellinfo[order(cellinfo$cells),]
   intersect_lean_ord$site_name <- factor(intersect_lean_ord$site_name)
@@ -57,12 +60,16 @@ make_atac_cds <- function(input, binarize = FALSE) {
   intersect_lean_ord$site_name_num <- as.numeric(intersect_lean_ord$site_name)
   intersect_lean_ord$cell_name_num <- as.numeric(intersect_lean_ord$cell_name)
 
-  if(binarize) intersect_lean_ord$read_count <- as.numeric(intersect_lean_ord$read_count > 0)
-  sparse_intersect <- Matrix::sparseMatrix(i=intersect_lean_ord$site_name_num, j=intersect_lean_ord$cell_name_num, x=intersect_lean_ord$read_count)
+  if(binarize) intersect_lean_ord$read_count <-
+    as.numeric(intersect_lean_ord$read_count > 0)
+  sparse_intersect <- Matrix::sparseMatrix(i=intersect_lean_ord$site_name_num,
+                                           j=intersect_lean_ord$cell_name_num,
+                                           x=intersect_lean_ord$read_count)
 
   fd <- methods::new("AnnotatedDataFrame", data = dhsinfo)
   pd <- methods::new("AnnotatedDataFrame", data = cellinfo)
-  atac_cds <-  suppressWarnings(newCellDataSet(methods::as(sparse_intersect, "sparseMatrix"),
+  atac_cds <-  suppressWarnings(newCellDataSet(methods::as(sparse_intersect,
+                                                           "sparseMatrix"),
                               phenoData = pd,
                               featureData = fd,
                               expressionFamily=negbinomial.size(),
@@ -93,6 +100,17 @@ make_atac_cds <- function(input, binarize = FALSE) {
 #'   by the characters ":", "_", or "-". Commas will be removed, not used as
 #'   separators (ex: "chr18:8,575,097-8,839,855" is ok).
 #'
+#' @return GRanges object of the input strings
+#'
+#' @examples
+#'   ran1 <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
+#'   ran2 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+#'                             meta_data_df = data.frame(dat = c("1", "X")))
+#'   ran3 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+#'                             with_names = TRUE,
+#'                             meta_data_df = data.frame(dat = c("1", "X"),
+#'                                            stringsAsFactors = FALSE))
+#'
 #' @seealso \code{\link[GenomicRanges]{GRanges-class}}
 #'
 #' @export
@@ -102,18 +120,21 @@ ranges_for_coords <- function(coord_strings,
     assertthat::assert_that(is.logical(with_names))
     if (!is.null(meta_data_df)) {
       assertthat::assert_that(is.data.frame(meta_data_df))
-      assertthat::assert_that(assertthat::are_equal(length(coord_strings), nrow(meta_data_df)))
+      assertthat::assert_that(assertthat::are_equal(length(coord_strings),
+                                                    nrow(meta_data_df)))
     }
 
     coord_strings <- gsub(",", "", coord_strings)
     coord_cols <- stringr::str_split_fixed(coord_strings, ":|-|_", 3)
     gr <- GenomicRanges::GRanges(coord_cols[, 1],
-                                 ranges = IRanges::IRanges(as.numeric(coord_cols[,2]), as.numeric(coord_cols[, 3])),
-                                 mcols = meta_data_df)
+         ranges = IRanges::IRanges(as.numeric(coord_cols[,2]),
+                                   as.numeric(coord_cols[, 3])),
+         mcols = meta_data_df)
     if (!is.null(meta_data_df)) {
       for (n in names(meta_data_df)) {
         newname <- paste0("mcols.", n)
-        names(GenomicRanges::mcols(gr))[which(names(GenomicRanges::mcols(gr)) == newname)] <- n
+        names(GenomicRanges::mcols(gr))[which(names(GenomicRanges::mcols(gr)) ==
+                                                newname)] <- n
       }
     }
     if (with_names) {
@@ -131,6 +152,12 @@ ranges_for_coords <- function(coord_strings,
 #'   chromosome, start, and stop. These pieces of information can be separated
 #'   by the characters ":", "_", or "-". Commas will be removed, not used as
 #'   separators (ex: "chr18:8,575,097-8,839,855" is ok).
+#'
+#' @return data.frame with three columns, chromosome, starting base pair and
+#'   ending base pair
+#'
+#' @examples
+#'   df_for_coords(c("chr1:2,039-30,239", "chrX:28884:101293"))
 #'
 #' @export
 df_for_coords <- function(coord_strings) {
@@ -182,9 +209,15 @@ df_for_coords <- function(coord_strings) {
 #' @return A CDS object with updated \code{fData} table.
 #'
 #' @examples
-#' \dontrun{
-#' test <- annotate_cds_by_site(sample_cds, feature_data = "~/Desktop/HSMM.bed")
-#' }
+#'   data("cicero_data")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
+#'                      bp1 = c(10000, 10800, 50000, 100000),
+#'                      bp2 = c(10700, 11000, 60000, 110000),
+#'                      type = c("Acetylated", "Methylated", "Acetylated",
+#'                      "Methylated"))
+#'   input_cds <- annotate_cds_by_site(input_cds, feat)
+#'
 #' @export
 annotate_cds_by_site <- function(cds,
                                  feature_data,
@@ -228,13 +261,16 @@ annotate_cds_by_site <- function(cds,
   }
 
   olaps <- data.frame(
-    row_name = GenomicRanges::mcols(granges[S4Vectors::queryHits(ol)])@listData$coord_string,
-    width = GenomicRanges::width(IRanges::pintersect(granges[S4Vectors::queryHits(ol)],
-                                                     dtt[S4Vectors::subjectHits(ol)]))
+    row_name = GenomicRanges::mcols(granges[
+      S4Vectors::queryHits(ol)])@listData$coord_string,
+    width = GenomicRanges::width(
+      IRanges::pintersect(granges[S4Vectors::queryHits(ol)],
+                          dtt[S4Vectors::subjectHits(ol)]))
   )
 
   olaps <- cbind(olaps,
-                 as.data.frame(GenomicRanges::mcols(dtt[S4Vectors::subjectHits(ol)])))
+                 as.data.frame(GenomicRanges::mcols(
+                   dtt[S4Vectors::subjectHits(ol)])))
   if (verbose) print("Assigning labels")
 
   if (all) {
@@ -274,6 +310,7 @@ annotate_cds_by_site <- function(cds,
 #' @param x.name name of value column
 #'
 #' @return sparse matrix
+#'
 #'
 make_sparse_matrix <- function(data,
                                i.name = "Peak1",
@@ -407,9 +444,12 @@ compare_connections <- function(conns1,
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' coords <- find_overlapping_coordinates(connections_df$Peak1, "chr1_100_2000")
-#' }
+#'   test_coords <- c("chr18_10025_10225", "chr18_10603_11103",
+#'                    "chr18_11604_13986",
+#'                    "chr18_157883_158536", "chr18_217477_218555",
+#'                    "chr18_245734_246234")
+#'   find_overlapping_coordinates(test_coords, "chr18:10,100-1246234")
+#'
 #'
 find_overlapping_coordinates <- function(coord_list,
                                          coord,
@@ -425,10 +465,11 @@ find_overlapping_coordinates <- function(coord_list,
     return(as.character(coord_list[unlist(ol1)]))
   } else {
     ol1 <- lapply(coord, function(x) {
-      y <- suppressWarnings(unlist(as.list(GenomicRanges::findOverlaps(ranges_for_coords(x),
-                                                                       cons_gr,
-                                                                       maxgap = maxgap,
-                                                                       select="all"))))
+      y <- suppressWarnings(unlist(as.list(
+        GenomicRanges::findOverlaps(ranges_for_coords(x),
+                                    cons_gr,
+                                    maxgap = maxgap,
+                                    select="all"))))
       if(length(y) == 0) return(NA)
       return(coord_list[y])
     })
@@ -456,5 +497,6 @@ is_color <- function(x, df=NULL) {
 }
 
 assertthat::on_failure(is_color) <- function(call, env) {
-  paste0(deparse(call$x), " must be a valid color or a column in input data frame")
+  paste0(deparse(call$x),
+         " must be a valid color or a column in input data frame")
 }

@@ -24,8 +24,9 @@ This function takes an input CDS object and collapses cells based
   cell group.
 }
 \examples{
-\dontrun{
-binned_input_lin <-aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
-}
+  data("cicero_data")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  pData(input_cds)$cell_subtype <- rep(1:10, times=20)
+  binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
 
 }

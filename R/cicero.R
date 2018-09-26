@@ -4,7 +4,8 @@
 #' @import VGAM
 #' @import data.table
 #' @import ggplot2
-#' @importFrom Biobase exprs pData fData ExpressionSet annotatedDataFrameFrom multiassign assayDataNew "fData<-" "pData<-"
+#' @importFrom Biobase exprs pData fData ExpressionSet annotatedDataFrameFrom
+#'   multiassign assayDataNew "fData<-" "pData<-"
 #' @importFrom grDevices col2rgb dev.cur dev.off palette rainbow
 #' @importFrom methods as callNextMethod is new
 #' @importFrom stats as.formula cov dist filter median

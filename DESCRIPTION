@@ -17,7 +17,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    AnnotationDbi (>= 1.38.2),
     assertthat (>= 0.2.0),
     Biobase (>= 2.37.2),
     BiocGenerics (>= 0.23.0),
@@ -35,17 +34,20 @@ Imports:
     parallel,
     plyr (>= 1.8.4),
     reshape2 (>= 1.4.3),
-    rtracklayer (>= 1.36.6),
     S4Vectors (>= 0.14.7),
+    stats,
     stringr (>= 1.2.0),    
     tibble (>= 1.4.2),
-    vdiffr (>= 0.2.3),
-    VGAM (>= 1.0-5)
+    VGAM (>= 1.0-5),
+    utils
 RoxygenNote: 6.0.1
 Suggests:
+    AnnotationDbi (>= 1.38.2),
     knitr,
     rmarkdown,
+    rtracklayer (>= 1.36.6),
     testthat,
+    vdiffr (>= 0.2.3),
     covr
 VignetteBuilder: knitr
 biocViews: Sequencing, Clustering, CellBasedAssays, 

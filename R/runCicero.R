@@ -30,9 +30,16 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#' }
+#'   data("cicero_data")
+#'
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'
 #'
 make_cicero_cds <- function(cds,
                             reduced_coordinates,
@@ -200,9 +207,17 @@ make_cicero_cds <- function(cds,
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' cons <- run_cicero(cicero_cds, sample_genome)
-#' }
+#'   data("cicero_data")
+#'   data("human.hg19.genome")
+#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   cons <- run_cicero(cicero_cds, sample_genome)
 #'
 run_cicero <- function(cds,
                        genomic_coords,
@@ -268,9 +283,15 @@ run_cicero <- function(cds,
 #'   file, should be tab-separated and without header.
 #'
 #' @examples
-#' \dontrun{
-#' distance_parameters <- estimate_distance_parameter(cicero_cds)
-#' }
+#'   data("cicero_data")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   distance_parameters <- estimate_distance_parameter(cicero_cds)
 #'
 #' @seealso \code{\link{generate_cicero_models}}
 #' @return A list of results of length \code{sample_num}. List members are
@@ -451,9 +472,19 @@ estimate_distance_parameter <- function(cds,
 #'   directly input into \code{\link{assemble_connections}} to create a
 #'   reconciled list of cicero co-accessibility scores.
 #' @examples
-#' \dontrun{
-#' model_output <- generate_cicero_models(cicero_cds, distance_parameter = 0.3)
-#' }
+#'   data("cicero_data")
+#'   data("human.hg19.genome")
+#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   model_output <- generate_cicero_models(cicero_cds,
+#'                                          distance_parameter = 0.3,
+#'                                          genomic_coords = sample_genome)
 #'
 #' @references
 #'   \itemize{
@@ -525,7 +556,7 @@ generate_cicero_models <- function(cds,
                           names_df$start,
                           names_df$end, sep="_")
 
-  #FIXME add warning about how many regions were removed due to too many elements
+  #FIXME add warning about how many regions removed due to too many elements
   outlist
 }
 
@@ -541,7 +572,6 @@ generate_cicero_models <- function(cds,
 #' negative). If they not concordant, NA is returned. If they are concordant
 #' the mean is returned.
 #'
-
 #' @param cicero_model_list A list of cicero output objects, generally the
 #'   output of \code{\link{generate_cicero_models}}.
 #' @param silent Logical, should the function run silently?
@@ -549,9 +579,21 @@ generate_cicero_models <- function(cds,
 #' @return A data frame of connections with their cicero co-accessibility
 #'   scores.
 #' @examples
-#' \dontrun{
-#' cicero_cons <- assemble_connections(model_output)
-#' }
+#'   data("cicero_data")
+#'   data("human.hg19.genome")
+#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   model_output <- generate_cicero_models(cicero_cds,
+#'                                          distance_parameter = 0.3,
+#'                                          genomic_coords = sample_genome)
+#'   cicero_cons <- assemble_connections(model_output)
+#'
 #' @seealso \code{\link{generate_cicero_models}}
 #' @export
 assemble_connections <- function(cicero_model_list, silent = FALSE) {
@@ -739,9 +781,18 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' ccan_assigns <- generate_ccans(cicero_cons)
-#' }
+#'   data("cicero_data")
+#'   data("human.hg19.genome")
+#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   cicero_cons <- run_cicero(cicero_cds, sample_genome)
+#'   ccan_assigns <- generate_ccans(cicero_cons)
 #'
 generate_ccans <- function(connections_df,
                            coaccess_cutoff_override = NULL,
@@ -839,13 +890,16 @@ find_overlapping_ccans <- function(ccan_assignments, min_overlap=1) {
                                           bp2 = max(ccan$bp2), sep="_")))
   })
 
-  ccan_ranges <- ranges_for_coords(ccan_info$ccan_coords, meta_data_df = ccan_info)
+  ccan_ranges <- ranges_for_coords(ccan_info$ccan_coords,
+                                   meta_data_df = ccan_info)
   ol <- GenomicRanges::findOverlaps(ccan_ranges, ccan_ranges,
                                     minoverlap=min_overlap, #maxgap = 0,
                                     select="all")
   olaps <- data.frame(
-    CCAN1 = GenomicRanges::mcols(ccan_ranges[S4Vectors::queryHits(ol)])@listData$CCAN,
-    CCAN2 = GenomicRanges::mcols(ccan_ranges[S4Vectors::subjectHits(ol)])@listData$CCAN)
+    CCAN1 = GenomicRanges::mcols(ccan_ranges[
+      S4Vectors::queryHits(ol)])@listData$CCAN,
+    CCAN2 = GenomicRanges::mcols(ccan_ranges[
+      S4Vectors::subjectHits(ol)])@listData$CCAN)
   olaps <- olaps[!duplicated(olaps),]
   olaps <- olaps[olaps$CCAN1 != olaps$CCAN2, ]
   return(olaps)

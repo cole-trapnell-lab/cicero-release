@@ -91,11 +91,22 @@ monocle_theme_opts <- function()
 #' @import Gviz
 #'
 #' @examples
-#' \dontrun{
-#' plot_connections(cons, "chr18", 8575097, 8839855,
-#'                  gene_model = gene_annotation_sample,
-#'                  coaccess_cutoff = .25)
-#' }
+#'   data("cicero_data")
+#'   data("gene_annotation_sample")
+#'   data("human.hg19.genome")
+#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'                                reduction_method = 'tSNE',
+#'                                norm_method = "none")
+#'   tsne_coords <- t(reducedDimA(input_cds))
+#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   cicero_cons <- run_cicero(cicero_cds, sample_genome)
+#'   plot_connections(cicero_cons, "chr18", 8575097, 8839855,
+#'                    gene_model = gene_annotation_sample,
+#'                    coaccess_cutoff = .25)
+#'
 plot_connections <- function(connection_df,
                              chr,
                              minbp,
@@ -241,7 +252,8 @@ plot_connections <- function(connection_df,
       names(color_names) <- color_levs
       new_connection_color <- get_colors(sub[,connection_color])
       for(n in color_levs) {
-        color_names[n] <- new_connection_color[which(sub[,connection_color] == n)[1]]
+          color_names[n] <-
+              new_connection_color[which(sub[,connection_color] == n)[1]]
       }
       connection_color <- new_connection_color
     }
@@ -311,7 +323,9 @@ plot_connections <- function(connection_df,
         names(color_names2) <- color_levs
         new_connection_color <- get_colors(sub2[,comparison_connection_color])
         for(n in color_levs) {
-          color_names2[n] <- new_connection_color[which(sub2[,comparison_connection_color] == n)[1]]
+          color_names2[n] <-
+            new_connection_color[which(sub2[,comparison_connection_color] ==
+                                         n)[1]]
         }
         comparison_connection_color <- new_connection_color
       }
@@ -424,7 +438,7 @@ generate_plotting_subset <- function(connections, chr, minbp, maxbp) {
     connections$bp1_2 <- NULL
     connections$bp2_2 <- NULL
 
-    connections <- cbind(connections, df_for_coords(connections$Peak1)[,1:3]) #slow
+    connections <- cbind(connections, df_for_coords(connections$Peak1)[,1:3])
     cons2 <- df_for_coords(connections$Peak2) #slow
     cons2$Peak <- NULL
     names(cons2) <- c("chr_2", "bp1_2", "bp2_2")
@@ -554,8 +568,12 @@ plotBedpe <- function(bedpedata,
     spacing <- 0.2
     vspace <- .05
     for (i in 1:length(color_names)) {
-      grid::grid.lines(unit(c(spacing,spacing + boxSize), "inches"), c(1 - vspace*i, 1 - vspace*i), gp=grid::gpar(col=color_names[i], lwd=width))
-      grid::grid.text(x=unit(.1 + (boxSize + spacing), "inches"), y=1 - vspace*i, just=c(0, 0.5), label=names(color_names)[i])
+      grid::grid.lines(unit(c(spacing,spacing + boxSize), "inches"),
+                       c(1 - vspace*i, 1 - vspace*i),
+                       gp=grid::gpar(col=color_names[i], lwd=width))
+      grid::grid.text(x=unit(.1 + (boxSize + spacing), "inches"),
+                      y=1 - vspace*i, just=c(0, 0.5),
+                      label=names(color_names)[i])
     }
   }
 
@@ -674,11 +692,12 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
 
   mean.wt <- reshape2::melt(with(cds_exprs, tapply(expression, list(br, f_id),
                                                    mean)))
-
-  names(mean.wt) <- c("Var1", "Var2", "value") # fix to avoid reshape v reshape2 incompatability
+  # fix to avoid reshape v reshape2 incompatability
+  names(mean.wt) <- c("Var1", "Var2", "value")
   mean.wt <- cbind(mean.wt, stringr::str_split_fixed(mean.wt$Var1, ",", 2))
 
-  names(mean.wt) <- c("interval", "feature_label", "mean", "int_start", "int_end")
+  names(mean.wt) <- c("interval", "feature_label", "mean", "int_start",
+                      "int_end")
 
   mean.wt$int_start <- as.numeric(as.character(gsub("\\(", "",
                                                     mean.wt$int_start)))
@@ -705,7 +724,8 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
 }
 
 # This function copied from
-# https://stackoverflow.com/questions/37583715/round-up-values-to-a-specific-significant-figure-in-r
+# https://stackoverflow.com/questions/37583715/
+# round-up-values-to-a-specific-significant-figure-in-r
 
 signif_up <- function(x) {
   num_string <- format(x, scientific=TRUE)

@@ -13,8 +13,8 @@ matrices to be normalized together.}
 
 \item{cell_num_genes}{A named vector of the total number of accessible sites
 per cell. Names should correspond to the cell names in the activity
-matrices. These values can be found in the "num_genes_expressed" column of
-the pData table of the CDS used to calculate the gene activity matrix.}
+matrices. These values can be found in the "num_genes_expressed" column
+of the pData table of the CDS used to calculate the gene activity matrix.}
 }
 \value{
 Normalized activity matrix or matrices.
@@ -25,11 +25,29 @@ either one or multiple gene activity matrices. Any gene activties to be
 compared amongst each other should be normalized together.
 }
 \examples{
-\dontrun{
-num_genes <- pData(input_cds)$num_genes_expressed
-names(num_genes) <- row.names(pData(input_cds))
-cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
-}
+  data("cicero_data")
+  data("human.hg19.genome")
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  input_cds <- detectGenes(input_cds)
+  input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+                               reduction_method = 'tSNE',
+                               norm_method = "none")
+  tsne_coords <- t(reducedDimA(input_cds))
+  row.names(tsne_coords) <- row.names(pData(input_cds))
+  cicero_cds <- make_cicero_cds(input_cds,
+                                reduced_coordinates = tsne_coords)
+  cons <- run_cicero(cicero_cds, sample_genome)
+
+
+  data(gene_annotation_sample)
+  gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
+  names(gene_annotation_sub)[4] <- "gene"
+  input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
+  num_genes <- pData(input_cds)$num_genes_expressed
+  names(num_genes) <- row.names(pData(input_cds))
+  unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
+  cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
 
 
 }

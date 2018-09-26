@@ -60,9 +60,19 @@ The purpose of this function is to compute the raw covariances
   package. Run \code{citation("cicero")} for publication details.
 }
 \examples{
-\dontrun{
-model_output <- generate_cicero_models(cicero_cds, distance_parameter = 0.3)
-}
+  data("cicero_data")
+  data("human.hg19.genome")
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+                               reduction_method = 'tSNE',
+                               norm_method = "none")
+  tsne_coords <- t(reducedDimA(input_cds))
+  row.names(tsne_coords) <- row.names(pData(input_cds))
+  cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+  model_output <- generate_cicero_models(cicero_cds,
+                                         distance_parameter = 0.3,
+                                         genomic_coords = sample_genome)
 
 }
 \references{

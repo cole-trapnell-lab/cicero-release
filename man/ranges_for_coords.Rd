@@ -16,6 +16,9 @@ included with the ranges. Must be in the same order as coord_strings.}
 \item{with_names}{logical - should meta data include coordinate string
 (field coord_string)?}
 }
+\value{
+GRanges object of the input strings
+}
 \description{
 Construct GRanges objects from coordinate strings
 }
@@ -24,6 +27,16 @@ Coordinate strings consist of three pieces of information:
   chromosome, start, and stop. These pieces of information can be separated
   by the characters ":", "_", or "-". Commas will be removed, not used as
   separators (ex: "chr18:8,575,097-8,839,855" is ok).
+}
+\examples{
+  ran1 <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
+  ran2 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+                            meta_data_df = data.frame(dat = c("1", "X")))
+  ran3 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+                            with_names = TRUE,
+                            meta_data_df = data.frame(dat = c("1", "X"),
+                                           stringsAsFactors = FALSE))
+
 }
 \seealso{
 \code{\link[GenomicRanges]{GRanges-class}}

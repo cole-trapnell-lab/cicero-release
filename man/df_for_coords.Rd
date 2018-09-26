@@ -10,6 +10,10 @@ df_for_coords(coord_strings)
 \item{coord_strings}{A list of coordinate strings (each like
 "chr1:500000-1000000")}
 }
+\value{
+data.frame with three columns, chromosome, starting base pair and
+  ending base pair
+}
 \description{
 Construct a data frame of coordinate info from coordinate strings
 }
@@ -18,4 +22,8 @@ Coordinate strings consist of three pieces of information:
   chromosome, start, and stop. These pieces of information can be separated
   by the characters ":", "_", or "-". Commas will be removed, not used as
   separators (ex: "chr18:8,575,097-8,839,855" is ok).
+}
+\examples{
+  df_for_coords(c("chr1:2,039-30,239", "chrX:28884:101293"))
+
 }
