@@ -1,6 +1,4 @@
-sudo: false
 cache: packages
-
 sudo: required
 
 before_install: [
@@ -10,10 +8,11 @@ before_install: [
    ]
 
 language: r
-r: bioc-release
+r:
+- bioc-devel
+- bioc-release
 
 after_success:
-- Rscript -e 'gdtools::version_freetype()'
 - Rscript -e 'covr::codecov()'
 
 notifications:
