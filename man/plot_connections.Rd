@@ -125,21 +125,26 @@ Plotting function for Cicero connections. Uses \code{\link[Gviz]{plotTracks}}
 as it's basis
 }
 \examples{
-  data("cicero_data")
-  data("gene_annotation_sample")
-  data("human.hg19.genome")
-  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-  sample_genome$V2[1] <- 1000000
-  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-  input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-                               reduction_method = 'tSNE',
-                               norm_method = "none")
-  tsne_coords <- t(reducedDimA(input_cds))
-  row.names(tsne_coords) <- row.names(pData(input_cds))
-  cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-  cicero_cons <- run_cicero(cicero_cds, sample_genome)
-  plot_connections(cicero_cons, "chr18", 8575097, 8839855,
-                   gene_model = gene_annotation_sample,
-                   coaccess_cutoff = .25)
+  cicero_cons <- data.frame(
+             Peak1 = c("chr18_10034652_10034983", "chr18_10034652_10034983",
+                       "chr18_10034652_10034983", "chr18_10034652_10034983",
+                       "chr18_10087586_10087901", "chr18_10120685_10127115",
+                       "chr18_10097718_10097934", "chr18_10087586_10087901",
+                       "chr18_10154818_10155215", "chr18_10238762_10238983",
+                       "chr18_10198959_10199183", "chr18_10250985_10251585"),
+             Peak2 = c("chr18_10097718_10097934", "chr18_10087586_10087901",
+                       "chr18_10154818_10155215", "chr18_10238762_10238983",
+                       "chr18_10198959_10199183", "chr18_10250985_10251585",
+                       "chr18_10034652_10034983", "chr18_10034652_10034983",
+                       "chr18_10034652_10034983", "chr18_10034652_10034983",
+                       "chr18_10087586_10087901", "chr18_10120685_10127115"),
+             coaccess = c(0.0051121787, 0.0016698617, 0.0006570246,
+                          0.0013466927, 0.0737935011, 0.3264019452,
+                          0.0051121787, 0.0016698617, 0.0006570246,
+                          0.0013466927, 0.0737935011, 0.3264019452))
+  plot_connections(df, chr = "chr18",
+  minbp = 10034652,
+  maxbp = 10251585,
+  peak_color = "purple")
 
 }
