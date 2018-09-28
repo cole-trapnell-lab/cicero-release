@@ -21,7 +21,7 @@
 aggregate_nearby_peaks <- function(cds,
                                    distance = 1000) {
     assertthat::assert_that(assertthat::is.number(distance))
-    assertthat::assert_that(class(cds) == "CellDataSet")
+    assertthat::assert_that(is(cds, "CellDataSet"))
 
     fData(cds)$bin <- make_bin_col(cds, distance)
     cds <- cds[!is.na(fData(cds)$bin),]
@@ -69,7 +69,7 @@ aggregate_nearby_peaks <- function(cds,
     fd <- new("AnnotatedDataFrame", data = fdf)
     pd <- new("AnnotatedDataFrame", data = pdf)
 
-    if (class(exprs(cds)) == "dgCMatrix") {
+    if (is(exprs(cds), "dgCMatrix")) {
         compart_cds <-  suppressWarnings(newCellDataSet(as(out, "sparseMatrix"),
                                          phenoData = pd,
                                          featureData = fd,
@@ -142,7 +142,7 @@ sparse_to_datatable <- function(sparse) {
 #'   binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
 #'
 aggregate_by_cell_bin <- function(cds, group_col) {
-    assertthat::assert_that(class(cds) == "CellDataSet")
+    assertthat::assert_that(is(cds, "CellDataSet"))
     assertthat::assert_that(is.character(group_col))
     assertthat::assert_that(group_col %in% names(pData(cds)),
                             msg = "group_col is missing from your pData table")

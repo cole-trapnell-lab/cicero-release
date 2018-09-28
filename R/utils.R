@@ -22,7 +22,7 @@
 #'
 make_atac_cds <- function(input, binarize = FALSE) {
   #check input:
-  if(class(input) == "character") {
+  if(is(input, "character")) {
     assertthat::is.readable(input)
     intersect_lean <- as.data.frame(data.table::fread(input, header=FALSE))
   } else if (class(input) %in% c("matrix", "data.frame")) {
@@ -218,6 +218,8 @@ df_for_coords <- function(coord_strings) {
 #'                      "Methylated"))
 #'   input_cds <- annotate_cds_by_site(input_cds, feat)
 #'
+#' @importFrom IRanges findOverlaps
+#'
 #' @export
 annotate_cds_by_site <- function(cds,
                                  feature_data,
@@ -226,7 +228,7 @@ annotate_cds_by_site <- function(cds,
                                  all = FALSE,
                                  header = FALSE) {
 
-  assertthat::assert_that(class(cds) == "CellDataSet")
+  assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(is.character(feature_data) |
                             is.data.frame(feature_data))
   assertthat::assert_that(assertthat::is.number(maxgap) | maxgap == "nearest")
@@ -237,7 +239,7 @@ annotate_cds_by_site <- function(cds,
   if (verbose) print("Generating fData ranges")
   granges <- ranges_for_coords(rownames(fData(cds)), with_names=TRUE)
 
-  if (class(feature_data) == "character") {
+  if (is(feature_data, "character")) {
     if (verbose) print("Reading data file")
     ch <- read.table(feature_data, header=header, stringsAsFactors = FALSE)
     if (verbose) print("Generating feature data ranges")
@@ -392,8 +394,8 @@ compare_connections <- function(conns1,
                                 conns2,
                                 maxgap = 0) {
 
-  assertthat::assert_that(class(conns1) == "data.frame")
-  assertthat::assert_that(class(conns2) == "data.frame")
+  assertthat::assert_that(is(conns1, "data.frame"))
+  assertthat::assert_that(is(conns2, "data.frame"))
   assertthat::assert_that(assertthat::is.number(maxgap))
 
   conns2 <- conns2[,1:2]

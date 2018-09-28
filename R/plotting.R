@@ -95,6 +95,7 @@ monocle_theme_opts <- function()
 #'   data("gene_annotation_sample")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   sample_genome$V2[1] <- 1000000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -646,7 +647,7 @@ get_colors <- function(type_list) {
 #'
 plot_accessibility_in_pseudotime <- function(cds_subset,
                                              breaks = 10) {
-  assertthat::assert_that(class(cds_subset) == "CellDataSet")
+  assertthat::assert_that(is(cds_subset, "CellDataSet"))
   assertthat::assert_that(assertthat::is.count(breaks))
   assertthat::assert_that(breaks >=2)
   assertthat::assert_that(nrow(fData(cds_subset)) <= 30,

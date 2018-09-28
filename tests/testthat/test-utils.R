@@ -164,13 +164,13 @@ test_that("annotate_cds_by_site works", {
                      type = c("Acetylated", "Methylated",
                               "Acetylated", "Methylated"),
                      stringsAsFactors = FALSE)
-  test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=F)
+  test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=FALSE)
   expect_equal(fData(test_cds2)$type[2], "Acetylated")
-  test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=F, maxgap = 901)
+  test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=FALSE, maxgap = 901)
   expect_equal(fData(test_cds2)$type[3], "Acetylated")
 
   # check maxgap = "nearest"
-  test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=F, maxgap = "nearest")
+  test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=FALSE, maxgap = "nearest")
   expect_equal(sum(is.na(fData(test_cds2)$type)), 0)
 
 })

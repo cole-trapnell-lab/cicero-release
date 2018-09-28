@@ -48,7 +48,7 @@ make_cicero_cds <- function(cds,
                             size_factor_normalize = TRUE,
                             silent = FALSE) {
 
-  assertthat::assert_that(class(cds) == "CellDataSet")
+  assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(is.data.frame(reduced_coordinates) |
                             is.matrix(reduced_coordinates))
   assertthat::assert_that(assertthat::are_equal(nrow(reduced_coordinates),
@@ -66,7 +66,7 @@ make_cicero_cds <- function(cds,
                                         "from the summary_stats parameter.",
                                         collapse = " "))
     assertthat::assert_that(sum(sapply(summary_stats, function(x) {
-      !class(pData(cds)[,x]) %in% c("numeric", "integer")})) == 0,
+      !(is(pData(cds)[,x], "numeric") | is(pData(cds)[,x], "integer"))})) == 0,
                             msg = paste("All columns in summary_stats must be",
                                         "of class numeric or integer.",
                                         collapse = " "))
@@ -210,6 +210,7 @@ make_cicero_cds <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   sample_genome$V2[1] <- 1000000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -225,7 +226,7 @@ run_cicero <- function(cds,
                        silent=FALSE,
                        sample_num = 100) {
   # Check input
-  assertthat::assert_that(class(cds) == "CellDataSet")
+  assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(is.logical(silent))
   assertthat::assert_that(assertthat::is.number(window))
   assertthat::assert_that(assertthat::is.count(sample_num))
@@ -366,7 +367,7 @@ estimate_distance_parameter <- function(cds,
                                    max_elements = 200,
                                    genomic_coords = cicero::human.hg19.genome) {
 
-  assertthat::assert_that(class(cds) == "CellDataSet")
+  assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(assertthat::is.number(window))
   assertthat::assert_that(assertthat::is.count(maxit))
   assertthat::assert_that(assertthat::is.number(s), s < 1, s > 0)
@@ -412,7 +413,7 @@ estimate_distance_parameter <- function(cds,
                         distance_parameter_convergence =
                           distance_parameter_convergence)
 
-    if (class(distance_parameter) != "numeric") next()
+    if (!is(distance_parameter, "numeric")) next()
     distance_parameters = c(distance_parameters, distance_parameter)
     distance_parameters_calced <- distance_parameters_calced + 1
   }
@@ -475,6 +476,7 @@ estimate_distance_parameter <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   sample_genome$V2[1] <- 1000000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -511,7 +513,7 @@ generate_cicero_models <- function(cds,
                                    max_elements = 200,
                                    genomic_coords = cicero::human.hg19.genome) {
 
-  assertthat::assert_that(class(cds) == "CellDataSet")
+  assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(assertthat::is.number(distance_parameter))
   assertthat::assert_that(assertthat::is.number(s), s < 1, s > 0)
   assertthat::assert_that(assertthat::is.number(window))
@@ -582,6 +584,7 @@ generate_cicero_models <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   sample_genome$V2[1] <- 1000000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -632,7 +635,7 @@ reconcile <- function(values) {
 }
 
 generate_windows <- function(window, genomic_coords) {
-  if(!class(genomic_coords) == "data.frame") {
+  if(!is(genomic_coords, "data.frame")) {
     chr_maxes <- read.table(genomic_coords)
   } else {
     chr_maxes <- genomic_coords
@@ -784,6 +787,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   sample_genome$V2[1] <- 1000000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
