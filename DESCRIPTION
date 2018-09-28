@@ -1,7 +1,7 @@
 Package: cicero
 Type: Package
 Title: Precict cis co-accessibility from single-cell chromatin accessibility data
-Version: 1.0.6
+Version: 1.0.7
 Date: 2018-03-22
 Authors@R: c(
     person("Hannah", "Pliner", email = "hpliner@uw.edu", role = c("aut", "cre")), 
