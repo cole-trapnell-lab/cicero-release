@@ -22,9 +22,10 @@ data.}
 
 \item{maxgap}{The maximum number of base pairs allowed between the peak and
 the feature for the feature and peak to be considered overlapping.
-Default = 0 (overlapping). Details in \code{\link[IRanges]{findOverlaps}}.
-If \code{maxgap} is set to "nearest" then the nearest feature will be
-assigned regardless of distance.}
+Default = 0 (overlapping). Details in
+\code{\link[IRanges:findOverlaps-methods]{findOverlaps}}. If \code{maxgap}
+is set to "nearest" then the nearest feature will be assigned regardless
+of distance.}
 
 \item{all}{Logical, should all overlapping intervals be reported? If all is
 FALSE, the largest overlap is reported.}

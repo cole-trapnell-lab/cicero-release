@@ -187,9 +187,10 @@ df_for_coords <- function(coord_strings) {
 #' @param verbose Logical, should progress messages be printed?
 #' @param maxgap The maximum number of base pairs allowed between the peak and
 #'   the feature for the feature and peak to be considered overlapping.
-#'   Default = 0 (overlapping). Details in \code{\link[IRanges]{findOverlaps}}.
-#'   If \code{maxgap} is set to "nearest" then the nearest feature will be
-#'   assigned regardless of distance.
+#'   Default = 0 (overlapping). Details in
+#'   \code{\link[IRanges:findOverlaps-methods]{findOverlaps}}. If \code{maxgap}
+#'   is set to "nearest" then the nearest feature will be assigned regardless
+#'   of distance.
 #' @param all Logical, should all overlapping intervals be reported? If all is
 #'   FALSE, the largest overlap is reported.
 #' @param header Logical, if reading a file, is there a header?
