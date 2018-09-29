@@ -210,7 +210,7 @@ make_cicero_cds <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-#'   sample_genome$V2[1] <- 1000000
+#'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -476,7 +476,7 @@ estimate_distance_parameter <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-#'   sample_genome$V2[1] <- 1000000
+#'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -584,7 +584,7 @@ generate_cicero_models <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-#'   sample_genome$V2[1] <- 1000000
+#'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -787,7 +787,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-#'   sample_genome$V2[1] <- 1000000
+#'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
