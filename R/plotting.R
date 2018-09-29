@@ -40,11 +40,11 @@ monocle_theme_opts <- function()
 #'   automatically.
 #' @param gene_model Either \code{NULL} or a data.frame. The data.frame should
 #'   be in a form compatible with the Gviz function
-#'   \code{\link[Gviz]{GeneRegionTrack}} (cannot have NA as column names).
+#'   \code{\link[Gviz]{GeneRegionTrack-class}} (cannot have NA as column names).
 #' @param gene_model_color Color for gene annotations.
 #' @param gene_model_shape Shape for gene models, passed to
-#'   \code{\link[Gviz]{GeneRegionTrack}}. Options described at
-#'   \code{\link[Gviz]{GeneRegionTrack}}.
+#'   \code{\link[Gviz]{GeneRegionTrack-class}}. Options described at
+#'   \code{\link[Gviz]{GeneRegionTrack-class}}.
 #' @param comparison_track Either \code{NULL} or a data frame. If a data frame,
 #'   a second track of connections will be plotted based on this data. This
 #'   data frame has the same requirements as connection_df (Peak1, Peak2 and
@@ -63,7 +63,7 @@ monocle_theme_opts <- function()
 #'   \code{NULL}, chosen automatically.
 #' @param collapseTranscripts Logical or character scalar. Can be one in
 #'   \code{gene}, \code{longest}, \code{shortest} or \code{meta}. Variable is
-#'   passed to the \code{\link[Gviz]{GeneRegionTrack}} function of Gviz.
+#'   passed to the \code{\link[Gviz]{GeneRegionTrack-class}} function of Gviz.
 #'   Determines whether and how to collapse related transcripts. See Gviz
 #'   documentation for details.
 #' @param include_axis_track Logical, should a genomic axis be plotted?

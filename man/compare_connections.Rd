@@ -15,7 +15,7 @@ of peaks that are connected.}
 first two columns must be coordinates of genomic sites that are connected.}
 
 \item{maxgap}{The number of base pairs between peaks allowed to be called
-overlapping. See \code{\link[IRanges]{findOverlaps}} in the IRanges
+overlapping. See \code{\link[IRanges]{findOverlaps-methods}} in the IRanges
 package for further description.}
 }
 \value{

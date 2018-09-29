@@ -23,7 +23,7 @@ data.}
 \item{maxgap}{The maximum number of base pairs allowed between the peak and
 the feature for the feature and peak to be considered overlapping.
 Default = 0 (overlapping). Details in
-\code{\link[IRanges:findOverlaps-methods]{findOverlaps}}. If \code{maxgap}
+\code{\link[IRanges]{findOverlaps-methods}}. If \code{maxgap}
 is set to "nearest" then the nearest feature will be assigned regardless
 of distance.}
 

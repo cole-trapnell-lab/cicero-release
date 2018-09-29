@@ -56,13 +56,13 @@ automatically.}
 
 \item{gene_model}{Either \code{NULL} or a data.frame. The data.frame should
 be in a form compatible with the Gviz function
-\code{\link[Gviz]{GeneRegionTrack}} (cannot have NA as column names).}
+\code{\link[Gviz]{GeneRegionTrack-class}} (cannot have NA as column names).}
 
 \item{gene_model_color}{Color for gene annotations.}
 
 \item{gene_model_shape}{Shape for gene models, passed to
-\code{\link[Gviz]{GeneRegionTrack}}. Options described at
-\code{\link[Gviz]{GeneRegionTrack}}.}
+\code{\link[Gviz]{GeneRegionTrack-class}}. Options described at
+\code{\link[Gviz]{GeneRegionTrack-class}}.}
 
 \item{comparison_track}{Either \code{NULL} or a data frame. If a data frame,
 a second track of connections will be plotted based on this data. This
@@ -91,7 +91,7 @@ connection color legend be shown?}
 
 \item{collapseTranscripts}{Logical or character scalar. Can be one in
 \code{gene}, \code{longest}, \code{shortest} or \code{meta}. Variable is
-passed to the \code{\link[Gviz]{GeneRegionTrack}} function of Gviz.
+passed to the \code{\link[Gviz]{GeneRegionTrack-class}} function of Gviz.
 Determines whether and how to collapse related transcripts. See Gviz
 documentation for details.}
 

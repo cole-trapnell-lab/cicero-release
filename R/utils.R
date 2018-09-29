@@ -188,7 +188,7 @@ df_for_coords <- function(coord_strings) {
 #' @param maxgap The maximum number of base pairs allowed between the peak and
 #'   the feature for the feature and peak to be considered overlapping.
 #'   Default = 0 (overlapping). Details in
-#'   \code{\link[IRanges:findOverlaps-methods]{findOverlaps}}. If \code{maxgap}
+#'   \code{\link[IRanges]{findOverlaps-methods}}. If \code{maxgap}
 #'   is set to "nearest" then the nearest feature will be assigned regardless
 #'   of distance.
 #' @param all Logical, should all overlapping intervals be reported? If all is
@@ -378,7 +378,7 @@ make_sparse_matrix <- function(data,
 #' @param conns2 A data frame of connections to be searched for overlap. The
 #'   first two columns must be coordinates of genomic sites that are connected.
 #' @param maxgap The number of base pairs between peaks allowed to be called
-#'   overlapping. See \code{\link[IRanges]{findOverlaps}} in the IRanges
+#'   overlapping. See \code{\link[IRanges]{findOverlaps-methods}} in the IRanges
 #'   package for further description.
 #'
 #'
