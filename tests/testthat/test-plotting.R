@@ -33,6 +33,7 @@ df <- data.frame(Peak1 = c("chr18_10034652_10034983", "chr18_10034652_10034983",
                             "#66C2A5", "#66C2A5", "#66C2A5", "#FC8D62"))
 
 test_that("plot_connections with coaccess_cutoff", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections plot",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -54,6 +55,7 @@ test_that("plot_connections with coaccess_cutoff", {
   })
 
 test_that("plot_connections with peak_color", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("peak_color",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -81,6 +83,7 @@ test_that("plot_connections with peak_color", {
 })
 
 test_that("plot_connections with connection_color and connection_width and alpha_by_coaccess", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("connection_color",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -123,6 +126,7 @@ test_that("plot_connections with connection_color and connection_width and alpha
 })
 
 test_that("plot_connections with connection_ymax", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("connection_ymax",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -142,6 +146,7 @@ test_that("plot_connections with connection_ymax", {
 
 
 test_that("plot_connections makes plots with gene model", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("connections plot with gene model",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -193,6 +198,7 @@ test_that("plot_connections makes plots with gene model", {
 })
 
 test_that("plot_connections with comparison_coaccess_cutoff", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections comparison plot",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -218,6 +224,7 @@ test_that("plot_connections with comparison_coaccess_cutoff", {
 })
 
 test_that("plot_connections with comparison_peak_color", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("comparison_peak_color",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -250,6 +257,7 @@ test_that("plot_connections with comparison_peak_color", {
 })
 
 test_that("plot_connections with comparison_connection_color and comparison_connection_width and alpha_by_coaccess", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("comparison_connection_color",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -299,6 +307,7 @@ test_that("plot_connections with comparison_connection_color and comparison_conn
 })
 
 test_that("plot_connections with comparison_ymax", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("comparison_ymax",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -321,6 +330,7 @@ test_that("plot_connections with comparison_ymax", {
 
 
 test_that("plot_connections makes plots with gene model with comparison", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("connections plot with gene model with comparison",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -331,6 +341,7 @@ test_that("plot_connections makes plots with gene model with comparison", {
 
 
 test_that("plot_connections makes plots with comparison dataset", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("connections plot with comparison",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -358,6 +369,7 @@ test_that("plot_connections makes plots with comparison dataset", {
 })
 
 test_that("plot_connections makes plots with viewpoint", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections plot with viewpoint",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -383,6 +395,7 @@ test_that("plot_connections makes plots with viewpoint", {
 })
 
 test_that("plot_connections no axis", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections include_axis_track",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -395,6 +408,7 @@ df$chr_1 <- "chr18"
 df$chr_2 <- 18
 
 test_that("plot_connections given chr info", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections chr",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -410,6 +424,7 @@ df$bp2_1 <- c(10034983, 10034983, 10034983, 10034983, 10087901, 10127115,
               10097934, 10087901, 10155215, 10238983, 10199183, 10251585)
 
 test_that("plot_connections given chr partial info", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections chr bp1",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -427,6 +442,7 @@ df$bp2_2 <- c(10097934, 10087901, 10155215, 10238983, 10199183, 10251585,
               10034983, 10034983, 10034983, 10034983, 10087901, 10127115)
 
 test_that("plot_connections given all partial info", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections all bp",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -470,6 +486,7 @@ pData(input_cds)$Pseudotime <- c(3.48, 2.19, 0.70, 0.95, 3.19, 2.31, 2.26,
 
 
 test_that("plot_accessibility_in_pseudotime works", {
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic bar",
                               plot_accessibility_in_pseudotime(
                                 input_cds[c("chr18_38156577_38158261",

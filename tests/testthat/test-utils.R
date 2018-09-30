@@ -6,6 +6,7 @@ data("cicero_data")
 #### make_atac_cds ####
 test_cds <- make_atac_cds(cicero_data)
 test_that("make_atac_cds makes a valid cds object", {
+  skip_on_bioc()
   expect_is(test_cds, "CellDataSet")
   expect_equal(nrow(exprs(test_cds)), 6146)
   expect_equal(ncol(exprs(test_cds)), 200)
@@ -40,6 +41,7 @@ wmdn <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
                                                     stringsAsFactors = FALSE))
 
 test_that("ranges_for_coords works", {
+  skip_on_bioc()
   expect_is(ranges_for_coords("chr1_2039_30239"), "GRanges")
   expect_is(ranges_for_coords("chr1:2039:30239"), "GRanges")
   expect_is(ranges_for_coords("chr1-2039-30239"), "GRanges")
@@ -59,6 +61,7 @@ test_that("ranges_for_coords works", {
 #### df_for_coords ####
 
 test_that("df_for_coords works", {
+  skip_on_bioc()
   expect_is(df_for_coords(c("chr1:2,039-30,239", "chrX:28884:101293")),
             "data.frame")
   expect_equal(df_for_coords(c("chr1:2,039-30,239",
@@ -75,6 +78,7 @@ feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
                    stringsAsFactors = FALSE)
 
 test_that("annotate_cds_by_site works", {
+  skip_on_bioc()
   test_cds2 <- annotate_cds_by_site(test_cds, feat, verbose = TRUE)
   test_cds3 <- annotate_cds_by_site(test_cds, feat, all=TRUE, verbose = TRUE)
 
