@@ -4,8 +4,8 @@
 \alias{build_gene_activity_matrix}
 \title{Calculate initial Cicero gene activity matrix}
 \usage{
-build_gene_activity_matrix(input_cds, cicero_cons_info, site_weights = NULL,
-  dist_thresh = 250000, coaccess_cutoff = 0.25)
+build_gene_activity_matrix(input_cds, cicero_cons_info,
+  site_weights = NULL, dist_thresh = 250000, coaccess_cutoff = 0.25)
 }
 \arguments{
 \item{input_cds}{Binary sci-ATAC-seq input CDS. The input CDS must have a

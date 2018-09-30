@@ -4,8 +4,9 @@
 \alias{generate_cicero_models}
 \title{Generate cicero models}
 \usage{
-generate_cicero_models(cds, distance_parameter, s = 0.75, window = 5e+05,
-  max_elements = 200, genomic_coords = cicero::human.hg19.genome)
+generate_cicero_models(cds, distance_parameter, s = 0.75,
+  window = 5e+05, max_elements = 200,
+  genomic_coords = cicero::human.hg19.genome)
 }
 \arguments{
 \item{cds}{A cicero CDS object generated using \code{\link{make_cicero_cds}}.}

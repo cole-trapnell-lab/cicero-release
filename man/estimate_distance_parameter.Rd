@@ -4,8 +4,8 @@
 \alias{estimate_distance_parameter}
 \title{Calculate distance penalty parameter}
 \usage{
-estimate_distance_parameter(cds, window = 5e+05, maxit = 100, s = 0.75,
-  sample_num = 100, distance_constraint = 250000,
+estimate_distance_parameter(cds, window = 5e+05, maxit = 100,
+  s = 0.75, sample_num = 100, distance_constraint = 250000,
   distance_parameter_convergence = 1e-22, max_elements = 200,
   genomic_coords = cicero::human.hg19.genome)
 }

@@ -8,16 +8,16 @@ plot_connections(connection_df, chr, minbp, maxbp, coaccess_cutoff = 0,
   peak_color = "#B4656F", connection_color = "#7F7CAF",
   connection_color_legend = TRUE, alpha_by_coaccess = FALSE,
   connection_width = 2, connection_ymax = NULL, gene_model = NULL,
-  gene_model_color = "#81D2C7", gene_model_shape = c("smallArrow", "box"),
-  comparison_track = NULL, comparison_coaccess_cutoff = 0,
+  gene_model_color = "#81D2C7", gene_model_shape = c("smallArrow",
+  "box"), comparison_track = NULL, comparison_coaccess_cutoff = 0,
   comparison_peak_color = "#B4656F",
   comparison_connection_color = "#7F7CAF",
   comparison_connection_color_legend = TRUE,
   comparison_connection_width = 2, comparison_ymax = NULL,
   collapseTranscripts = FALSE, include_axis_track = TRUE,
-  return_as_list = FALSE, viewpoint = NULL, comparison_viewpoint = TRUE,
-  viewpoint_color = "#F0544F", viewpoint_fill = "#EFD8D7",
-  viewpoint_alpha = 0.5)
+  return_as_list = FALSE, viewpoint = NULL,
+  comparison_viewpoint = TRUE, viewpoint_color = "#F0544F",
+  viewpoint_fill = "#EFD8D7", viewpoint_alpha = 0.5)
 }
 \arguments{
 \item{connection_df}{Data frame of connections, which must include the
