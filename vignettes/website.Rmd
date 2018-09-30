@@ -228,7 +228,8 @@ plot_list <- plot_connections(conns,
 plot_list
 ```
 
-```{r}
+Below not run because requires network connection
+```{r, eval=FALSE}
 conservation <- UcscTrack(genome = "hg19", chromosome = "chr18",
                           track = "Conservation", table = "phyloP100wayAll",
                           fontsize.group=6,fontsize=6, cex.axis=.8,
@@ -352,7 +353,7 @@ plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr
 pData(input_cds_lin)$cell_subtype <- cut(pData(input_cds_lin)$Pseudotime, 10)
 binned_input_lin <- aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
 
-diff_test_res <- differentialGeneTest(binned_input_lin,
+diff_test_res <- differentialGeneTest(binned_input_lin[1:10,],
     fullModelFormulaStr="~sm.ns(Pseudotime, df=3) + sm.ns(num_genes_expressed, df=3)",
     reducedModelFormulaStr="~sm.ns(num_genes_expressed, df=3)", cores=1)
 
