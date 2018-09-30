@@ -28,11 +28,11 @@ library(cicero)
 data(cicero_data)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 set.seed(2017)
 input_cds <- detectGenes(input_cds)
 input_cds <- estimateSizeFactors(input_cds)
@@ -44,7 +44,7 @@ row.names(tsne_coords) <- row.names(pData(input_cds))
 cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 ```
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 data("human.hg19.genome")
 sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 sample_genome$V2[1] <- 10000000
@@ -54,7 +54,7 @@ head(conns)
 
 ### Visualizing Cicero Connections
 
-```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=FALSE}
+```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=TRUE}
 data(gene_annotation_sample)
 plot_connections(conns, "chr18", 8575097, 8839855, 
                  gene_model = gene_annotation_sample, 
@@ -65,7 +65,7 @@ plot_connections(conns, "chr18", 8575097, 8839855,
 
 ### Comparing Cicero connections to other datasets
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
                                     "chr18_49500_49600"), 
                           Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
@@ -96,7 +96,7 @@ plot_connections(conns, "chr18", 10000, 112367,
 
 ### Finding Cis-Coaccessibility Networks (CCANS)
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 CCAN_assigns <- generate_ccans(conns)
 
 head(CCAN_assigns)
@@ -104,7 +104,7 @@ head(CCAN_assigns)
 
 ### Cicero gene activity scores
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Make a subset of the gene annotation column containing just the coordinates 
 # and the gene name
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
@@ -135,7 +135,7 @@ cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga, unnorm_ga2),
 
 ### Advanced visualizaton
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 plot_connections(conns, "chr18", 10000, 112367, 
                  viewpoint = "chr18_48000_53000",
                  gene_model = gene_annotation_sample, 
@@ -146,7 +146,7 @@ plot_connections(conns, "chr18", 10000, 112367,
                  collapseTranscripts = "longest") 
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 plot_connections(conns, 
                  alpha_by_coaccess = FALSE, 
                  "chr18", 8575097, 8839855, 
@@ -164,7 +164,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # When the color column is not already colors, random colors are assigned
 plot_connections(conns, 
                  "chr18", 10000, 112367,
@@ -180,7 +180,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # If I want specific color scheme, I can make a column of color names
 conns$conn_color <- "orange"
 conns$conn_color[conns$in_chia_100] <- "green"
@@ -199,7 +199,7 @@ plot_connections(conns,
         
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # For coloring Peaks, I need the color column to correspond to Peak1:
 conns$peak1_color <- FALSE
 conns$peak1_color[conns$Peak1 == "chr18_11604_13986"] <- TRUE
@@ -217,7 +217,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 plot_list <- plot_connections(conns, 
                       "chr18", 10000, 112367,
                       gene_model = gene_annotation_sample, 
@@ -229,7 +229,7 @@ plot_list
 ```
 
 Below not run because requires network connection
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 conservation <- UcscTrack(genome = "hg19", chromosome = "chr18",
                           track = "Conservation", table = "phyloP100wayAll",
                           fontsize.group=6,fontsize=6, cex.axis=.8,
@@ -267,7 +267,7 @@ Gviz::plotTracks(plot_list,
 ## Extension of Monocle 2 for single-cell accessibility trajectories
 
 ### Constructing trajectories with accessibility data
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 data("cicero_data")
 input_cds <- make_atac_cds(cicero_data)
 
@@ -285,7 +285,7 @@ agg_cds <- estimateDispersions(agg_cds)
 ### Choose sites for dimensionality reduction
 
 #### Option 1
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # This takes a few minutes to run
 diff_timepoint <- differentialGeneTest(agg_cds,
                       fullModelFormulaStr="~timepoint + num_genes_expressed")
@@ -299,7 +299,7 @@ length(ordering_sites)
 
 
 #### Option 2
-```{r, fig.show='hold', eval=FALSE}
+```{r, fig.show='hold', eval=TRUE}
 plot_pc_variance_explained(agg_cds, return_all = FALSE) #Choose 2 PCs
 agg_cds <- reduceDimension(agg_cds,
                               max_components = 2,
@@ -322,7 +322,7 @@ clustering_DA_sites <- differentialGeneTest(agg_cds, #Takes a few minutes
 
 
 ### Reduce the dimensionality of the data and order cells
-```{r, fig.align='center', fig.height=4, fig.width=4, eval=FALSE}
+```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
 agg_cds <- setOrderingFilter(agg_cds, ordering_sites)
 
 agg_cds <- reduceDimension(agg_cds, max_components = 2,
@@ -341,7 +341,7 @@ pData(input_cds)$State <- pData(agg_cds)[colnames(input_cds),]$State
 ## Differential Accessibility Analysis
 
 ### Visualizing accessibility across pseudotime
-```{r, fig.width = 3, fig.height = 4, fig.align='center', eval=FALSE}
+```{r, fig.width = 3, fig.height = 4, fig.align='center', eval=TRUE}
 input_cds_lin <- input_cds[,row.names(subset(pData(input_cds), State  != 5))]
 
 plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr18_48373358_48374180", "chr18_60457956_60459080")])
@@ -349,7 +349,7 @@ plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr
 
 
 ### Running differentialGeneTest with single cell chromatin accessibility data
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 pData(input_cds_lin)$cell_subtype <- cut(pData(input_cds_lin)$Pseudotime, 10)
 binned_input_lin <- aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
 
@@ -363,7 +363,7 @@ head(diff_test_res)
 ## Useful Functions
 
 ### annotate_cds_by_site
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 head(fData(input_cds))
 
 feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"), 
@@ -381,7 +381,7 @@ head(fData(temp))
 ```
 
 ### find_overlapping_coordinates
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 find_overlapping_coordinates(fData(temp)$site_name, "chr18:10,100-10,604")
 
 ```

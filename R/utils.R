@@ -17,8 +17,8 @@
 #' @export
 #'
 #' @examples
-#' data("cicero_data")
-#' #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   data("cicero_data")
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'
 make_atac_cds <- function(input, binarize = FALSE) {
   #check input:
@@ -217,7 +217,7 @@ df_for_coords <- function(coord_strings) {
 #'                      bp2 = c(10700, 11000, 60000, 110000),
 #'                      type = c("Acetylated", "Methylated", "Acetylated",
 #'                      "Methylated"))
-#'   #input_cds <- annotate_cds_by_site(input_cds, feat)
+#'   input_cds <- annotate_cds_by_site(input_cds, feat)
 #'
 #' @importFrom IRanges findOverlaps
 #'

@@ -26,7 +26,7 @@ matrix format and returns a properly formatted \code{CellDataSet} (CDS)
 object.
 }
 \examples{
-data("cicero_data")
-#input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  data("cicero_data")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 
 }

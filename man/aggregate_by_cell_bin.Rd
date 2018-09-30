@@ -25,8 +25,8 @@ This function takes an input CDS object and collapses cells based
 }
 \examples{
   data("cicero_data")
-  #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-  #pData(input_cds)$cell_subtype <- rep(1:10, times=20)
-  #binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  pData(input_cds)$cell_subtype <- rep(1:10, times=20)
+  binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
 
 }
