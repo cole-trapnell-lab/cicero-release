@@ -47,7 +47,8 @@ cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 ```{r}
 data("human.hg19.genome")
 sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-conns <- run_cicero(cicero_cds, sample_genome) # Takes a few minutes to run
+sample_genome$V2[1] <- 10000000
+conns <- run_cicero(cicero_cds, sample_genome, sample_num = 2) # Takes a few minutes to run
 head(conns)
 ```
 

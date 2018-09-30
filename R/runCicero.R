@@ -802,7 +802,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
-#'   ccan_assigns <- generate_ccans(cicero_cons)
+#'   #ccan_assigns <- generate_ccans(cicero_cons)
 #'
 generate_ccans <- function(connections_df,
                            coaccess_cutoff_override = NULL,
