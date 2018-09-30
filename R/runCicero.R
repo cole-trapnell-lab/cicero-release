@@ -790,6 +790,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'
 #' @examples
 #'   data("cicero_data")
+#'   set.seed(2018)
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 10000

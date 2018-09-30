@@ -38,6 +38,7 @@ CCANs are calculated by first specifying a minimum co-accessibility
 }
 \examples{
   data("cicero_data")
+  set.seed(2018)
   data("human.hg19.genome")
   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   sample_genome$V2[1] <- 10000
