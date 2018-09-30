@@ -102,7 +102,8 @@ The purpose of this function is to calculate the distance scaling
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-  distance_parameters <- estimate_distance_parameter(cicero_cds)
+  distance_parameters <- estimate_distance_parameter(cicero_cds,
+                                                     sample_num=2)
 
 }
 \references{

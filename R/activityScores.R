@@ -35,7 +35,7 @@
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   cicero_cds <- make_cicero_cds(input_cds,
 #'                                 reduced_coordinates = tsne_coords)
-#'   cons <- run_cicero(cicero_cds, sample_genome)
+#'   cons <- run_cicero(cicero_cds, sample_genome, sample_num=2)
 #'
 #'
 #'   data(gene_annotation_sample)
@@ -226,7 +226,7 @@ build_composite_gene_activity_matrix <- function(input_cds,
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   cicero_cds <- make_cicero_cds(input_cds,
 #'                                 reduced_coordinates = tsne_coords)
-#'   cons <- run_cicero(cicero_cds, sample_genome)
+#'   cons <- run_cicero(cicero_cds, sample_genome, sample_num=2)
 #'
 #'
 #'   data(gene_annotation_sample)

@@ -40,7 +40,7 @@ CCANs are calculated by first specifying a minimum co-accessibility
   data("cicero_data")
   data("human.hg19.genome")
   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-  sample_genome$V2[1] <- 1000000
+  sample_genome$V2[1] <- 10000
   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
                                reduction_method = 'tSNE',
@@ -48,7 +48,7 @@ CCANs are calculated by first specifying a minimum co-accessibility
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-  cicero_cons <- run_cicero(cicero_cds, sample_genome)
+  cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
   ccan_assigns <- generate_ccans(cicero_cons)
 
 }

@@ -48,7 +48,7 @@ matrices using the function \code{\link{normalize_gene_activities}}.
   row.names(tsne_coords) <- row.names(pData(input_cds))
   cicero_cds <- make_cicero_cds(input_cds,
                                 reduced_coordinates = tsne_coords)
-  cons <- run_cicero(cicero_cds, sample_genome)
+  cons <- run_cicero(cicero_cds, sample_genome, sample_num=2)
 
 
   data(gene_annotation_sample)
