@@ -27,6 +27,6 @@ object.
 }
 \examples{
 data("cicero_data")
-input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 
 }

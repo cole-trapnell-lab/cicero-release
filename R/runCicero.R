@@ -32,12 +32,12 @@
 #' @examples
 #'   data("cicero_data")
 #'
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'   #                             reduction_method = 'tSNE',
+#'   #                             norm_method = "none")
+#'   #tsne_coords <- t(reducedDimA(input_cds))
+#'   #row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'
 #'
@@ -209,14 +209,14 @@ make_cicero_cds <- function(cds,
 #' @examples
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
-#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-#'   sample_genome$V2[1] <- 100000
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   #sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   #sample_genome$V2[1] <- 100000
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'   #                             reduction_method = 'tSNE',
+#'   #                             norm_method = "none")
+#'   #tsne_coords <- t(reducedDimA(input_cds))
+#'   #row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   #cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 #'
@@ -287,13 +287,13 @@ run_cicero <- function(cds,
 #'   data("cicero_data")
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-#'   sample_genome$V2[1] <- 100000
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   #sample_genome$V2[1] <- 100000
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'   #                             reduction_method = 'tSNE',
+#'   #                             norm_method = "none")
+#'   #tsne_coords <- t(reducedDimA(input_cds))
+#'   #row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   #distance_parameters <- estimate_distance_parameter(cicero_cds,
 #'   #                                                   sample_num=5,
@@ -482,12 +482,12 @@ estimate_distance_parameter <- function(cds,
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'   #                             reduction_method = 'tSNE',
+#'   #                             norm_method = "none")
+#'   #tsne_coords <- t(reducedDimA(input_cds))
+#'   #row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   #model_output <- generate_cicero_models(cicero_cds,
 #'   #                                       distance_parameter = 0.3,
@@ -590,12 +590,12 @@ generate_cicero_models <- function(cds,
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'   #                             reduction_method = 'tSNE',
+#'   #                             norm_method = "none")
+#'   #tsne_coords <- t(reducedDimA(input_cds))
+#'   #row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   #model_output <- generate_cicero_models(cicero_cds,
 #'   #                                       distance_parameter = 0.3,
@@ -794,12 +794,12 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'   data("human.hg19.genome")
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
+#'   #                             reduction_method = 'tSNE',
+#'   #                             norm_method = "none")
+#'   #tsne_coords <- t(reducedDimA(input_cds))
+#'   #row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   #cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 #'   #ccan_assigns <- generate_ccans(cicero_cons)

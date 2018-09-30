@@ -26,7 +26,7 @@ This function takes an input CDS object and collapses features
 }
 \examples{
   data("cicero_data")
-  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-  agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
+  #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  #agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
 
 }

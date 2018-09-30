@@ -59,6 +59,6 @@ Annotate the sites of your CDS with feature data based on coordinate overlap.
                      bp2 = c(10700, 11000, 60000, 110000),
                      type = c("Acetylated", "Methylated", "Acetylated",
                      "Methylated"))
-  input_cds <- annotate_cds_by_site(input_cds, feat)
+  #input_cds <- annotate_cds_by_site(input_cds, feat)
 
 }
