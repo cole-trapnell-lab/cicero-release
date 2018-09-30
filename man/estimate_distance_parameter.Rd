@@ -104,10 +104,10 @@ The purpose of this function is to calculate the distance scaling
                                norm_method = "none")
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
-  cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-  distance_parameters <- estimate_distance_parameter(cicero_cds,
-                                                     sample_num=5,
-                                                     genomic_coords = sample_genome)
+  #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+  #distance_parameters <- estimate_distance_parameter(cicero_cds,
+  #                                                   sample_num=5,
+  #                                                   genomic_coords = sample_genome)
 
 }
 \references{

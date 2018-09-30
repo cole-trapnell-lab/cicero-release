@@ -46,7 +46,7 @@ functions.
                                norm_method = "none")
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
-  cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-  cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
+  #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+  #cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 
 }

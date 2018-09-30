@@ -38,7 +38,7 @@
 #'                                norm_method = "none")
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'
 #'
 make_cicero_cds <- function(cds,
@@ -217,8 +217,8 @@ make_cicero_cds <- function(cds,
 #'                                norm_method = "none")
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'   cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
+#'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   #cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 #'
 run_cicero <- function(cds,
                        genomic_coords,
@@ -294,10 +294,10 @@ run_cicero <- function(cds,
 #'                                norm_method = "none")
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'   distance_parameters <- estimate_distance_parameter(cicero_cds,
-#'                                                      sample_num=5,
-#'                                                      genomic_coords = sample_genome)
+#'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   #distance_parameters <- estimate_distance_parameter(cicero_cds,
+#'   #                                                   sample_num=5,
+#'   #                                                   genomic_coords = sample_genome)
 #'
 #' @seealso \code{\link{generate_cicero_models}}
 #' @return A list of results of length \code{sample_num}. List members are
@@ -488,10 +488,10 @@ estimate_distance_parameter <- function(cds,
 #'                                norm_method = "none")
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'   model_output <- generate_cicero_models(cicero_cds,
-#'                                          distance_parameter = 0.3,
-#'                                          genomic_coords = sample_genome)
+#'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   #model_output <- generate_cicero_models(cicero_cds,
+#'   #                                       distance_parameter = 0.3,
+#'   #                                       genomic_coords = sample_genome)
 #'
 #' @references
 #'   \itemize{
@@ -596,11 +596,11 @@ generate_cicero_models <- function(cds,
 #'                                norm_method = "none")
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'   model_output <- generate_cicero_models(cicero_cds,
-#'                                          distance_parameter = 0.3,
-#'                                          genomic_coords = sample_genome)
-#'   cicero_cons <- assemble_connections(model_output)
+#'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   #model_output <- generate_cicero_models(cicero_cds,
+#'   #                                       distance_parameter = 0.3,
+#'   #                                       genomic_coords = sample_genome)
+#'   #cicero_cons <- assemble_connections(model_output)
 #'
 #' @seealso \code{\link{generate_cicero_models}}
 #' @export
@@ -800,8 +800,8 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'                                norm_method = "none")
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'   cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
+#'   #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   #cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 #'   #ccan_assigns <- generate_ccans(cicero_cons)
 #'
 generate_ccans <- function(connections_df,

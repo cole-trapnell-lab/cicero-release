@@ -46,18 +46,18 @@ matrices using the function \code{\link{normalize_gene_activities}}.
                                norm_method = "none")
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
-  cicero_cds <- make_cicero_cds(input_cds,
-                                reduced_coordinates = tsne_coords)
-  cons <- run_cicero(cicero_cds, sample_genome, sample_num=2)
+  #cicero_cds <- make_cicero_cds(input_cds,
+  #                              reduced_coordinates = tsne_coords)
+  #cons <- run_cicero(cicero_cds, sample_genome, sample_num=2)
 
 
-  data(gene_annotation_sample)
-  gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
-  names(gene_annotation_sub)[4] <- "gene"
-  input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
-  num_genes <- pData(input_cds)$num_genes_expressed
-  names(num_genes) <- row.names(pData(input_cds))
-  unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
+  #data(gene_annotation_sample)
+  #gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
+  #names(gene_annotation_sub)[4] <- "gene"
+  #input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
+  #num_genes <- pData(input_cds)$num_genes_expressed
+  #names(num_genes) <- row.names(pData(input_cds))
+  #unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
 
 
 }

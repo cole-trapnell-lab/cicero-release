@@ -53,7 +53,7 @@ Aggregation of similar cells is done using a k-nearest-neighbors
                                norm_method = "none")
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
-  cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+  #cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 
 
 }
