@@ -38,10 +38,10 @@ CCANs are calculated by first specifying a minimum co-accessibility
 }
 \examples{
   data("cicero_data")
-  set.seed(2018)
+  set.seed(18)
   data("human.hg19.genome")
   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-  sample_genome$V2[1] <- 10000
+  sample_genome$V2[1] <- 100000
   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
                                reduction_method = 'tSNE',
