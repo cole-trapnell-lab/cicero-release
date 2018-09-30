@@ -285,6 +285,9 @@ run_cicero <- function(cds,
 #'
 #' @examples
 #'   data("cicero_data")
+#'   data("human.hg19.genome")
+#'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+#'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
 #'                                reduction_method = 'tSNE',
@@ -293,7 +296,8 @@ run_cicero <- function(cds,
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   distance_parameters <- estimate_distance_parameter(cicero_cds,
-#'                                                      sample_num=2)
+#'                                                      sample_num=5,
+#'                                                      genomic_coords = sample_genome)
 #'
 #' @seealso \code{\link{generate_cicero_models}}
 #' @return A list of results of length \code{sample_num}. List members are
