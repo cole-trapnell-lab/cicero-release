@@ -146,7 +146,7 @@ plot_connections(conns, "chr18", 10000, 112367,
                  collapseTranscripts = "longest") 
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 plot_connections(conns, 
                  alpha_by_coaccess = FALSE, 
                  "chr18", 8575097, 8839855, 
@@ -164,7 +164,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # When the color column is not already colors, random colors are assigned
 plot_connections(conns, 
                  "chr18", 10000, 112367,
@@ -180,7 +180,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # If I want specific color scheme, I can make a column of color names
 conns$conn_color <- "orange"
 conns$conn_color[conns$in_chia_100] <- "green"
@@ -199,7 +199,7 @@ plot_connections(conns,
         
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # For coloring Peaks, I need the color column to correspond to Peak1:
 conns$peak1_color <- FALSE
 conns$peak1_color[conns$Peak1 == "chr18_11604_13986"] <- TRUE
@@ -217,7 +217,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 plot_list <- plot_connections(conns, 
                       "chr18", 10000, 112367,
                       gene_model = gene_annotation_sample, 
