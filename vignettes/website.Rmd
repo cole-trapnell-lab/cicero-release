@@ -229,7 +229,7 @@ plot_list
 ```
 
 Below not run because requires network connection
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 conservation <- UcscTrack(genome = "hg19", chromosome = "chr18",
                           track = "Conservation", table = "phyloP100wayAll",
                           fontsize.group=6,fontsize=6, cex.axis=.8,
