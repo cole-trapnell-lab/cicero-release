@@ -363,7 +363,7 @@ head(diff_test_res)
 ## Useful Functions
 
 ### annotate_cds_by_site
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 head(fData(input_cds))
 
 feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"), 
@@ -381,7 +381,7 @@ head(fData(temp))
 ```
 
 ### find_overlapping_coordinates
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 find_overlapping_coordinates(fData(temp)$site_name, "chr18:10,100-10,604")
 
 ```
