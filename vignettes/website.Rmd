@@ -299,7 +299,7 @@ length(ordering_sites)
 
 
 #### Option 2
-```{r, fig.show='hold', eval=TRUE}
+```{r, fig.show='hold', eval=FALSE}
 plot_pc_variance_explained(agg_cds, return_all = FALSE) #Choose 2 PCs
 agg_cds <- reduceDimension(agg_cds,
                               max_components = 2,
