@@ -104,7 +104,7 @@ head(CCAN_assigns)
 
 ### Cicero gene activity scores
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Make a subset of the gene annotation column containing just the coordinates 
 # and the gene name
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
@@ -164,7 +164,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # When the color column is not already colors, random colors are assigned
 plot_connections(conns, 
                  "chr18", 10000, 112367,
@@ -180,7 +180,7 @@ plot_connections(conns,
                  collapseTranscripts = "longest" )
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # If I want specific color scheme, I can make a column of color names
 conns$conn_color <- "orange"
 conns$conn_color[conns$in_chia_100] <- "green"
@@ -267,7 +267,7 @@ Gviz::plotTracks(plot_list,
 ## Extension of Monocle 2 for single-cell accessibility trajectories
 
 ### Constructing trajectories with accessibility data
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 data("cicero_data")
 input_cds <- make_atac_cds(cicero_data)
 
