@@ -381,7 +381,7 @@ head(fData(temp))
 ```
 
 ### find_overlapping_coordinates
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 find_overlapping_coordinates(fData(temp)$site_name, "chr18:10,100-10,604")
 
 ```
