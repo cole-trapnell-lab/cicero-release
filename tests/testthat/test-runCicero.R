@@ -1,11 +1,11 @@
 context("runCicero")
 
 #### make_cicero_cds ####
-data(cicero_data)
-load("../tsne_coord.Rdata")
 
 test_that("make_cicero_cds aggregates correctly", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
   input_cds <- make_atac_cds(cicero_data)
 
   set.seed(2017)
@@ -48,12 +48,13 @@ test_that("make_cicero_cds aggregates correctly", {
 
 #### estimate_distance_parameter ####
 
-data("human.hg19.genome")
-
-sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-
 test_that("estimate_distance_parameter gives correct mean", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   input_cds <- make_atac_cds(cicero_data)
 
   set.seed(2017)
@@ -114,6 +115,11 @@ test_that("estimate_distance_parameter gives correct mean", {
 
 test_that("generate_cicero_models gives output", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   input_cds <- make_atac_cds(cicero_data)
 
   set.seed(2017)
@@ -176,6 +182,11 @@ test_that("generate_cicero_models gives output", {
 
 test_that("assemble_connections gives output", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   input_cds <- make_atac_cds(cicero_data)
 
   set.seed(2017)
@@ -213,6 +224,11 @@ test_that("assemble_connections gives output", {
 
 test_that("run_cicero gives output", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   set.seed(2000)
   input_cds <- make_atac_cds(cicero_data)
 
@@ -239,6 +255,11 @@ test_that("run_cicero gives output", {
 
 test_that("generate_ccans gives output", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   set.seed(2000)
   input_cds <- make_atac_cds(cicero_data)
 
@@ -276,6 +297,11 @@ test_that("generate_ccans gives output", {
 
 test_that("compare_connections works", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   set.seed(2000)
   input_cds <- make_atac_cds(cicero_data)
 
@@ -308,6 +334,11 @@ test_that("compare_connections works", {
 
 test_that("find_overlapping_ccans works", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   set.seed(2000)
   input_cds <- make_atac_cds(cicero_data)
 
@@ -338,6 +369,11 @@ test_that("find_overlapping_ccans works", {
 
 test_that("build_gene_activity_matrix works", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   input_cds <- make_atac_cds(cicero_data, binarize=TRUE)
   input_cds <- detectGenes(input_cds, min_expr = .1)
   gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
@@ -359,6 +395,11 @@ test_that("build_gene_activity_matrix works", {
 
 test_that("normalize_gene_activities works", {
   skip_on_bioc()
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
+
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   input_cds <- make_atac_cds(cicero_data, binarize=TRUE)
   input_cds <- detectGenes(input_cds, min_expr = .1)
   gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]

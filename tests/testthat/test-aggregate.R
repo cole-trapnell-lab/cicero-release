@@ -1,9 +1,8 @@
 context("test-aggregate.R")
 
-data("cicero_data")
-
 test_that("aggregate_nearby_peaks makes a valid cds object", {
   skip_on_bioc()
+  data("cicero_data")
   test_cds <- suppressWarnings(make_atac_cds(cicero_data))
   agg_cds <- aggregate_nearby_peaks(test_cds, 10000)
   expect_is(agg_cds, "CellDataSet")
@@ -17,6 +16,7 @@ test_that("aggregate_nearby_peaks makes a valid cds object", {
 
 test_that("aggregate_nearby_peaks makes a valid cds object not sparse", {
   skip_on_bioc()
+  data("cicero_data")
   test_cds2 <- suppressWarnings(make_atac_cds(cicero_data))
   exprs(test_cds2) <- as.matrix(exprs(test_cds2))
   agg_cds <- aggregate_nearby_peaks(test_cds2, 10000)
@@ -33,6 +33,7 @@ test_that("aggregate_nearby_peaks makes a valid cds object not sparse", {
 
 test_that("aggregate_by_cell_bin makes a valid cds object", {
   skip_on_bioc()
+  data("cicero_data")
   test_cds <- suppressWarnings(make_atac_cds(cicero_data))
   pData(test_cds)$cell_subtype <- rep(1:10, times= 20)
   agg_cds2 <- suppressMessages(aggregate_by_cell_bin(test_cds, "cell_subtype"))
@@ -49,6 +50,7 @@ test_that("aggregate_by_cell_bin makes a valid cds object", {
 
 test_that("aggregate_by_cell_bin makes a valid cds object not sparse", {
   skip_on_bioc()
+  data("cicero_data")
   test_cds2 <- suppressWarnings(make_atac_cds(cicero_data))
   exprs(test_cds2) <- as.matrix(exprs(test_cds2))
   pData(test_cds2)$cell_subtype <- rep(1:10, times= 20)
