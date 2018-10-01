@@ -142,9 +142,9 @@ as it's basis
                           0.0013466927, 0.0737935011, 0.3264019452,
                           0.0051121787, 0.0016698617, 0.0006570246,
                           0.0013466927, 0.0737935011, 0.3264019452))
-  plot_connections(cicero_cons, chr = "chr18",
-                   minbp = 10034652,
-                   maxbp = 10251585,
-                   peak_color = "purple")
+  #plot_connections(cicero_cons, chr = "chr18",
+  #                 minbp = 10034652,
+  #                 maxbp = 10251585,
+  #                 peak_color = "purple")
 
 }

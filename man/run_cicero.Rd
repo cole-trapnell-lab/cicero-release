@@ -36,7 +36,7 @@ those with non-mammalian data should read about parameters in the above
 functions.
 }
 \examples{
-  data("cicero_data")
+  #data("cicero_data")
   data("human.hg19.genome")
   #sample_genome <- subset(human.hg19.genome, V1 == "chr18")
   #sample_genome$V2[1] <- 100000

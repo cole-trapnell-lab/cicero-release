@@ -29,10 +29,10 @@ negative). If they not concordant, NA is returned. If they are concordant
 the mean is returned.
 }
 \examples{
-  data("cicero_data")
+  #data("cicero_data")
   data("human.hg19.genome")
-  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-  sample_genome$V2[1] <- 100000
+  #sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  #sample_genome$V2[1] <- 100000
   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
   #input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
   #                             reduction_method = 'tSNE',

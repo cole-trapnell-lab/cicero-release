@@ -18,7 +18,7 @@
 #'
 #' @examples
 #'   data("cicero_data")
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 #'
 make_atac_cds <- function(input, binarize = FALSE) {
   #check input:
@@ -104,12 +104,12 @@ make_atac_cds <- function(input, binarize = FALSE) {
 #'
 #' @examples
 #'   ran1 <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
-#'   ran2 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
-#'                             meta_data_df = data.frame(dat = c("1", "X")))
-#'   ran3 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
-#'                             with_names = TRUE,
-#'                             meta_data_df = data.frame(dat = c("1", "X"),
-#'                                            stringsAsFactors = FALSE))
+#'   #ran2 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+#'   #                          meta_data_df = data.frame(dat = c("1", "X")))
+#'   #ran3 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+#'   #                          with_names = TRUE,
+#'   #                          meta_data_df = data.frame(dat = c("1", "X"),
+#'   #                                         stringsAsFactors = FALSE))
 #'
 #' @seealso \code{\link[GenomicRanges]{GRanges-class}}
 #'
@@ -211,13 +211,13 @@ df_for_coords <- function(coord_strings) {
 #'
 #' @examples
 #'   data("cicero_data")
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
-#'                      bp1 = c(10000, 10800, 50000, 100000),
-#'                      bp2 = c(10700, 11000, 60000, 110000),
-#'                      type = c("Acetylated", "Methylated", "Acetylated",
-#'                      "Methylated"))
-#'   input_cds <- annotate_cds_by_site(input_cds, feat)
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
+#'   #                   bp1 = c(10000, 10800, 50000, 100000),
+#'   #                   bp2 = c(10700, 11000, 60000, 110000),
+#'   #                   type = c("Acetylated", "Methylated", "Acetylated",
+#'   #                   "Methylated"))
+#'   #input_cds <- annotate_cds_by_site(input_cds, feat)
 #'
 #' @importFrom IRanges findOverlaps
 #'
@@ -451,7 +451,7 @@ compare_connections <- function(conns1,
 #'                    "chr18_11604_13986",
 #'                    "chr18_157883_158536", "chr18_217477_218555",
 #'                    "chr18_245734_246234")
-#'   find_overlapping_coordinates(test_coords, "chr18:10,100-1246234")
+#'   #find_overlapping_coordinates(test_coords, "chr18:10,100-1246234")
 #'
 #'
 find_overlapping_coordinates <- function(coord_list,
