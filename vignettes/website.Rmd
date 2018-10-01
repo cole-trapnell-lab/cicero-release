@@ -322,7 +322,7 @@ clustering_DA_sites <- differentialGeneTest(agg_cds, #Takes a few minutes
 
 
 ### Reduce the dimensionality of the data and order cells
-```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
+```{r, fig.align='center', fig.height=4, fig.width=4, eval=FALSE}
 agg_cds <- setOrderingFilter(agg_cds, ordering_sites)
 
 agg_cds <- reduceDimension(agg_cds, max_components = 2,
@@ -341,7 +341,7 @@ pData(input_cds)$State <- pData(agg_cds)[colnames(input_cds),]$State
 ## Differential Accessibility Analysis
 
 ### Visualizing accessibility across pseudotime
-```{r, fig.width = 3, fig.height = 4, fig.align='center', eval=TRUE}
+```{r, fig.width = 3, fig.height = 4, fig.align='center', eval=FALSE}
 input_cds_lin <- input_cds[,row.names(subset(pData(input_cds), State  != 5))]
 
 plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr18_48373358_48374180", "chr18_60457956_60459080")])
@@ -349,7 +349,7 @@ plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr
 
 
 ### Running differentialGeneTest with single cell chromatin accessibility data
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 pData(input_cds_lin)$cell_subtype <- cut(pData(input_cds_lin)$Pseudotime, 10)
 binned_input_lin <- aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
 
@@ -363,7 +363,7 @@ head(diff_test_res)
 ## Useful Functions
 
 ### annotate_cds_by_site
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 head(fData(input_cds))
 
 feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"), 
