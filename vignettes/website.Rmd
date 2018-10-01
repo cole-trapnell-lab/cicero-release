@@ -285,7 +285,7 @@ agg_cds <- estimateDispersions(agg_cds)
 ### Choose sites for dimensionality reduction
 
 #### Option 1
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # This takes a few minutes to run
 diff_timepoint <- differentialGeneTest(agg_cds,
                       fullModelFormulaStr="~timepoint + num_genes_expressed")
