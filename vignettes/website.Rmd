@@ -76,7 +76,8 @@ conns$in_chia <- compare_connections(conns, chia_conns)
 conns$in_chia_100 <- compare_connections(conns, chia_conns, maxgap=100)
 
 head(conns)
-
+```
+```{r, eval=TRUE}
 # Add a column of 1s called "coaccess"
 chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
                                     "chr18_49500_49600"), 
@@ -96,7 +97,7 @@ plot_connections(conns, "chr18", 10000, 112367,
 
 ### Finding Cis-Coaccessibility Networks (CCANS)
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 CCAN_assigns <- generate_ccans(conns)
 
 head(CCAN_assigns)
@@ -371,7 +372,8 @@ feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
                    bp2 = c(10700, 11000, 60000, 110000), 
                    type = c("Acetylated", "Methylated", "Acetylated", "Methylated"))
 head(feat)
-
+```
+```{r, eval=TRUE}
 temp <- annotate_cds_by_site(input_cds, feat)
 head(fData(temp))
 
