@@ -2,49 +2,49 @@ context("runCicero")
 
 #### make_cicero_cds ####
 
-test_that("make_cicero_cds aggregates correctly", {
-  skip_on_bioc()
-  data(cicero_data)
-  load("../tsne_coord.Rdata")
-  input_cds <- make_atac_cds(cicero_data)
+# test_that("make_cicero_cds aggregates correctly", {
+#   skip_on_bioc()
+#   data(cicero_data)
+#   load("../tsne_coord.Rdata")
+#   input_cds <- make_atac_cds(cicero_data)
 
-  set.seed(2017)
-  input_cds <- detectGenes(input_cds, min_expr = .1)
-  input_cds <- estimateSizeFactors(input_cds)
-  input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
+#   set.seed(2017)
+#   input_cds <- detectGenes(input_cds, min_expr = .1)
+#   input_cds <- estimateSizeFactors(input_cds)
+#   input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
 
-  set.seed(2018)
-  cicero_cds <- make_cicero_cds(input_cds,
-                                reduced_coordinates = tsne_coords,
-                                silent = TRUE,
-                                summary_stats = c("num_genes_expressed"))
-  expect_is(cicero_cds, "CellDataSet")
-  expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
-  expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
-                                   "Size_Factor", "num_genes_expressed"))
-  expect_equal(nrow(exprs(cicero_cds)), 6146)
-  expect_equal(ncol(exprs(cicero_cds)), 36)
+#   set.seed(2018)
+#   cicero_cds <- make_cicero_cds(input_cds,
+#                                 reduced_coordinates = tsne_coords,
+#                                 silent = TRUE,
+#                                 summary_stats = c("num_genes_expressed"))
+#   expect_is(cicero_cds, "CellDataSet")
+#   expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
+#   expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
+#                                    "Size_Factor", "num_genes_expressed"))
+#   expect_equal(nrow(exprs(cicero_cds)), 6146)
+#   expect_equal(ncol(exprs(cicero_cds)), 36)
 
-  set.seed(2018)
-  expect_warning(cicero_cds <- make_cicero_cds(input_cds,
-                                 reduced_coordinates = tsne_coords,
-                                 silent = FALSE,
-                                 summary_stats = c("num_genes_expressed")))
-  input_cds2 <- input_cds
-  fData(input_cds2)$bp1 <- NULL
-  set.seed(2018)
-  cicero_cds <- make_cicero_cds(input_cds2,
-                                reduced_coordinates = tsne_coords,
-                                silent = TRUE,
-                                size_factor_normalize = FALSE,
-                                summary_stats = c("num_genes_expressed"))
-  expect_is(cicero_cds, "CellDataSet")
-  expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
-  expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
-                                   "Size_Factor", "num_genes_expressed"))
-  expect_equal(nrow(exprs(cicero_cds)), 6146)
-  expect_equal(ncol(exprs(cicero_cds)), 36)
-})
+#   set.seed(2018)
+#   expect_warning(cicero_cds <- make_cicero_cds(input_cds,
+#                                  reduced_coordinates = tsne_coords,
+#                                  silent = FALSE,
+#                                  summary_stats = c("num_genes_expressed")))
+#   input_cds2 <- input_cds
+#   fData(input_cds2)$bp1 <- NULL
+#   set.seed(2018)
+#   cicero_cds <- make_cicero_cds(input_cds2,
+#                                 reduced_coordinates = tsne_coords,
+#                                 silent = TRUE,
+#                                 size_factor_normalize = FALSE,
+#                                 summary_stats = c("num_genes_expressed"))
+#   expect_is(cicero_cds, "CellDataSet")
+#   expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
+#   expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
+#                                    "Size_Factor", "num_genes_expressed"))
+#   expect_equal(nrow(exprs(cicero_cds)), 6146)
+#   expect_equal(ncol(exprs(cicero_cds)), 36)
+# })
 
 #### estimate_distance_parameter ####
 
