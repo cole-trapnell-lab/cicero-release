@@ -191,6 +191,7 @@ test_that("annotate_cds_by_site works", {
 #### make_sparse_matrix ####
 
 test_that("make_sparse_matrix works", {
+  skip_on_bioc()
   df <- data.frame(icol = c("chr18_30209631_30210783",
                             "chr18_45820294_45821666",
                             "chr18_32820116_32820994"),

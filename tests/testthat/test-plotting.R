@@ -1,6 +1,5 @@
 context("plotting")
 
-data(gene_annotation_sample)
 df <- data.frame(Peak1 = c("chr18_10034652_10034983", "chr18_10034652_10034983",
                            "chr18_10034652_10034983", "chr18_10034652_10034983",
                            "chr18_10087586_10087901", "chr18_10120685_10127115",
@@ -144,9 +143,9 @@ test_that("plot_connections with connection_ymax", {
                                           connection_ymax = 0))
 })
 
-
 test_that("plot_connections makes plots with gene model", {
   skip_on_bioc()
+  data(gene_annotation_sample)
   vdiffr::expect_doppelganger("connections plot with gene model",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -328,9 +327,9 @@ test_that("plot_connections with comparison_ymax", {
                                           comparison_ymax = 0))
 })
 
-
 test_that("plot_connections makes plots with gene model with comparison", {
   skip_on_bioc()
+  data(gene_annotation_sample)
   vdiffr::expect_doppelganger("connections plot with gene model with comparison",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",
@@ -338,7 +337,6 @@ test_that("plot_connections makes plots with gene model with comparison", {
                                                maxbp = 10251585,
                                                gene_model = gene_annotation_sample))
 })
-
 
 test_that("plot_connections makes plots with comparison dataset", {
   skip_on_bioc()
@@ -433,16 +431,15 @@ test_that("plot_connections given chr partial info", {
                                                include_axis_track = FALSE))
 })
 
-df$chr_1 <- "18"
-
-df$bp1_2 <- c(10097718, 10087586, 10154818, 10238762, 10198959, 10250985,
-              10034652, 10034652, 10034652, 10034652, 10087586, 10120685)
-
-df$bp2_2 <- c(10097934, 10087901, 10155215, 10238983, 10199183, 10251585,
-              10034983, 10034983, 10034983, 10034983, 10087901, 10127115)
-
 test_that("plot_connections given all partial info", {
   skip_on_bioc()
+  df$chr_1 <- "18"
+
+  df$bp1_2 <- c(10097718, 10087586, 10154818, 10238762, 10198959, 10250985,
+                10034652, 10034652, 10034652, 10034652, 10087586, 10120685)
+
+  df$bp2_2 <- c(10097934, 10087901, 10155215, 10238983, 10199183, 10251585,
+                10034983, 10034983, 10034983, 10034983, 10087901, 10127115)
   vdiffr::expect_doppelganger("basic connections all bp",
                               plot_connections(df, comparison_track = df,
                                                chr = "chr18",

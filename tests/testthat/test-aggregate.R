@@ -29,8 +29,6 @@ test_that("aggregate_nearby_peaks makes a valid cds object not sparse", {
   expect_is(exprs(agg_cds), "matrix")
 })
 
-
-
 test_that("aggregate_by_cell_bin makes a valid cds object", {
   skip_on_bioc()
   data("cicero_data")
@@ -45,8 +43,6 @@ test_that("aggregate_by_cell_bin makes a valid cds object", {
   expect_match(colnames(agg_cds2)[1], "1")
   expect_is(exprs(agg_cds2), "matrix")
 })
-
-
 
 test_that("aggregate_by_cell_bin makes a valid cds object not sparse", {
   skip_on_bioc()
