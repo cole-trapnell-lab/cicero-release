@@ -105,7 +105,7 @@ con_list <- generate_cicero_models(cicero_cds,
                                   genomic_coords = sample_genome)
 
 test_that("generate_cicero_models gives output", { #slow
-  #skip_on_bioc()
+  skip_on_bioc()
   expect_is(con_list, "list")
   expect_equal(length(con_list), 313)
   expect_equal(con_list[[1]]$w[1,2], 1.028059, tolerance = 1e-6)
@@ -182,7 +182,7 @@ test_that("run_cicero gives output", {
 #### generate_ccans ####
 
 test_that("generate_ccans gives output", { #slow
-  #skip_on_bioc()
+  skip_on_bioc()
   expect_output(CCAN_assigns <- generate_ccans(cons),
                 "Coaccessibility cutoff used: 0.7")
   expect_equal(CCAN_assigns$CCAN[3], 4, tolerance = 1e-7)
@@ -234,6 +234,8 @@ test_that("find_overlapping_ccans works", {
 
 input_cds <- make_atac_cds(cicero_data, binarize=TRUE)
 input_cds <- detectGenes(input_cds, min_expr = .1)
+
+data(gene_annotation_sample)
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
 names(gene_annotation_sub)[4] <- "gene"
 
