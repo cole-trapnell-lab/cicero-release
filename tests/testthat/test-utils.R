@@ -2,7 +2,7 @@ context("test-utils.R")
 
 
 test_that("make_atac_cds makes a valid cds object", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data("cicero_data")
   #### make_atac_cds ####
   test_cds <- make_atac_cds(cicero_data)
@@ -33,7 +33,7 @@ test_that("make_atac_cds makes a valid cds object", {
 #### ranges_for_coords ####
 
 test_that("ranges_for_coords works", {
-  skip_on_bioc()
+  #skip_on_bioc()
 
   wn <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
   wmd <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
@@ -63,7 +63,7 @@ test_that("ranges_for_coords works", {
 #### df_for_coords ####
 
 test_that("df_for_coords works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   expect_is(df_for_coords(c("chr1:2,039-30,239", "chrX:28884:101293")),
             "data.frame")
   expect_equal(df_for_coords(c("chr1:2,039-30,239",
@@ -75,7 +75,7 @@ test_that("df_for_coords works", {
 
 
 test_that("annotate_cds_by_site works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data("cicero_data")
   #### make_atac_cds ####
   test_cds <- make_atac_cds(cicero_data)
@@ -191,7 +191,7 @@ test_that("annotate_cds_by_site works", {
 #### make_sparse_matrix ####
 
 test_that("make_sparse_matrix works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   df <- data.frame(icol = c("chr18_30209631_30210783",
                             "chr18_45820294_45821666",
                             "chr18_32820116_32820994"),
@@ -218,7 +218,7 @@ test_that("make_sparse_matrix works", {
 
 
 test_that("find_overlapping_coordinates works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   test_coords <- c("chr18_10025_10225", "chr18_10603_11103", "chr18_11604_13986",
                  "chr18_157883_158536", "chr18_217477_218555",
                  "chr18_245734_246234")

@@ -1,8 +1,7 @@
 Package: cicero
 Type: Package
 Title: Precict cis co-accessibility from single-cell chromatin accessibility data
-Version: 0.99.49
-Date: 2018-03-22
+Version: 0.99.50
 Authors@R: c(
     person("Hannah", "Pliner", email = "hpliner@uw.edu", role = c("aut", "cre")), 
     person("Cole", "Trapnell", email = "coletrap@uw.edu", role = c("aut")))
@@ -15,7 +14,6 @@ Depends:
     Gviz (>= 1.22.3)
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Imports:
     assertthat (>= 0.2.0),
     Biobase (>= 2.37.2),

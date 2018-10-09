@@ -65,9 +65,9 @@ build_gene_activity_matrix <- function(input_cds,
 
     accessibility_mat <- exprs(input_cds)
     if (is.null(site_weights)) {
-        site_weights = Matrix::rowMeans(accessibility_mat) /
+        site_weights <- Matrix::rowMeans(accessibility_mat) /
                        Matrix::rowMeans(accessibility_mat)
-        site_weights[names(site_weights)] = 1
+        site_weights[names(site_weights)] <- 1
     }
 
     gene_promoter_activity <-
@@ -78,7 +78,7 @@ build_gene_activity_matrix <- function(input_cds,
                                              coaccess_cutoff=coaccess_cutoff)
 
 
-    gene_activity_scores = gene_promoter_activity
+    gene_activity_scores <- gene_promoter_activity
 
     return(gene_activity_scores)
 }
@@ -94,24 +94,24 @@ build_composite_gene_activity_matrix <- function(input_cds,
     promoter_peak_table <-
         promoter_peak_table[!is.na(promoter_peak_table$gene),]
     promoter_peak_table <- promoter_peak_table[,c("peak", "gene")]
-    promoter_peak_table$gene = as.character(promoter_peak_table$gene)
+    promoter_peak_table$gene <- as.character(promoter_peak_table$gene)
 
     # Make site_weight matrix
-    site_names = names(site_weights)
-    site_weights = as(Matrix::Diagonal(x=as.numeric(site_weights)),
+    site_names <- names(site_weights)
+    site_weights <- as(Matrix::Diagonal(x=as.numeric(site_weights)),
                       "sparseMatrix")
-    row.names(site_weights) = site_names
-    colnames(site_weights) = site_names
+    row.names(site_weights) <- site_names
+    colnames(site_weights) <- site_names
 
     # Find distance between cicero peaks. If distance already calculated, skip
     if ("dist" %in% colnames(cicero_cons_info) == FALSE) {
-        Peak1_cols = stringr::str_split_fixed(cicero_cons_info$Peak1, "_", 3)
-        Peak2_cols = stringr::str_split_fixed(cicero_cons_info$Peak2, "_", 3)
-        Peak1_bp = round((as.integer(Peak1_cols[,3]) +
+        Peak1_cols <- stringr::str_split_fixed(cicero_cons_info$Peak1, "_", 3)
+        Peak2_cols <- stringr::str_split_fixed(cicero_cons_info$Peak2, "_", 3)
+        Peak1_bp <- round((as.integer(Peak1_cols[,3]) +
                           as.integer(Peak1_cols[,2])) / 2)
-        Peak2_bp = round((as.integer(Peak2_cols[,3]) +
+        Peak2_bp <- round((as.integer(Peak2_cols[,3]) +
                           as.integer(Peak2_cols[,2])) / 2)
-        cicero_cons_info$dist = abs(Peak2_bp - Peak1_bp)
+        cicero_cons_info$dist <- abs(Peak2_bp - Peak1_bp)
     }
 
     # Get connections between promoters and distal sites above coaccess
@@ -126,58 +126,58 @@ build_composite_gene_activity_matrix <- function(input_cds,
     nonneg_cons <- nonneg_cons[,c("Peak1", "Peak2", "coaccess")]
     nonneg_cons <- nonneg_cons[!duplicated(nonneg_cons),]
 
-    nonneg_cons$Peak1 = as.character(nonneg_cons$Peak1)
-    nonneg_cons$Peak2 = as.character(nonneg_cons$Peak2)
+    nonneg_cons$Peak1 <- as.character(nonneg_cons$Peak1)
+    nonneg_cons$Peak2 <- as.character(nonneg_cons$Peak2)
 
-    nonneg_cons = rbind(nonneg_cons,
+    nonneg_cons <- rbind(nonneg_cons,
                         data.frame(Peak1=unique(promoter_peak_table$peak),
                                    Peak2=unique(promoter_peak_table$peak),
                                    coaccess=0))
 
     # Make square matrix of connections from distal to proximal
-    distal_connectivity_matrix = make_sparse_matrix(nonneg_cons,
+    distal_connectivity_matrix <- make_sparse_matrix(nonneg_cons,
                                                     x.name="coaccess")
 
     # Make connectivity matrix of promoters versus all
-    promoter_conn_matrix =
+    promoter_conn_matrix <-
         distal_connectivity_matrix[unique(promoter_peak_table$peak),]
 
     # Get list of promoter and distal sites in accessibility mat
     promoter_safe_sites <- intersect(rownames(promoter_conn_matrix),
                                      row.names(accessibility_mat))
-    distal_safe_sites    = intersect(colnames(promoter_conn_matrix),
+    distal_safe_sites <- intersect(colnames(promoter_conn_matrix),
                                      row.names(accessibility_mat))
-    distal_safe_sites = setdiff(distal_safe_sites, promoter_safe_sites)
+    distal_safe_sites <- setdiff(distal_safe_sites, promoter_safe_sites)
 
     # Get accessibility info for promoters
-    promoter_access_mat_in_cicero_map = accessibility_mat[promoter_safe_sites,]
+    promoter_access_mat_in_cicero_map <- accessibility_mat[promoter_safe_sites,]
 
     # Get accessibility for distal sites
-    distal_activity_scores = accessibility_mat[distal_safe_sites,]
+    distal_activity_scores <- accessibility_mat[distal_safe_sites,]
 
     # Scale connectivity matrix by site_weights
-    scaled_site_weights = site_weights[distal_safe_sites,distal_safe_sites]
-    total_linked_site_weights = promoter_conn_matrix[,distal_safe_sites] %*%
+    scaled_site_weights <- site_weights[distal_safe_sites,distal_safe_sites]
+    total_linked_site_weights <- promoter_conn_matrix[,distal_safe_sites] %*%
         scaled_site_weights
-    total_linked_site_weights = 1/Matrix::rowSums(total_linked_site_weights,
+    total_linked_site_weights <- 1/Matrix::rowSums(total_linked_site_weights,
                                                 na.rm=TRUE)
-    total_linked_site_weights[is.finite(total_linked_site_weights) == FALSE] = 0
-    total_linked_site_weights[is.na(total_linked_site_weights)] = 0
-    total_linked_site_weights[is.nan(total_linked_site_weights)] = 0
-    total_linked_site_weights = Matrix::Diagonal(x=total_linked_site_weights)
-    scaled_site_weights = total_linked_site_weights %*%
+    total_linked_site_weights[is.finite(total_linked_site_weights) == FALSE] <- 0
+    total_linked_site_weights[is.na(total_linked_site_weights)] <- 0
+    total_linked_site_weights[is.nan(total_linked_site_weights)] <- 0
+    total_linked_site_weights <- Matrix::Diagonal(x=total_linked_site_weights)
+    scaled_site_weights <- total_linked_site_weights %*%
         promoter_conn_matrix[,distal_safe_sites] %*%
         scaled_site_weights
-    scaled_site_weights@x[scaled_site_weights@x > 1] = 1
+    scaled_site_weights@x[scaled_site_weights@x > 1] <- 1
 
     # Multiply distal accessibility by site weights
-    distal_activity_scores = scaled_site_weights %*% distal_activity_scores
+    distal_activity_scores <- scaled_site_weights %*% distal_activity_scores
 
-    distal_activity_scores =
+    distal_activity_scores <-
         distal_activity_scores[row.names(promoter_access_mat_in_cicero_map),]
 
     # Sum distal and promoter scores
-    promoter_activity_scores = distal_activity_scores +
+    promoter_activity_scores <- distal_activity_scores +
         promoter_access_mat_in_cicero_map
 
     # Make and populate final matrix
@@ -187,8 +187,8 @@ build_composite_gene_activity_matrix <- function(input_cds,
                              x=1)
     colnames(promoter_gene_mat) = levels(factor(promoter_peak_table$peak))
     row.names(promoter_gene_mat) = levels(factor(promoter_peak_table$gene))
-    promoter_gene_mat = promoter_gene_mat[,row.names(promoter_activity_scores)]
-    gene_activity_scores = promoter_gene_mat %*% promoter_activity_scores
+    promoter_gene_mat <- promoter_gene_mat[,row.names(promoter_activity_scores)]
+    gene_activity_scores <- promoter_gene_mat %*% promoter_activity_scores
 
     return(gene_activity_scores)
 }
@@ -237,7 +237,7 @@ build_composite_gene_activity_matrix <- function(input_cds,
 #'   #cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
 #'
 #'
-normalize_gene_activities = function(activity_matrices,
+normalize_gene_activities <- function(activity_matrices,
                                      cell_num_genes){
     if (!is.list(activity_matrices)) {
         scores <- activity_matrices

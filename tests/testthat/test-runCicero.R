@@ -3,7 +3,7 @@ context("runCicero")
 #### make_cicero_cds ####
 
 test_that("make_cicero_cds aggregates correctly", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   input_cds <- make_atac_cds(cicero_data)
@@ -49,7 +49,7 @@ test_that("make_cicero_cds aggregates correctly", {
 #### estimate_distance_parameter ####
 
 test_that("estimate_distance_parameter gives correct mean", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -114,7 +114,7 @@ test_that("estimate_distance_parameter gives correct mean", {
 
 
 test_that("generate_cicero_models gives output", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -181,7 +181,7 @@ test_that("generate_cicero_models gives output", {
 
 
 test_that("assemble_connections gives output", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -223,7 +223,7 @@ test_that("assemble_connections gives output", {
 #### run_cicero ####
 
 test_that("run_cicero gives output", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -254,7 +254,7 @@ test_that("run_cicero gives output", {
 #### generate_ccans ####
 
 test_that("generate_ccans gives output", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -296,7 +296,7 @@ test_that("generate_ccans gives output", {
 
 
 test_that("compare_connections works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -333,7 +333,7 @@ test_that("compare_connections works", {
 #### find_overlapping_ccans ####
 
 test_that("find_overlapping_ccans works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -364,11 +364,11 @@ test_that("find_overlapping_ccans works", {
 })
 
 
-#### acivity scores ####
+#### activity scores ####
 
 
 test_that("build_gene_activity_matrix works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
@@ -394,7 +394,7 @@ test_that("build_gene_activity_matrix works", {
 
 
 test_that("normalize_gene_activities works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   data(cicero_data)
   load("../tsne_coord.Rdata")
   data("human.hg19.genome")
