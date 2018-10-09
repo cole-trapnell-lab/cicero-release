@@ -26,7 +26,7 @@ Find peaks that overlap a specific genomic location
                    "chr18_11604_13986",
                    "chr18_157883_158536", "chr18_217477_218555",
                    "chr18_245734_246234")
-  #find_overlapping_coordinates(test_coords, "chr18:10,100-1246234")
+  find_overlapping_coordinates(test_coords, "chr18:10,100-1246234")
 
 
 }

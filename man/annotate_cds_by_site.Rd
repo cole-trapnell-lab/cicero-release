@@ -53,12 +53,12 @@ Annotate the sites of your CDS with feature data based on coordinate overlap.
 }
 \examples{
   data("cicero_data")
-  #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-  #feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
-  #                   bp1 = c(10000, 10800, 50000, 100000),
-  #                   bp2 = c(10700, 11000, 60000, 110000),
-  #                   type = c("Acetylated", "Methylated", "Acetylated",
-  #                   "Methylated"))
-  #input_cds <- annotate_cds_by_site(input_cds, feat)
+  input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+  feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
+                     bp1 = c(10000, 10800, 50000, 100000),
+                     bp2 = c(10700, 11000, 60000, 110000),
+                     type = c("Acetylated", "Methylated", "Acetylated",
+                     "Methylated"))
+  input_cds <- annotate_cds_by_site(input_cds, feat)
 
 }

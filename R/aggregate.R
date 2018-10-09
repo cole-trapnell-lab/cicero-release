@@ -15,8 +15,8 @@
 #'
 #' @examples
 #'   data("cicero_data")
-#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   #agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
+#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
 #'
 aggregate_nearby_peaks <- function(cds,
                                    distance = 1000) {

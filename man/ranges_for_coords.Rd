@@ -31,12 +31,12 @@ Coordinate strings consist of three pieces of information:
 }
 \examples{
   ran1 <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
-  #ran2 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
-  #                          meta_data_df = data.frame(dat = c("1", "X")))
-  #ran3 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
-  #                          with_names = TRUE,
-  #                          meta_data_df = data.frame(dat = c("1", "X"),
-  #                                         stringsAsFactors = FALSE))
+  ran2 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+                            meta_data_df = data.frame(dat = c("1", "X")))
+  ran3 <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+                            with_names = TRUE,
+                            meta_data_df = data.frame(dat = c("1", "X"),
+                                           stringsAsFactors = FALSE))
 
 }
 \seealso{
