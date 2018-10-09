@@ -32,7 +32,7 @@ df <- data.frame(Peak1 = c("chr18_10034652_10034983", "chr18_10034652_10034983",
                             "#66C2A5", "#66C2A5", "#66C2A5", "#FC8D62"))
 
 test_that("plot_connections with coaccess_cutoff", {
-  #skip_on_bioc()
+  skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections plot",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
@@ -54,7 +54,7 @@ test_that("plot_connections with coaccess_cutoff", {
   })
 
 test_that("plot_connections with peak_color", {
-  #skip_on_bioc()
+  skip_on_bioc()
   vdiffr::expect_doppelganger("peak_color",
                               plot_connections(df, chr = "chr18",
                                                minbp = 10034652,
