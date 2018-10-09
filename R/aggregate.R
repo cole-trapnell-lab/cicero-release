@@ -124,6 +124,7 @@ sparse_to_datatable <- function(sparse) {
 #' Aggregates a CDS based on an indicator column in the \code{pData} table
 #'
 #' @importFrom dplyr %>%
+#' @importFrom plyr .
 #' @param cds A CDS object to be aggregated
 #' @param group_col The name of the column in the \code{pData} table that
 #'   indicates the cells assignment to its aggregate bin.
