@@ -82,21 +82,21 @@ make_cicero_cds <- function(cds,
   nn_map <- as.data.frame(FNN::knn.index(reduced_coordinates, k=(k-1)))
 
   row.names(nn_map) <- row.names(reduced_coordinates)
-  nn_map$agg_cell <- 1:nrow(nn_map)
+  nn_map$agg_cell <- seq_len(nrow(nn_map))
 
-  good_choices <- 1:nrow(nn_map)
-  choice <- sample(1:length(good_choices), size = 1, replace = FALSE)
+  good_choices <- seq_len(nrow(nn_map))
+  choice <- sample(seq_len(length(good_choices)), size = 1, replace = FALSE)
   chosen <- good_choices[choice]
   good_choices <- good_choices[good_choices != good_choices[choice]]
   it <- 0
 
   while (length(good_choices) > 0 & it < 5000) { # slow
     it <- it + 1
-    choice <- sample(1:length(good_choices), size = 1, replace = FALSE)
+    choice <- sample(seq_len(length(good_choices)), size = 1, replace = FALSE)
     new_chosen <- c(chosen, good_choices[choice])
     good_choices <- good_choices[good_choices != good_choices[choice]]
     cell_sample <- nn_map[new_chosen,]
-    combs <- data.frame(1:(nrow(cell_sample)-1), nrow(cell_sample))
+    combs <- data.frame(seq_len(nrow(cell_sample)-1), nrow(cell_sample))
     shared <- apply(combs, 1, function(x) {
       (k * 2) - length(unique(as.vector(as.matrix(cell_sample[x,]))))
     })
@@ -124,9 +124,9 @@ make_cicero_cds <- function(cds,
 
   exprs_old <- exprs(cds)
 
-  x <- lapply(1:nrow(cell_sample), function(x) {
+  x <- lapply(seq_len(nrow(cell_sample)), function(x) {
     return(Matrix::rowSums(exprs_old %*%
-                             Matrix::Diagonal(x=1:ncol(exprs_old) %in%
+                             Matrix::Diagonal(x=seq_len(ncol(exprs_old)) %in%
                                                 cell_sample[x,])))})
   new_exprs <- do.call(rbind, x)
 
@@ -396,7 +396,7 @@ estimate_distance_parameter <- function(cds,
 
   while(sample_num > distance_parameters_calced & it < 3 * sample_num) {
     it <- it + 1
-    win <- sample(1:length(grs), 1)
+    win <- sample(seq_len(length(grs)), 1)
     GL <- "Error"
     win_range <- get_genomic_range(grs, cds, win)
 
@@ -533,7 +533,7 @@ generate_cicero_models <- function(cds,
   fData(cds)$bp1 <- as.numeric(as.character(fData(cds)$bp1))
   fData(cds)$bp2 <- as.numeric(as.character(fData(cds)$bp2))
 
-  outlist <- parallel::mclapply(1:length(grs), mc.cores = 1, function(win) {
+  outlist <- parallel::mclapply(seq_len(length(grs)), mc.cores = 1, function(win) {
     GL <- "Error"
 
     win_range <- get_genomic_range(grs, cds, win)
@@ -605,7 +605,7 @@ generate_cicero_models <- function(cds,
 #' @seealso \code{\link{generate_cicero_models}}
 #' @export
 assemble_connections <- function(cicero_model_list, silent = FALSE) {
-  types <- sapply(cicero_model_list, class, "character")
+  types <- vapply(cicero_model_list, FUN=class, FUN.VALUE="character")
   char_hbn <- cicero_model_list[types=="character"]
   gl_only <- cicero_model_list[types=="list"]
   if(!silent) {
@@ -891,7 +891,7 @@ number_of_ccans <- function(connections_df, coaccess_cutoff) {
 #'
 #' @export
 find_overlapping_ccans <- function(ccan_assignments, min_overlap=1) {
-  ccan_assignments <- ccan_assignments[,1:2]
+  ccan_assignments <- ccan_assignments[,c(1,2)]
   names(ccan_assignments) <- c("Peak", "CCAN")
   ccans <- df_for_coords(ccan_assignments$Peak)
   ccans$CCAN <- ccan_assignments$CCAN

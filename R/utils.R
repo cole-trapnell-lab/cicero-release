@@ -41,7 +41,7 @@ make_atac_cds <- function(input, binarize = FALSE) {
   intersect_lean$cell_name <- as.factor(intersect_lean$cell_name)
   cellinfo <- data.frame(cells=levels(intersect_lean$cell_name))
   row.names(cellinfo) <- cellinfo$cells
-  cellinfo$temp <- 1:nrow(cellinfo)
+  cellinfo$temp <- seq_len(nrow(cellinfo))
 
   dhsinfo <- data.frame(site_name = levels(intersect_lean$site_name))
   dhsinfo <- cbind(dhsinfo, stringr::str_split_fixed(dhsinfo$site_name, "_", 3))
@@ -244,12 +244,12 @@ annotate_cds_by_site <- function(cds,
     if (verbose) print("Reading data file")
     ch <- read.table(feature_data, header=header, stringsAsFactors = FALSE)
     if (verbose) print("Generating feature data ranges")
-    names(ch)[1:3] <- c("chr", "start", "stop")
+    names(ch)[c(1,2,3)] <- c("chr", "start", "stop")
     dtt <- GenomicRanges::makeGRangesFromDataFrame(ch,
                                                    keep.extra.columns = TRUE)
   } else {
     if (verbose) print("Generating feature data ranges")
-    names(feature_data)[1:3] <- c("chr", "start", "stop")
+    names(feature_data)[c(1,2,3)] <- c("chr", "start", "stop")
     dtt <- GenomicRanges::makeGRangesFromDataFrame(feature_data,
                                                    keep.extra.columns = TRUE)
   }
@@ -333,7 +333,7 @@ make_sparse_matrix <- function(data,
     stop('x.name column must be numeric')
 
   peaks <- data.frame(Peak = unique(c(data$i, data$j)),
-                      index = 1:length(unique(c(data$i, data$j))))
+                      index = seq_len(length(unique(c(data$i, data$j)))))
 
   data <- data[,c("i", "j", "x")]
 
@@ -399,7 +399,7 @@ compare_connections <- function(conns1,
   assertthat::assert_that(is(conns2, "data.frame"))
   assertthat::assert_that(assertthat::is.number(maxgap))
 
-  conns2 <- conns2[,1:2]
+  conns2 <- conns2[,c(1,2)]
   names(conns2) <- c("Peak1", "Peak2")
   conns22 <- conns2[,c(2,1)]
   names(conns22) <- c("Peak1", "Peak2")
