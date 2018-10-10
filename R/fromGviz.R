@@ -61,34 +61,3 @@ CustomTrack <- function(plottingFunction=function(GdObject,
   return(new("CustomTrack", plottingFunction=plottingFunction,
              variables=variables, name=name, ...))
 }
-##-----------------------------------------------------------------------------
-
-## Check a list of GdObjects whether an axis needs to be drawn for each of them.
-## Arguments:
-##    o object: a list of GdObjects
-## Value: a logical vector of the same length as 'objects'
-.needsAxis <- function(objects) {
-  if(!is.list(objects))
-    objects <- list(objects)
-  atrack <- sapply(objects, function(x){
-    is(x, "NumericTrack") ||
-      is(x, "CustomTrack") ||
-      (is(x, "AlignmentsTrack") && "coverage" %in%
-         match.arg(Gviz:::.dpOrDefault(x, "type", Gviz:::.ALIGNMENT_TYPES),
-                   Gviz:::.ALIGNMENT_TYPES, several.ok=TRUE)) ||
-      (is(x, "AlignedReadTrack") && Gviz:::.dpOrDefault(x, "detail",
-                                                        "coverage")=="coverage")
-  })
-  isOnlyHoriz <- sapply(objects, function(x){
-    res <- FALSE
-   if(is(x, "DataTrack")){
-     type <- match.arg(Gviz:::.dpOrDefault(x, "type", "p"), Gviz:::.PLOT_TYPES,
-                       several.ok=TRUE)
-     res <- length(setdiff(type, "horizon")) == 0 &&
-       !Gviz:::.dpOrDefault(x, "showSampleNames", FALSE)
-   }
-    res
-  })
-  return(atrack & sapply(objects, Gviz:::.dpOrDefault,
-                         "showAxis", TRUE) & !isOnlyHoriz)
-}
