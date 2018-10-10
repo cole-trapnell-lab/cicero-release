@@ -1,34 +1,34 @@
 context("runCicero")
 
 #### make_cicero_cds ####
-data(cicero_data)
-input_cds <- make_atac_cds(cicero_data)
 
-set.seed(2017)
-input_cds <- detectGenes(input_cds, min_expr = .1)
-input_cds <- estimateSizeFactors(input_cds)
-input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
-#input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#                             reduction_method = 'tSNE')
-#tsne_coords <- t(reducedDimA(input_cds))
-#row.names(tsne_coords) <- row.names(pData(input_cds))
-#save(tsne_coords, file="tests/tsne_coord.Rdata")
+  data(cicero_data)
+  load("../tsne_coord.Rdata")
+  data("human.hg19.genome")
 
-load("../tsne_coord.Rdata")
-set.seed(2018)
-cicero_cds <- make_cicero_cds(input_cds,
-                              reduced_coordinates = tsne_coords,
-                              silent = TRUE,
-                              summary_stats = c("num_genes_expressed"))
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  input_cds <- make_atac_cds(cicero_data)
+
+  set.seed(2017)
+  input_cds <- detectGenes(input_cds, min_expr = .1)
+  input_cds <- estimateSizeFactors(input_cds)
+  input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
+
+  set.seed(2018)
+  cicero_cds <- make_cicero_cds(input_cds,
+                                reduced_coordinates = tsne_coords,
+                                silent = TRUE,
+                                summary_stats = c("num_genes_expressed"))
 
 test_that("make_cicero_cds aggregates correctly", {
+  #skip_on_bioc()
   expect_is(cicero_cds, "CellDataSet")
   expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
   expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
                                    "Size_Factor", "num_genes_expressed"))
   expect_equal(nrow(exprs(cicero_cds)), 6146)
   expect_equal(ncol(exprs(cicero_cds)), 36)
-  skip_on_bioc()
+
   set.seed(2018)
   expect_warning(cicero_cds <- make_cicero_cds(input_cds,
                                  reduced_coordinates = tsne_coords,
@@ -52,12 +52,8 @@ test_that("make_cicero_cds aggregates correctly", {
 
 #### estimate_distance_parameter ####
 
-data("human.hg19.genome")
-
-sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-
 test_that("estimate_distance_parameter gives correct mean", {
-  skip_on_bioc()
+  #skip_on_bioc()
   set.seed(200)
   alphas <- estimate_distance_parameter(cicero_cds, window=500000,
                                         maxit=100, sample_num = 2,
@@ -100,16 +96,15 @@ test_that("estimate_distance_parameter gives correct mean", {
                                         genomic_coords = sample_genome))
 })
 
-
 #### generate_cicero_models ####
 set.seed(203)
 mean_alpha <- 2.030655
 con_list <- generate_cicero_models(cicero_cds,
-                                   mean_alpha,
-                                   s=.75,
-                                   genomic_coords = sample_genome)
+                                  mean_alpha,
+                                  s=.75,
+                                  genomic_coords = sample_genome)
 
-test_that("generate_cicero_models gives output", {
+test_that("generate_cicero_models gives output", { #slow
   skip_on_bioc()
   expect_is(con_list, "list")
   expect_equal(length(con_list), 313)
@@ -148,13 +143,19 @@ test_that("generate_cicero_models gives output", {
   expect_equal(con_list[[1]]$w[1,3], -4.225899, tolerance = 1e-5)
 })
 
-
 #### assemble_connections ####
 
-
-
 test_that("assemble_connections gives output", {
-  skip_on_bioc()
+  #skip_on_bioc()
+  expect_is(con_list, "list")
+  expect_equal(length(con_list), 313)
+  expect_equal(con_list[[1]]$w[1,2], 1.028059, tolerance = 1e-6)
+  set.seed(203)
+  con_list <- generate_cicero_models(cicero_cds,
+                                     mean_alpha,
+                                     s=.75,
+                                     genomic_coords = "../human.hg19.genome_sub.txt")
+
   cons <- assemble_connections(con_list, silent = FALSE)
   expect_equal(cons$coaccess[1], 0.908402, tolerance = 1e-7)
   expect_equal(ncol(cons), 3)
@@ -162,30 +163,33 @@ test_that("assemble_connections gives output", {
 })
 
 #### run_cicero ####
-
 set.seed(2000)
 cons <- run_cicero(cicero_cds, sample_genome, window = 500000, silent=TRUE,
                    sample_num = 2)
 
 test_that("run_cicero gives output", {
-  expect_equal(cons$coaccess[1], 0.9083997, tolerance = 1e-6)
+  #skip_on_bioc()
+  expect_equal(cons$coaccess[1], 0.9083997, tolerance = 1e-5)
   expect_equal(ncol(cons), 3)
   expect_equal(nrow(cons), 543482)
-  skip_on_bioc()
   cons <- run_cicero(cicero_cds, window = 500000, silent=TRUE, sample_num = 2,
                      genomic_coords = "../human.hg19.genome_sub.txt")
+  expect_equal(cons$coaccess[1], 0.9083997, tolerance = 1e-5)
+  expect_equal(ncol(cons), 3)
+  expect_equal(nrow(cons), 543482)
 })
 
 #### generate_ccans ####
 
-test_that("generate_ccans gives output", {
+test_that("generate_ccans gives output", { #slow
+  skip_on_bioc()
   expect_output(CCAN_assigns <- generate_ccans(cons),
                 "Coaccessibility cutoff used: 0.7")
   expect_equal(CCAN_assigns$CCAN[3], 4, tolerance = 1e-7)
   expect_equal(ncol(CCAN_assigns), 2)
   expect_equal(nrow(CCAN_assigns), 1524)
   expect_equal(length(unique(CCAN_assigns$CCAN)), 170)
-  skip_on_bioc()
+
   expect_output(CCAN_assigns <- generate_ccans(cons,
                                                coaccess_cutoff_override = 0.25),
                 "Coaccessibility cutoff used: 0.25")
@@ -198,14 +202,15 @@ test_that("generate_ccans gives output", {
 
 #### compare_connections ####
 
-chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200",
-                                    "chr18_49500_49600"),
-                          Peak2 = c("chr18_10600_10700", "chr18_111700_111800",
-                                    "chr18_10600_10700"))
-cons$in_dataset <- compare_connections(cons, chia_conns)
-cons$in_dataset2 <- compare_connections(cons, chia_conns, maxgap=1000)
-
 test_that("compare_connections works", {
+  #skip_on_bioc()
+  chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200",
+                                      "chr18_49500_49600"),
+                            Peak2 = c("chr18_10600_10700", "chr18_111700_111800",
+                                      "chr18_10600_10700"))
+  cons$in_dataset <- compare_connections(cons, chia_conns)
+  cons$in_dataset2 <- compare_connections(cons, chia_conns, maxgap=1000)
+
   expect_is(cons, "data.frame")
   expect_equal(sum(cons$in_dataset), 4)
   expect_equal(sum(cons$in_dataset2), 22)
@@ -213,10 +218,11 @@ test_that("compare_connections works", {
 })
 
 #### find_overlapping_ccans ####
-CCAN_assigns <- generate_ccans(cons, coaccess_cutoff_override = 0.25)
-over <- find_overlapping_ccans(CCAN_assigns)
 
 test_that("find_overlapping_ccans works", {
+  #skip_on_bioc()
+  CCAN_assigns <- generate_ccans(cons, coaccess_cutoff_override = 0.25)
+  over <- find_overlapping_ccans(CCAN_assigns)
   expect_is(over, "data.frame")
   expect_equal(ncol(over), 2)
   expect_equal(nrow(over), 40)
@@ -224,31 +230,34 @@ test_that("find_overlapping_ccans works", {
   expect_equal(nrow(over), 2)
 })
 
+#### activity scores ####
 
-#### acivity scores ####
 input_cds <- make_atac_cds(cicero_data, binarize=TRUE)
 input_cds <- detectGenes(input_cds, min_expr = .1)
+
+data(gene_annotation_sample)
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
 names(gene_annotation_sub)[4] <- "gene"
 
 input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
 unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
+expect_equal(nrow(unnorm_ga), 626)
+expect_equal(ncol(unnorm_ga), 200)
+expect_equal(unnorm_ga[1,1], 1.183498, tolerance = 1e-6)
+
+exprs(input_cds) <- as.matrix(exprs(input_cds))
+unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
 
 test_that("build_gene_activity_matrix works", {
-  expect_equal(nrow(unnorm_ga), 626)
-  expect_equal(ncol(unnorm_ga), 200)
-  expect_equal(unnorm_ga[1,1], 1.183498, tolerance = 1e-6)
-
-  exprs(input_cds) <- as.matrix(exprs(input_cds))
-  unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
+  #skip_on_bioc()
   expect_equal(nrow(unnorm_ga), 626)
   expect_equal(ncol(unnorm_ga), 200)
   expect_equal(unnorm_ga[1,1], 1.183498, tolerance = 1e-6)
 })
 
-
 test_that("normalize_gene_activities works", {
-  skip_on_bioc()
+  #skip_on_bioc()
+
   num_genes <- pData(input_cds)$num_genes_expressed
   names(num_genes) <- row.names(pData(input_cds))
 

@@ -124,6 +124,7 @@ sparse_to_datatable <- function(sparse) {
 #' Aggregates a CDS based on an indicator column in the \code{pData} table
 #'
 #' @importFrom dplyr %>%
+#' @importFrom plyr .
 #' @param cds A CDS object to be aggregated
 #' @param group_col The name of the column in the \code{pData} table that
 #'   indicates the cells assignment to its aggregate bin.
@@ -137,9 +138,9 @@ sparse_to_datatable <- function(sparse) {
 #'
 #' @examples
 #'   data("cicero_data")
-#'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   pData(input_cds)$cell_subtype <- rep(1:10, times=20)
-#'   binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
+#'   #input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
+#'   #pData(input_cds)$cell_subtype <- rep(1:10, times=20)
+#'   #binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
 #'
 aggregate_by_cell_bin <- function(cds, group_col) {
     assertthat::assert_that(is(cds, "CellDataSet"))

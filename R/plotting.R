@@ -444,7 +444,7 @@ generate_plotting_subset <- function(connections, chr, minbp, maxbp) {
     connections$bp1_2 <- NULL
     connections$bp2_2 <- NULL
 
-    connections <- cbind(connections, df_for_coords(connections$Peak1)[,1:3])
+    connections <- cbind(connections, df_for_coords(connections$Peak1)[,c(1, 2, 3)])
     cons2 <- df_for_coords(connections$Peak2) #slow
     cons2$Peak <- NULL
     names(cons2) <- c("chr_2", "bp1_2", "bp2_2")
@@ -468,9 +468,9 @@ generate_plotting_subset <- function(connections, chr, minbp, maxbp) {
                        connections$bp2_2 >= minbp,]
 
   sub2 <- sub
-  names(sub2)[sapply(c("Peak1", "Peak2", "coaccess", "chr",
+  names(sub2)[unlist(lapply(c("Peak1", "Peak2", "coaccess", "chr",
                        "bp1", "bp2", "chr_2", "bp1_2", "bp2_2"),
-    function(x) which(names(sub2) == x))] <- c("Peak2", "Peak1", "coaccess",
+    function(x) which(names(sub2) == x)))] <- c("Peak2", "Peak1", "coaccess",
                                                "chr_2", "bp1_2", "bp2_2",
                                                "chr", "bp1", "bp2")
 
@@ -573,7 +573,7 @@ plotBedpe <- function(bedpedata,
     boxSize <- .3
     spacing <- 0.2
     vspace <- .05
-    for (i in 1:length(color_names)) {
+    for (i in seq_len(length(color_names))) {
       grid::grid.lines(unit(c(spacing,spacing + boxSize), "inches"),
                        c(1 - vspace*i, 1 - vspace*i),
                        gp=grid::gpar(col=color_names[i], lwd=width))
@@ -586,7 +586,7 @@ plotBedpe <- function(bedpedata,
   # plot the data
   grid::grid.function(function(x) list(x=x, y=(coaccess_cutoff/(ymax))),
                       gp=grid::gpar(col="black", lty="dashed", lwd=width)) #
-  for (row in (1:nrow(bedpedata))) {
+  for (row in (seq_len(nrow(bedpedata)))) {
     x1     = bedpedata$pos1[row]
     x2     = bedpedata$pos2[row]
     height = bedpedata$height[row]
@@ -737,8 +737,8 @@ signif_up <- function(x) {
   num_string <- format(x, scientific=TRUE)
 
   n <- strsplit(num_string, "e")
-  n1 <- sapply(n, function(x) as.numeric(x[1]))
-  n2 <- sapply(n, function(x) as.numeric(x[2]))
+  n1 <- vapply(n, function(x) as.numeric(x[1]), .1)
+  n2 <- vapply(n, function(x) as.numeric(x[2]), .1)
 
   ceiling(n1) * 10^(n2)
 }

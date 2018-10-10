@@ -14,7 +14,7 @@
 "_PACKAGE"
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
-utils::globalVariables(c("."))
+#utils::globalVariables(c("."))
 
 ## temporary until i figure out a fix
-utils::globalVariables(c("val", "value", "CCAN", "V1", "f_id"))
+#utils::globalVariables(c("val", "value", "CCAN", "V1", "f_id"))

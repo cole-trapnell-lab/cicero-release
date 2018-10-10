@@ -1,12 +1,11 @@
 context("test-utils.R")
 
-data("cicero_data")
 
-
-#### make_atac_cds ####
-test_cds <- make_atac_cds(cicero_data)
 test_that("make_atac_cds makes a valid cds object", {
-  skip_on_bioc()
+  #skip_on_bioc()
+  data("cicero_data")
+  #### make_atac_cds ####
+  test_cds <- make_atac_cds(cicero_data)
   expect_is(test_cds, "CellDataSet")
   expect_equal(nrow(exprs(test_cds)), 6146)
   expect_equal(ncol(exprs(test_cds)), 200)
@@ -32,16 +31,19 @@ test_that("make_atac_cds makes a valid cds object", {
 })
 
 #### ranges_for_coords ####
-wn <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
-wmd <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+
+test_that("ranges_for_coords works", {
+  #skip_on_bioc()
+
+  wn <- ranges_for_coords("chr1:2039-30239", with_names = TRUE)
+  wmd <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
                          meta_data_df = data.frame(dat = c("1", "X")))
-wmdn <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
+  wmdn <- ranges_for_coords(c("chr1:2049-203902", "chrX:489249-1389389"),
                           with_names = TRUE,
                           meta_data_df = data.frame(dat = c("1", "X"),
                                                     stringsAsFactors = FALSE))
 
-test_that("ranges_for_coords works", {
-  skip_on_bioc()
+
   expect_is(ranges_for_coords("chr1_2039_30239"), "GRanges")
   expect_is(ranges_for_coords("chr1:2039:30239"), "GRanges")
   expect_is(ranges_for_coords("chr1-2039-30239"), "GRanges")
@@ -61,7 +63,7 @@ test_that("ranges_for_coords works", {
 #### df_for_coords ####
 
 test_that("df_for_coords works", {
-  skip_on_bioc()
+  #skip_on_bioc()
   expect_is(df_for_coords(c("chr1:2,039-30,239", "chrX:28884:101293")),
             "data.frame")
   expect_equal(df_for_coords(c("chr1:2,039-30,239",
@@ -70,15 +72,21 @@ test_that("df_for_coords works", {
 
 #### annotate_cds_by_site ####
 
-feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
+
+
+test_that("annotate_cds_by_site works", {
+  #skip_on_bioc()
+  data("cicero_data")
+  #### make_atac_cds ####
+  test_cds <- make_atac_cds(cicero_data)
+
+  feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
                    bp1 = c(10000, 10800, 50000, 100000),
                    bp2 = c(10700, 11000, 60000, 110000),
                    type = c("Acetylated", "Methylated",
                             "Acetylated", "Methylated"),
                    stringsAsFactors = FALSE)
 
-test_that("annotate_cds_by_site works", {
-  skip_on_bioc()
   test_cds2 <- annotate_cds_by_site(test_cds, feat, verbose = TRUE)
   test_cds3 <- annotate_cds_by_site(test_cds, feat, all=TRUE, verbose = TRUE)
 
@@ -183,6 +191,7 @@ test_that("annotate_cds_by_site works", {
 #### make_sparse_matrix ####
 
 test_that("make_sparse_matrix works", {
+  #skip_on_bioc()
   df <- data.frame(icol = c("chr18_30209631_30210783",
                             "chr18_45820294_45821666",
                             "chr18_32820116_32820994"),
@@ -205,12 +214,14 @@ test_that("make_sparse_matrix works", {
 # IN test-runCicero.R
 
 #### find_overlapping_coordinates ####
-test_coords <- c("chr18_10025_10225", "chr18_10603_11103", "chr18_11604_13986",
-                 "chr18_157883_158536", "chr18_217477_218555",
-                 "chr18_245734_246234")
+
 
 
 test_that("find_overlapping_coordinates works", {
+  #skip_on_bioc()
+  test_coords <- c("chr18_10025_10225", "chr18_10603_11103", "chr18_11604_13986",
+                 "chr18_157883_158536", "chr18_217477_218555",
+                 "chr18_245734_246234")
   expect_equal(length(find_overlapping_coordinates(test_coords,
                                                    "chr18:10,100-1246234")), 6)
   expect_equal(length(find_overlapping_coordinates(test_coords,

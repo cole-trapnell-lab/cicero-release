@@ -67,9 +67,9 @@ make_cicero_cds <- function(cds,
                                         collapse = " "))
     assertthat::assert_that(sum(vapply(summary_stats, function(x) {
       !(is(pData(cds)[,x], "numeric") | is(pData(cds)[,x], "integer"))}, 1)) == 0,
-      msg = paste("All columns in summary_stats must be",
-                  "of class numeric or integer.",
-                  collapse = " "))
+                            msg = paste("All columns in summary_stats must be",
+                                        "of class numeric or integer.",
+                                        collapse = " "))
   }
   assertthat::assert_that(is.logical(size_factor_normalize))
   assertthat::assert_that(is.logical(silent))
@@ -103,6 +103,7 @@ make_cicero_cds <- function(cds,
     new_chosen <- c(chosen, good_choices[choice])
     good_choices <- good_choices[good_choices != good_choices[choice]]
     cell_sample <- nn_map[new_chosen,]
+
     others <- seq_len(nrow(cell_sample) - 1)
     this_choice <- cell_sample[nrow(cell_sample),]
     shared <- sapply(others, get_shared, this_choice = this_choice)
@@ -136,6 +137,7 @@ make_cicero_cds <- function(cds,
     return(Matrix::rowSums(exprs_old %*%
                              Matrix::Diagonal(x=seq_len(ncol(exprs_old)) %in%
                                                 cell_sample[x,,drop=FALSE])))})
+
   new_exprs <- do.call(rbind, x)
   
   pdata <- pData(cds)
@@ -408,7 +410,7 @@ estimate_distance_parameter <- function(cds,
 
   while(sample_num > distance_parameters_calced & it < 3 * sample_num) {
     it <- it + 1
-    win <- sample(1:length(grs), 1)
+    win <- sample(seq_len(length(grs)), 1)
     GL <- "Error"
     win_range <- get_genomic_range(grs, cds, win)
 
@@ -545,7 +547,7 @@ generate_cicero_models <- function(cds,
   fData(cds)$bp1 <- as.numeric(as.character(fData(cds)$bp1))
   fData(cds)$bp2 <- as.numeric(as.character(fData(cds)$bp2))
 
-  outlist <- parallel::mclapply(1:length(grs), mc.cores = 1, function(win) {
+  outlist <- parallel::mclapply(seq_len(length(grs)), mc.cores = 1, function(win) {
     GL <- "Error"
 
     win_range <- get_genomic_range(grs, cds, win)
@@ -617,7 +619,7 @@ generate_cicero_models <- function(cds,
 #' @seealso \code{\link{generate_cicero_models}}
 #' @export
 assemble_connections <- function(cicero_model_list, silent = FALSE) {
-  types <- sapply(cicero_model_list, class)
+  types <- vapply(cicero_model_list, FUN=class, FUN.VALUE="character")
   char_hbn <- cicero_model_list[types=="character"]
   gl_only <- cicero_model_list[types=="list"]
   if(!silent) {
@@ -903,7 +905,7 @@ number_of_ccans <- function(connections_df, coaccess_cutoff) {
 #'
 #' @export
 find_overlapping_ccans <- function(ccan_assignments, min_overlap=1) {
-  ccan_assignments <- ccan_assignments[,1:2]
+  ccan_assignments <- ccan_assignments[,c(1,2)]
   names(ccan_assignments) <- c("Peak", "CCAN")
   ccans <- df_for_coords(ccan_assignments$Peak)
   ccans$CCAN <- ccan_assignments$CCAN
