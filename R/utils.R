@@ -492,7 +492,7 @@ assertthat::on_failure(is_chr) <- function(call, env) {
 
 is_color <- function(x, df=NULL) {
   if (!is.null(df)) {
-    if (all(sapply(x, function(y) y %in% names(df)))) return(TRUE)
+    if (all(vapply(x, function(y) y %in% names(df), TRUE))) return(TRUE)
     tryCatch(is.matrix(col2rgb(x)), error = function(e) FALSE)
   } else {
     tryCatch(is.matrix(col2rgb(x)), error = function(e) FALSE)

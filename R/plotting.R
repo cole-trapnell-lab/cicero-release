@@ -468,9 +468,9 @@ generate_plotting_subset <- function(connections, chr, minbp, maxbp) {
                        connections$bp2_2 >= minbp,]
 
   sub2 <- sub
-  names(sub2)[sapply(c("Peak1", "Peak2", "coaccess", "chr",
+  names(sub2)[unlist(lapply(c("Peak1", "Peak2", "coaccess", "chr",
                        "bp1", "bp2", "chr_2", "bp1_2", "bp2_2"),
-    function(x) which(names(sub2) == x))] <- c("Peak2", "Peak1", "coaccess",
+    function(x) which(names(sub2) == x)))] <- c("Peak2", "Peak1", "coaccess",
                                                "chr_2", "bp1_2", "bp2_2",
                                                "chr", "bp1", "bp2")
 
@@ -737,8 +737,8 @@ signif_up <- function(x) {
   num_string <- format(x, scientific=TRUE)
 
   n <- strsplit(num_string, "e")
-  n1 <- sapply(n, function(x) as.numeric(x[1]))
-  n2 <- sapply(n, function(x) as.numeric(x[2]))
+  n1 <- vapply(n, function(x) as.numeric(x[1]), .1)
+  n2 <- vapply(n, function(x) as.numeric(x[2]), .1)
 
   ceiling(n1) * 10^(n2)
 }

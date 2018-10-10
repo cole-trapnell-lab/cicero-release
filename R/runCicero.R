@@ -65,8 +65,8 @@ make_cicero_cds <- function(cds,
                                         "summary_stats, or remove the name",
                                         "from the summary_stats parameter.",
                                         collapse = " "))
-    assertthat::assert_that(sum(sapply(summary_stats, function(x) {
-      !(is(pData(cds)[,x], "numeric") | is(pData(cds)[,x], "integer"))})) == 0,
+    assertthat::assert_that(sum(vapply(summary_stats, function(x) {
+      !(is(pData(cds)[,x], "numeric") | is(pData(cds)[,x], "integer"))}, 1)) == 0,
                             msg = paste("All columns in summary_stats must be",
                                         "of class numeric or integer.",
                                         collapse = " "))
@@ -605,7 +605,7 @@ generate_cicero_models <- function(cds,
 #' @seealso \code{\link{generate_cicero_models}}
 #' @export
 assemble_connections <- function(cicero_model_list, silent = FALSE) {
-  types <- sapply(cicero_model_list, class)
+  types <- sapply(cicero_model_list, class, "character")
   char_hbn <- cicero_model_list[types=="character"]
   gl_only <- cicero_model_list[types=="list"]
   if(!silent) {
