@@ -789,6 +789,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #'   data("cicero_data")
 #'   set.seed(18)
 #'   data("human.hg19.genome")
@@ -803,6 +804,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
 #'   cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 #'   ccan_assigns <- generate_ccans(cicero_cons)
+#'  }
 #'
 generate_ccans <- function(connections_df,
                            coaccess_cutoff_override = NULL,
@@ -885,9 +887,14 @@ number_of_ccans <- function(connections_df, coaccess_cutoff) {
 #'   there will be two rows, 1,2 and 2,1).
 #'
 #' @examples
-#' \dontrun{
-#' olap_ccans <- find_overlapping_ccans(ccan_df)
-#' }
+#'   ccan_df <- data.frame(peak = c("chr18_1408345_1408845", "chr18_1779830_1780330", 
+#'                                  "chr18_1929095_1929595", "chr18_1954501_1954727",
+#'                                  "chr18_2049865_2050884", "chr18_2083726_2084102",
+#'                                  "chr18_2087935_2088622", "chr18_2104705_2105551",
+#'                                  "chr18_2108641_2108907"), 
+#'                         CCAN = c(1,2,2,2,3,3,3,3,2))
+#'   olap_ccans <- find_overlapping_ccans(ccan_df)
+#' 
 #'
 #' @export
 find_overlapping_ccans <- function(ccan_assignments, min_overlap=1) {

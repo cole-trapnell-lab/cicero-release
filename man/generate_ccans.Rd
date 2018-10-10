@@ -37,6 +37,7 @@ CCANs are calculated by first specifying a minimum co-accessibility
   initially calculating the cutoff to speed future runs.
 }
 \examples{
+\dontrun{
   data("cicero_data")
   set.seed(18)
   data("human.hg19.genome")
@@ -51,5 +52,6 @@ CCANs are calculated by first specifying a minimum co-accessibility
   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
   cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
   ccan_assigns <- generate_ccans(cicero_cons)
+ }
 
 }

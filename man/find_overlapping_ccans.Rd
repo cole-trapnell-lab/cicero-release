@@ -22,8 +22,13 @@ A data frame with two columns, CCAN1 and CCAN2. CCANs in this list
 Find CCANs that overlap each other in genomic coordinates
 }
 \examples{
-\dontrun{
-olap_ccans <- find_overlapping_ccans(ccan_df)
-}
+  ccan_df <- data.frame(peak = c("chr18_1408345_1408845", "chr18_1779830_1780330", 
+                                 "chr18_1929095_1929595", "chr18_1954501_1954727",
+                                 "chr18_2049865_2050884", "chr18_2083726_2084102",
+                                 "chr18_2087935_2088622", "chr18_2104705_2105551",
+                                 "chr18_2108641_2108907"), 
+                        CCAN = c(1,2,2,2,3,3,3,3,2))
+  olap_ccans <- find_overlapping_ccans(ccan_df)
+
 
 }
