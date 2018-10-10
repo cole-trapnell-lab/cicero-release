@@ -65,8 +65,8 @@ make_cicero_cds <- function(cds,
                                         "summary_stats, or remove the name",
                                         "from the summary_stats parameter.",
                                         collapse = " "))
-    assertthat::assert_that(sum(sapply(summary_stats, function(x) {
-      !(is(pData(cds)[,x], "numeric") | is(pData(cds)[,x], "integer"))})) == 0,
+    assertthat::assert_that(sum(vapply(summary_stats, function(x) {
+      !(is(pData(cds)[,x], "numeric") | is(pData(cds)[,x], "integer"))}, 1)) == 0,
       msg = paste("All columns in summary_stats must be",
                   "of class numeric or integer.",
                   collapse = " "))
@@ -83,10 +83,10 @@ make_cicero_cds <- function(cds,
   
   row.names(nn_map) <- row.names(reduced_coordinates)
   
-  nn_map <- cbind(nn_map, 1:nrow(nn_map))
+  nn_map <- cbind(nn_map, seq_len(nrow(nn_map)))
   
-  good_choices <- 1:nrow(nn_map)
-  choice <- sample(1:length(good_choices), size = 1, replace = FALSE)
+  good_choices <- seq_len(nrow(nn_map))
+  choice <- sample(seq_len(length(good_choices)), size = 1, replace = FALSE)
   chosen <- good_choices[choice]
   good_choices <- good_choices[good_choices != good_choices[choice]]
   it <- 0
@@ -99,11 +99,11 @@ make_cicero_cds <- function(cds,
   
   while (length(good_choices) > 0 & it < 5000) { # slow
     it <- it + 1
-    choice <- sample(1:length(good_choices), size = 1, replace = FALSE)
+    choice <- sample(seq_len(length(good_choices)), size = 1, replace = FALSE)
     new_chosen <- c(chosen, good_choices[choice])
     good_choices <- good_choices[good_choices != good_choices[choice]]
     cell_sample <- nn_map[new_chosen,]
-    others <- 1:(nrow(cell_sample) - 1)
+    others <- seq_len(nrow(cell_sample) - 1)
     this_choice <- cell_sample[nrow(cell_sample),]
     shared <- sapply(others, get_shared, this_choice = this_choice)
     
@@ -132,9 +132,9 @@ make_cicero_cds <- function(cds,
   
   exprs_old <- exprs(cds)
   
-  x <- lapply(1:nrow(cell_sample), function(x) {
+  x <- lapply(seq_len(nrow(cell_sample)), function(x) {
     return(Matrix::rowSums(exprs_old %*%
-                             Matrix::Diagonal(x=1:ncol(exprs_old) %in%
+                             Matrix::Diagonal(x=seq_len(ncol(exprs_old)) %in%
                                                 cell_sample[x,,drop=FALSE])))})
   new_exprs <- do.call(rbind, x)
   
