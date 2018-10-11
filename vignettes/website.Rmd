@@ -58,7 +58,7 @@ knitr::opts_chunk$set(
   differential accessibility, clustering, visualization, and trajectory 
   reconstruction using single-cell chromatin accessibility data.
   
-## Installing Cicero
+# Installing Cicero
 
 1. Download the package from Bioconductor.
 ```{r getPackage, eval=FALSE}
@@ -602,6 +602,7 @@ Sexton, T., Yaffe, E., Kenigsberg, E., Bantignies, F., Leblanc, B., Hoichman, M.
 citation("cicero")
 ```
 
+# Session Info
 ```{r}
 sessionInfo()
 ```
