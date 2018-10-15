@@ -74,14 +74,25 @@ tags: [monocle, manual, vignette]
         </p>
       
         <h2> Installing Cicero </h2>
-
-        <h3> Required software </h3>
-     
         <p>
           Cicero runs in the <a href= "http://www.r-project.org/">R statistical computing environment</a>. You will 
-          need R version 3.4 or higher, Bioconductor version 3.6, and Cicero 1.0.0 or higher to have access to the 
+          need R version 3.4 or higher, Bioconductor version 3.8, and Cicero 1.0.10 or higher to have access to the 
           latest features.
         </p>
+        <h3> Install from Bioconductor </h3>
+        <p>
+          Cicero was recently added to Bioconductor. It will be released as part of Bioconductor 3.8 in October 2018.
+          In the meantime, Cicero can be downloaded as part of the devel version of Bioconductor 3.8 with the following code:
+        </p>
+{% highlight R %}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("cicero", version = "devel")
+{% endhighlight %}
+        <h3> Install from Github </h3>
+        <p> 
+          For the absolute latest updates to the Cicero package, you can install Cicero directly from the github repository:
+        <\p>  
         <p>
           Cicero builds upon a package called <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
           Before installing Cicero, first, follow 
