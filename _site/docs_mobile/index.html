@@ -9,7 +9,7 @@
    <title>Cicero</title>
    <meta name="description" content="Cicero - A powerful software toolkit for single-cell analysis">
 
-
+   <link rel="shortcut icon" type="image/png" href="/cicero-release/images/favicon.png"/>
    <title>Theme Template for Bootstrap</title>
 
   <link rel="stylesheet" href="/cicero-release/css/main.css">
@@ -134,20 +134,31 @@
         </p>
       
         <h2> Installing Cicero </h2>
-
-        <h3> Required software </h3>
-     
         <p>
           Cicero runs in the <a href= "http://www.r-project.org/">R statistical computing environment</a>. You will 
-          need R version 3.4 or higher, Bioconductor version 3.6, and Cicero 1.0.0 or higher to have access to the 
+          need R version 3.4 or higher and Cicero 1.0.10 or higher to have access to the 
           latest features.
         </p>
+        <h3> Install from Bioconductor </h3>
+        <p>
+          Cicero was recently added to Bioconductor. It will be released as part of Bioconductor 3.8 in October 2018.
+          In the meantime, Cicero can be downloaded as part of the devel version of Bioconductor 3.8 with the following code:
+        </p>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
+    </span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">)</span><span class="w">
+</span><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"cicero"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"devel"</span><span class="p">)</span></code></pre></figure>
+        <h3> Install from Github </h3>
+        <p> 
+          For the absolute latest updates to the Cicero package, you can install Cicero directly from the github repository 
+          using these instructions:
+        </p>  
         <p>
           Cicero builds upon a package called <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
           Before installing Cicero, first, follow 
           <a href= "http://cole-trapnell-lab.github.io/monocle-release/docs/#installing-monocle" target="_blank">these instructions</a> 
-          to install Monocle. After installing Monocle, you can install Cicero using the commands below:
+          to install Monocle. 
         </p>
+
       <p>
         In addition to Monocle, Cicero requires the following packages from Bioconductor
       </p>
@@ -156,9 +167,11 @@
       <p>
         You're now ready to install Cicero:
         </p>
+      
+
         <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">install.packages</span><span class="p">(</span><span class="s2">"devtools"</span><span class="p">)</span><span class="w">
 </span><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"cole-trapnell-lab/cicero-release"</span><span class="p">)</span></code></pre></figure>
-
+<h3> Load Cicero </h3>
         <p>
           After installation, test that Cicero installed correctly by opening a new R session and typing:
         </p>
