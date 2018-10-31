@@ -16,7 +16,7 @@
 title: Cicero
 email: hpliner@uw.edu
 description: > # this means to ignore newlines until "baseurl:"
-  Cicero -  A powerful software toolkit for single-cell analysis
+  Cicero -  Predicting the cis-regulatory landscape
 baseurl: "/cicero-release" # the subpath of your site, e.g. /blog
 url: "http://" # the base hostname & protocol for your site, e.g. http://example.com
 exclude: vendor/bundle
