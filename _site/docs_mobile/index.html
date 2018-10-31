@@ -7,7 +7,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
 
    <title>Cicero</title>
-   <meta name="description" content="Cicero - A powerful software toolkit for single-cell analysis">
+   <meta name="description" content="Cicero - Predicting the cis-regulatory landscape">
 
    <link rel="shortcut icon" type="image/png" href="/cicero-release/images/favicon.png"/>
    <title>Theme Template for Bootstrap</title>
@@ -141,12 +141,13 @@
         </p>
         <h3> Install from Bioconductor </h3>
         <p>
-          Cicero was recently added to Bioconductor. It will be released as part of Bioconductor 3.8 in October 2018.
-          In the meantime, Cicero can be downloaded as part of the devel version of Bioconductor 3.8 with the following code:
+          Cicero was recently added to Bioconductor. It has been released as part of Bioconductor 3.8 and 
+          can be installed with the following code:
         </p>
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
     </span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"BiocManager"</span><span class="p">)</span><span class="w">
-</span><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"cicero"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"devel"</span><span class="p">)</span></code></pre></figure>
+</span><span class="n">BiocManager</span><span class="o">::</span><span class="n">install</span><span class="p">(</span><span class="s2">"cicero"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"3.8"</span><span class="p">)</span></code></pre></figure>
+
         <h3> Install from Github </h3>
         <p> 
           For the absolute latest updates to the Cicero package, you can install Cicero directly from the github repository 
