@@ -15,28 +15,18 @@ r:
 
 r_binary_packages:
 - assertthat
-- Biobase
-- BiocGenerics
 - data.table
 - dplyr
 - FNN
-- GenomicRanges
 - ggplot2
 - glasso
-- grDevices
-- igraph
 - IRanges
 - Matrix
-- methods
-- parallel
 - plyr
 - reshape2
-- S4Vectors
-- stats
 - stringr
 - tibble
 - VGAM
-- utils
 
 after_success:
 - Rscript -e 'covr::codecov()'
