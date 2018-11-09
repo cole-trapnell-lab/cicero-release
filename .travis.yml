@@ -20,7 +20,6 @@ r_binary_packages:
 - FNN
 - ggplot2
 - glasso
-- IRanges
 - Matrix
 - plyr
 - reshape2
