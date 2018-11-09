@@ -12,8 +12,6 @@ r:
 - bioc-devel
 - bioc-release
 
-cran: http://cran.rstudio.com
-
 after_success:
 - Rscript -e 'covr::codecov()'
 
