@@ -36,6 +36,7 @@ $icon-font-path: "/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 
 /* styles for docs menu */
 nav#toc {
+    margin-top: 16px;
     width: 250px;
 }
 
@@ -43,4 +44,13 @@ nav#toc {
 	nav#toc {
         display: none;
 	}
+}
+
+/* center the footer */
+footer {
+    border-top: 1px solid #ecf0f1;
+    margin-top: 16px;
+    padding: 16px;
+    text-align: center;
+    width: 100%;
 }
