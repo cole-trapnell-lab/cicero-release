@@ -1,635 +1,639 @@
 ---
-layout: vanilla
-permalink: /docs/
 description: "Documentation for Cicero."
 modified: 2018-04-02
+sidemenu: true
 tags: [monocle, manual, vignette]
 ---
-<!DOCTYPE html>
-<html lang= "{{ page.lang | default: site.lang | default: "en" }}">
 
-  {% include head.html %}
-<body  data-spy= "scroll" data-target= "#toc">
-  {% include header.html %}
-
-  <div class= "container">
-    <div class= "row">
-      <div class= "col-sm-4">
-        <nav id= "toc" data-spy= "affix" data-toggle= "toc"></nav>
-      </div>
-      <div class= "col-sm-8">
-        
-        <h2>Abstract</h2>
-        <p> 
-          <strong>Cicero</strong> is an R package that provides tools for analyzing single-cell chromatin accessibility 
-          experiments. The main function of Cicero is to use single-cell chromatin accessibility data to predict 
-          <strong><i>cis</i>-regulatory interactions</strong> (such as those between enhancers and promoters) in the genome by 
-          examining co-accessibility. In addition, Cicero extends <a 
-          href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> to allow clustering, ordering, and 
-          differential accessibility analysis of single cells using chromatin accessibility. For more information about 
-          <strong>Cicero</strong>, explore <a href= "{{ site.baseurl }}/papers/">our publications</a>.
-        </p>
+<div class="container">
+  <div class= "row">
+    <div class= "col-sm-4">
+      <nav id= "toc" data-spy= "affix" data-toggle= "toc"></nav>
+    </div>
+    <div class= "col-sm-8">
       
-        <h2>Introduction</h2>
+      <h1>Abstract</h1>
+      <p> 
+        <strong>Cicero</strong> is an R package that provides tools for analyzing single-cell chromatin accessibility 
+        experiments. The main function of Cicero is to use single-cell chromatin accessibility data to predict 
+        <strong><i>cis</i>-regulatory interactions</strong> (such as those between enhancers and promoters) in the genome by 
+        examining co-accessibility. In addition, Cicero extends <a 
+        href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> to allow clustering, ordering, and 
+        differential accessibility analysis of single cells using chromatin accessibility. For more information about 
+        <strong>Cicero</strong>, explore <a href= "{{ site.baseurl }}/papers/">our publications</a>.
+      </p>
+    
+      <h2>Introduction</h2>
 
-        <p>
-          The main purpose of Cicero is to use single-cell chromatin accessibility data to predict regions of the 
-          genome that are more likely to be in physical proximity in the nucleus. This can be used to identify putative 
-          enhancer-promoter pairs, and to get a sense of the overall stucture of the <i>cis</i>-architecture of a genomic 
-          region.
-        </p>
+      <p>
+        The main purpose of Cicero is to use single-cell chromatin accessibility data to predict regions of the 
+        genome that are more likely to be in physical proximity in the nucleus. This can be used to identify putative 
+        enhancer-promoter pairs, and to get a sense of the overall stucture of the <i>cis</i>-architecture of a genomic 
+        region.
+      </p>
 
-        <p>
-          Because of the sparsity of single-cell data, cell must be aggregated by similarity to allow robust correction 
-          for various technical factors in the data.
-        </p>
+      <p>
+        Because of the sparsity of single-cell data, cell must be aggregated by similarity to allow robust correction 
+        for various technical factors in the data.
+      </p>
 
-        <p>
-          Ultimately, Cicero provides a "Cicero co-accessibility" score between -1 and 1 between each pair of 
-          accessibile peaks within a user defined distance where a higher number indicates higher co-accessibility.
-        </p>
+      <p>
+        Ultimately, Cicero provides a "Cicero co-accessibility" score between -1 and 1 between each pair of 
+        accessibile peaks within a user defined distance where a higher number indicates higher co-accessibility.
+      </p>
 
-        <p> 
-          In addition, the Cicero package provides an extension toolkit for analyzing single-cell ATAC-seq experiments 
-          using the framework provided by <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
-          This vignette provides an overview of a single-cell ATAC-Seq analysis workflow with Cicero. For further 
-          information and more options, please see the manual pages for the Cicero R package, and 
-          <a href= "{{ site.baseurl }}/papers/">our publications</a>.
-        </p>
-      
-        <p>
-          Cicero can help you perform two main types of analysis:
-          <ul>
-            <li><strong>Constructing and analysing <i>cis</i>-regulatory networks.</strong> Cicero analyzes co-accessibility 
-              to identify putative <i>cis</i>-regulatory interactions, and uses various techniques to visualize and analyze 
-              them.
-            <li><strong>General single-cell chromatin accessibility analysis .</strong> Cicero also extends the 
-              software package <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> to allow for 
-              identification of differential accessibility, clustering, visualization, and trajectory reconstruction 
-              using single-cell chromatin accessibility data.
-          </ul>
-        </p>
-        <p>
-          Before we look at Cicero's functions for each of these analysis tasks, let's see how to install Cicero.
-        </p>
-      
-        <h2> Installing Cicero </h2>
-        <p>
-          Cicero runs in the <a href= "http://www.r-project.org/">R statistical computing environment</a>. You will 
-          need R version 3.4 or higher and Cicero 1.0.0 or higher to have access to the 
-          latest features.
-        </p>
-        <h3> Install from Bioconductor </h3>
-        <p>
-          Cicero was recently added to Bioconductor. It has been released as part of Bioconductor 3.8 and 
-          can be installed with the following code:
-        </p>
+      <p> 
+        In addition, the Cicero package provides an extension toolkit for analyzing single-cell ATAC-seq experiments 
+        using the framework provided by <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
+        This vignette provides an overview of a single-cell ATAC-Seq analysis workflow with Cicero. For further 
+        information and more options, please see the manual pages for the Cicero R package, and 
+        <a href= "{{ site.baseurl }}/papers/">our publications</a>.
+      </p>
+    
+      <p>
+        Cicero can help you perform two main types of analysis:
+        <ul>
+          <li><strong>Constructing and analysing <i>cis</i>-regulatory networks.</strong> Cicero analyzes co-accessibility 
+            to identify putative <i>cis</i>-regulatory interactions, and uses various techniques to visualize and analyze 
+            them.
+          <li><strong>General single-cell chromatin accessibility analysis .</strong> Cicero also extends the 
+            software package <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> to allow for 
+            identification of differential accessibility, clustering, visualization, and trajectory reconstruction 
+            using single-cell chromatin accessibility data.
+        </ul>
+      </p>
+      <p>
+        Before we look at Cicero's functions for each of these analysis tasks, let's see how to install Cicero.
+      </p>
+    
+      <h2> Installing Cicero </h2>
+      <p>
+        Cicero runs in the <a href= "http://www.r-project.org/">R statistical computing environment</a>. You will 
+        need R version 3.4 or higher and Cicero 1.0.0 or higher to have access to the 
+        latest features.
+      </p>
+      <h3> Install from Bioconductor </h3>
+      <p>
+        Cicero was recently added to Bioconductor. It has been released as part of Bioconductor 3.8 and 
+        can be installed with the following code:
+      </p>
 {% highlight R %}
 if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+  install.packages("BiocManager")
 BiocManager::install("cicero", version = "3.8")
 {% endhighlight %}
 
-        <h3> Install from Github </h3>
-        <p> 
-          For the absolute latest updates to the Cicero package, you can install Cicero directly from the github repository 
-          using these instructions:
-        </p>  
-        <p>
-          Cicero builds upon a package called <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
-          Before installing Cicero, first, follow 
-          <a href= "http://cole-trapnell-lab.github.io/monocle-release/docs/#installing-monocle" target="_blank">these instructions</a> 
-          to install Monocle. 
-        </p>
-
+      <h3> Install from Github </h3>
+      <p> 
+        For the absolute latest updates to the Cicero package, you can install Cicero directly from the github repository 
+        using these instructions:
+      </p>  
       <p>
-        In addition to Monocle, Cicero requires the following packages from Bioconductor
+        Cicero builds upon a package called <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>. 
+        Before installing Cicero, first, follow 
+        <a href= "http://cole-trapnell-lab.github.io/monocle-release/docs/#installing-monocle" target="_blank">these instructions</a> 
+        to install Monocle. 
       </p>
-        {% highlight R %}
+
+    <p>
+      In addition to Monocle, Cicero requires the following packages from Bioconductor
+    </p>
+      {% highlight R %}
 source("https://bioconductor.org/biocLite.R")
 biocLite(c("Gviz", "GenomicRanges", "rtracklayer"))
 {% endhighlight %}
-      <p>
-        You're now ready to install Cicero:
-        </p>
-      
+    <p>
+      You're now ready to install Cicero:
+      </p>
+    
 
-        {% highlight R %}
+      {% highlight R %}
 install.packages("devtools")
 devtools::install_github("cole-trapnell-lab/cicero-release")
 {% endhighlight %}
 <h3> Load Cicero </h3>
-        <p>
-          After installation, test that Cicero installed correctly by opening a new R session and typing:
-        </p>
-        {% highlight R %}library(cicero){% endhighlight %}
-        <h2> Getting help </h2>
+      <p>
+        After installation, test that Cicero installed correctly by opening a new R session and typing:
+      </p>
+      {% highlight R %}library(cicero){% endhighlight %}
+      <h2> Getting help </h2>
 
-        <p>
-          Questions about Cicero should be posted on our 
-          <a href="https://groups.google.com/forum/#!forum/cicero-users">Google Group</a>. Please do not email 
-          technical questions to Cicero contributors directly.
-        </p>
+      <p>
+        Questions about Cicero should be posted on our 
+        <a href="https://groups.google.com/forum/#!forum/cicero-users">Google Group</a>. Please do not email 
+        technical questions to Cicero contributors directly.
+      </p>
 
-        <h2>Recommended analysis protocol</h2>
+      <h2>Recommended analysis protocol</h2>
 
-        <p>
-          The Cicero workflow is broken up into broad steps. When there's more than one way to do a certain step, we've 
-          labeled the options as follows:
-        </p>
-        <table class= "table">
-          <tbody>
-            <tr>
-              <td><span class= "label label-danger">Required</span></td>
-              <td>You need to do this.</td>
-            </tr>
-            <tr>
-              <td><span class= "label label-info">Recommended</span> </td>
-              <td>Of the ways you could do this, we recommend you try this one first.</td>
-            </tr>
-            <tr>
-              <td><span class= "label label-success">Alternative</span></td>
-              <td>Of the ways you could do this, this way might work better than the one we usually recommend.</td>
-            </tr>
-          </tbody>
-        </table>
+      <p>
+        The Cicero workflow is broken up into broad steps. When there's more than one way to do a certain step, we've 
+        labeled the options as follows:
+      </p>
+      <div class="table-wrapper">
+      <table class= "table">
+        <tbody>
+          <tr>
+            <td><span class= "label label-danger">Required</span></td>
+            <td>You need to do this.</td>
+          </tr>
+          <tr>
+            <td><span class= "label label-info">Recommended</span> </td>
+            <td>Of the ways you could do this, we recommend you try this one first.</td>
+          </tr>
+          <tr>
+            <td><span class= "label label-success">Alternative</span></td>
+            <td>Of the ways you could do this, this way might work better than the one we usually recommend.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
 
-        <h2>Constructing <i>cis</i>-regulatory networks</h2>
-        <h3>Running Cicero</h3>
-        <h4>The CellDataSet class</h4>
-        <p>
-          Cicero holds data in objects of the <code><a href = "https://rdrr.io/bioc/monocle/man/CellDataSet.html">
-            CellDataSet (CDS)</a></code> class. The class is derived from the Bioconductor <code>ExpressionSet</code> 
-          class, which provides a common interface familiar to those who have analyzed microarray experiments with 
-          Bioconductor. Monocle provides detailed documentation about how to generate an input CDS
-          <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#the-celldataset-class">here</a>.
-        </p>
+      <h2>Constructing <i>cis</i>-regulatory networks</h2>
+      <h3>Running Cicero</h3>
+      <h4>The CellDataSet class</h4>
+      <p>
+        Cicero holds data in objects of the <code><a href = "https://rdrr.io/bioc/monocle/man/CellDataSet.html">
+          CellDataSet (CDS)</a></code> class. The class is derived from the Bioconductor <code>ExpressionSet</code> 
+        class, which provides a common interface familiar to those who have analyzed microarray experiments with 
+        Bioconductor. Monocle provides detailed documentation about how to generate an input CDS
+        <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#the-celldataset-class">here</a>.
+      </p>
 
-        <p>
-          To modify the CDS object to hold chromatin accessibility rather than expression data, Cicero uses peaks as 
-          its feature data <code>fData</code> rather than genes or transcripts. Specifically, many Cicero functions 
-          require peak information in the form chr1_10390134_10391134. For example, an input fData table might look 
-          like this:
-          <table class = "table" style="overflow:auto;">
-            <thead>
-              <tr>
-                <th></th>
-                <th>site_name</th>
-                <th>chromosome</th>
-                <th>bp1</th>
-                <th>bp2</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>chr10_100002625_100002940</th>
-                <th>chr10_100002625_100002940</th>
-                <th>10</th>
-                <th>100002625</th>
-                <th>100002940</th>
-              </tr>
-              <tr>
-                <th>chr10_100006458_100007593</th>
-                <th>chr10_100006458_100007593</th>
-                <th>10</th>
-                <th>100006458</th>
-                <th>100007593</th>
-              </tr>
-              <tr>
-                <th>chr10_100011280_100011780</th>
-                <th>chr10_100011280_100011780</th>
-                <th>10</th>
-                <th>100011280</th>
-                <th>100011780</th>
-              </tr>
-              <tr>
-                <th>chr10_100013372_100013596</th>
-                <th>chr10_100013372_100013596</th>
-                <th>10</th>
-                <th>100013372</th>
-                <th>100013596</th>
-              </tr>
-              <tr>
-                <th>chr10_100015079_100015428</th>
-                <th>chr10_100015079_100015428</th>
-                <th>10</th>
-                <th>100015079</th>
-                <th>100015428</th>
-              </tr>
-            </tbody>
-          </table>
-        </p>
+      <p>
+        To modify the CDS object to hold chromatin accessibility rather than expression data, Cicero uses peaks as 
+        its feature data <code>fData</code> rather than genes or transcripts. Specifically, many Cicero functions 
+        require peak information in the form chr1_10390134_10391134. For example, an input fData table might look 
+        like this:
 
-        <p>
-          The Cicero package includes a small dataset called <code>cicero_data</code> as an example.
-
-          {% highlight R %}data(cicero_data){% endhighlight %}
-
-        </p>
-        <p>
-          For convenience, Cicero includes a function called <code>make_atac_cds</code>. This function takes as input a 
-          <code>data.frame</code> or a path to a file in a sparse matrix format. Specifically, this file should be a 
-          tab-delimited text file with three columns. The first column is the peak coordinates in the form 
-          "chr10_100013372_100013596", the second column is the cell name, and the third column is an integer that 
-          represents the number of reads from that cell overlapping that peak. The file should not have a header line. 
-        </p>
-        <p>
-          For example:
-        </p> 
-
-          <table class = "table" style="overflow:auto;">
-            <tbody>
-              <tr>
-                <th>chr10_100002625_100002940</th>
-                <th>cell1</th>
-                <th>1</th>
-              </tr>
-              <tr>
-                <th>chr10_100006458_100007593</th>
-                <th>cell2</th>
-                <th>2</th>
-              </tr>
-              <tr>
-                <th>chr10_100006458_100007593</th>
-                <th>cell3</th>
-                <th>1</th>
-              </tr>
-              <tr>
-                <th>chr10_100013372_100013596</th>
-                <th>cell2</th>
-                <th>1</th>
-              </tr>
-              <tr>
-                <th>chr10_100015079_100015428</th>
-                <th>cell4</th>
-                <th>3</th>
-              </tr>
-            </tbody>
-          </table>
-        </p>
-
-        <p>
-          The output of <code>make_atac_cds</code> is a valid CDS object ready to be input into downstream Cicero 
-          functions.
-        </p>
-
-        {% highlight R %}input_cds <- make_atac_cds(cicero_data, binarize = TRUE){% endhighlight %}
-
-        <div class= "panel panel-info">
-            <div class= "panel-heading">
-              <h4 class= "panel-title">make_atac_cds</h4>
-            </div>
-            <div class= "panel-body">
-              <table class= "table">
-                <thead>
-                  <tr>
-                    <th>Option</th>
-                    <th>Default</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>binarize</code></td>
-                    <td>FALSE</td>
-                    <td>Logical, should the count matrix be converted to binary? Because of the sparsity of single-cell 
-                      data, we don't generally expect more than 1 read per cell per peak. We have found that converting 
-                      a count matrix to a binary "is this site open in this cell" can ultimately give clearer results.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-      
-        <h4 data-toc-text= "Create a Cicero CDS">Create a Cicero CDS 
-          <span class= "label label-danger">Required</span></h4>
-
-        <p>
-          Because single-cell chromatin accessibility data is extremely sparse, accurate estimation of co-accessibility 
-          scores requires us to aggregate similar cells to create more dense count data. Cicero does this using a 
-          k-nearest-neighbors approach which creates overlapping sets of cells. Cicero constructs these sets based on a 
-          reduced dimension coordinate map of cell similarity, for example, from a tSNE or DDRTree map.
-        </p>
-
-        <p>
-          You can use any dimensionality reduction method to base your aggregated CDS on. We will show you how to 
-          create two versions, tSNE and DDRTree (below). Both of these dimensionality reduction methods are available 
-          from <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> (and loaded by Cicero).
-        </p>
-      
-        <p>
-          Once you have your reduced dimension coordinate map, you can use the function <code>make_cicero_cds</code> to 
-          create your aggregated CDS object. The input to <code>make_cicero_cds</code> is your input CDS object, and 
-          your reduced dimension coordinate map. The reduced dimension map <code>reduced_coordinates</code> should be 
-          in the form of a <code>data.frame</code> or a <code>matrix</code> where the row names match the cell IDs from 
-          the <code>pData</code> table of your CDS. The columns of <code>reduced_coordinates</code> should be the 
-          coordinates of the reduced dimension object, for example:
-        </p>
-        <table class = "table" style="overflow:auto;">
-          <tbody>
+        <div class="table-wrapper">
+        <table class = "table">
+          <thead>
             <tr>
               <th></th>
-              <th>ddrtree_coord1</th>
-              <th>ddrtree_coord2</th>
+              <th>site_name</th>
+              <th>chromosome</th>
+              <th>bp1</th>
+              <th>bp2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>chr10_100002625_100002940</th>
+              <th>chr10_100002625_100002940</th>
+              <th>10</th>
+              <th>100002625</th>
+              <th>100002940</th>
             </tr>
             <tr>
-              <th>cell1</th>
-              <th>-0.7084047</th>
-              <th>-0.7232994</th>
+              <th>chr10_100006458_100007593</th>
+              <th>chr10_100006458_100007593</th>
+              <th>10</th>
+              <th>100006458</th>
+              <th>100007593</th>
             </tr>
             <tr>
-              <th>cell2</th>
-              <th>-4.4767964</th>
-              <th>0.8237284</th>
+              <th>chr10_100011280_100011780</th>
+              <th>chr10_100011280_100011780</th>
+              <th>10</th>
+              <th>100011280</th>
+              <th>100011780</th>
             </tr>
             <tr>
-              <th>cell3</th>
-              <th>1.4870098</th>
-              <th>-0.4723493</th>
+              <th>chr10_100013372_100013596</th>
+              <th>chr10_100013372_100013596</th>
+              <th>10</th>
+              <th>100013372</th>
+              <th>100013596</th>
+            </tr>
+            <tr>
+              <th>chr10_100015079_100015428</th>
+              <th>chr10_100015079_100015428</th>
+              <th>10</th>
+              <th>100015079</th>
+              <th>100015428</th>
             </tr>
           </tbody>
         </table>
+        </div>
+      </p>
 
-        <p>
-          Here is an example of both dimensionality reduction and creation of a Cicero CDS. Using monocle as a guide, 
-          we first find tSNE coordinates for our input_cds:
-          {% highlight R %}
+      <p>
+        The Cicero package includes a small dataset called <code>cicero_data</code> as an example.
+
+        {% highlight R %}data(cicero_data){% endhighlight %}
+
+      </p>
+      <p>
+        For convenience, Cicero includes a function called <code>make_atac_cds</code>. This function takes as input a 
+        <code>data.frame</code> or a path to a file in a sparse matrix format. Specifically, this file should be a 
+        tab-delimited text file with three columns. The first column is the peak coordinates in the form 
+        "chr10_100013372_100013596", the second column is the cell name, and the third column is an integer that 
+        represents the number of reads from that cell overlapping that peak. The file should not have a header line. 
+      </p>
+      <p>
+        For example:
+      </p> 
+
+        <div class="table-wrapper">
+        <table class = "table">
+          <tbody>
+            <tr>
+              <th>chr10_100002625_100002940</th>
+              <th>cell1</th>
+              <th>1</th>
+            </tr>
+            <tr>
+              <th>chr10_100006458_100007593</th>
+              <th>cell2</th>
+              <th>2</th>
+            </tr>
+            <tr>
+              <th>chr10_100006458_100007593</th>
+              <th>cell3</th>
+              <th>1</th>
+            </tr>
+            <tr>
+              <th>chr10_100013372_100013596</th>
+              <th>cell2</th>
+              <th>1</th>
+            </tr>
+            <tr>
+              <th>chr10_100015079_100015428</th>
+              <th>cell4</th>
+              <th>3</th>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </p>
+
+      <p>
+        The output of <code>make_atac_cds</code> is a valid CDS object ready to be input into downstream Cicero 
+        functions.
+      </p>
+
+      {% highlight R %}input_cds <- make_atac_cds(cicero_data, binarize = TRUE){% endhighlight %}
+
+      <div class= "panel panel-info">
+          <div class= "panel-heading">
+            <h4 class= "panel-title">make_atac_cds</h4>
+          </div>
+          <div class= "panel-body">
+            <table class= "table">
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>Default</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>binarize</code></td>
+                  <td>FALSE</td>
+                  <td>Logical, should the count matrix be converted to binary? Because of the sparsity of single-cell 
+                    data, we don't generally expect more than 1 read per cell per peak. We have found that converting 
+                    a count matrix to a binary "is this site open in this cell" can ultimately give clearer results.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+      <h4 data-toc-text= "Create a Cicero CDS">Create a Cicero CDS 
+        <span class= "label label-danger">Required</span></h4>
+
+      <p>
+        Because single-cell chromatin accessibility data is extremely sparse, accurate estimation of co-accessibility 
+        scores requires us to aggregate similar cells to create more dense count data. Cicero does this using a 
+        k-nearest-neighbors approach which creates overlapping sets of cells. Cicero constructs these sets based on a 
+        reduced dimension coordinate map of cell similarity, for example, from a tSNE or DDRTree map.
+      </p>
+
+      <p>
+        You can use any dimensionality reduction method to base your aggregated CDS on. We will show you how to 
+        create two versions, tSNE and DDRTree (below). Both of these dimensionality reduction methods are available 
+        from <a href= "http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a> (and loaded by Cicero).
+      </p>
+    
+      <p>
+        Once you have your reduced dimension coordinate map, you can use the function <code>make_cicero_cds</code> to 
+        create your aggregated CDS object. The input to <code>make_cicero_cds</code> is your input CDS object, and 
+        your reduced dimension coordinate map. The reduced dimension map <code>reduced_coordinates</code> should be 
+        in the form of a <code>data.frame</code> or a <code>matrix</code> where the row names match the cell IDs from 
+        the <code>pData</code> table of your CDS. The columns of <code>reduced_coordinates</code> should be the 
+        coordinates of the reduced dimension object, for example:
+      </p>
+      <div class="table-wrapper">
+      <table class = "table" style="overflow:auto;">
+        <tbody>
+          <tr>
+            <th></th>
+            <th>ddrtree_coord1</th>
+            <th>ddrtree_coord2</th>
+          </tr>
+          <tr>
+            <th>cell1</th>
+            <th>-0.7084047</th>
+            <th>-0.7232994</th>
+          </tr>
+          <tr>
+            <th>cell2</th>
+            <th>-4.4767964</th>
+            <th>0.8237284</th>
+          </tr>
+          <tr>
+            <th>cell3</th>
+            <th>1.4870098</th>
+            <th>-0.4723493</th>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>
+        Here is an example of both dimensionality reduction and creation of a Cicero CDS. Using monocle as a guide, 
+        we first find tSNE coordinates for our input_cds:
+        {% highlight R %}
 set.seed(2017)
 input_cds <- detectGenes(input_cds)
 input_cds <- estimateSizeFactors(input_cds)
 input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-                        reduction_method = 'tSNE', norm_method = "none"){% endhighlight %}
+                      reduction_method = 'tSNE', norm_method = "none"){% endhighlight %}
 
-          For more information on the above code, see the Monocle website on
-          <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#clustering-cells">clustering cells</a>
-        </p>
+        For more information on the above code, see the Monocle website on
+        <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#clustering-cells">clustering cells</a>
+      </p>
 
-        <p>
-          Next, we access the tSNE coordinates from the input CDS object where they are stored by Monocle and run 
-          <code>make_cicero_cds</code>:
-        </p>
+      <p>
+        Next, we access the tSNE coordinates from the input CDS object where they are stored by Monocle and run 
+        <code>make_cicero_cds</code>:
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 tsne_coords <- t(reducedDimA(input_cds))
 row.names(tsne_coords) <- row.names(pData(input_cds))
 cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords){% endhighlight %}
 
-        <h4 data-toc-text= "Run Cicero">Run Cicero <span class= "label label-danger">Required</span></h4>
+      <h4 data-toc-text= "Run Cicero">Run Cicero <span class= "label label-danger">Required</span></h4>
 
-        <p>
-          The main function of the Cicero package is to estimate the co-accessiblity of sites in the genome in order to 
-          predict <i>cis</i>-regulatory interactions. There are two ways to get this information:
-          <ul>
-            <li><strong><code>run_cicero</code>: get Cicero outputs with all defaults</strong> The function 
-              <code>run_cicero</code> will call each of the relevant pieces of Cicero code using default values, and 
-              calculating best-estimate parameters as it goes. For most users, this will be the best place to start.
-            <li><strong>Call functions separately, for more flexibility</strong> For users wanting more flexibility in 
-              the parameters that are called, and those that want access to intermediate information, Cicero allows you 
-              to call each of the component parts separately.
-          </ul>
-        </p>
-      
-        <div class= "panel panel-warning">
-          <div class= "panel-heading">
-            <h4 class= "panel-title" data-toc-skip>Consider non-default parameters</h4>
-          </div>
-          <div class= "panel-body">
-            The default parameters are designed for data from human and mouse cells. There are certain non-default 
-            parameters that each user should consider, especially users not using data from humans. Read the section 
-            <a href = "{{site.baseurl }}/docs/#important-considerations-for-non-human-data">Important Considerations 
-              for Non-Human Data</a> for more information.
-          </div>
+      <p>
+        The main function of the Cicero package is to estimate the co-accessiblity of sites in the genome in order to 
+        predict <i>cis</i>-regulatory interactions. There are two ways to get this information:
+        <ul>
+          <li><strong><code>run_cicero</code>: get Cicero outputs with all defaults</strong> The function 
+            <code>run_cicero</code> will call each of the relevant pieces of Cicero code using default values, and 
+            calculating best-estimate parameters as it goes. For most users, this will be the best place to start.
+          <li><strong>Call functions separately, for more flexibility</strong> For users wanting more flexibility in 
+            the parameters that are called, and those that want access to intermediate information, Cicero allows you 
+            to call each of the component parts separately.
+        </ul>
+      </p>
+    
+      <div class= "panel panel-warning">
+        <div class= "panel-heading">
+          <h4 class= "panel-title" data-toc-skip>Consider non-default parameters</h4>
         </div>
+        <div class= "panel-body">
+          The default parameters are designed for data from human and mouse cells. There are certain non-default 
+          parameters that each user should consider, especially users not using data from humans. Read the section 
+          <a href = "{{site.baseurl }}/docs/#important-considerations-for-non-human-data">Important Considerations 
+            for Non-Human Data</a> for more information.
+        </div>
+      </div>
 
-        <h4 data-toc-text= "run_cicero"><code>run_cicero</code> <span class= "label label-info">Recommended</span></h4>
+      <h4 data-toc-text= "run_cicero"><code>run_cicero</code> <span class= "label label-info">Recommended</span></h4>
 
-        <p>
-          The easiest way to get Cicero co-accessibility scores is to run <code>run_cicero</code>. To run 
-          <code>run_cicero</code>, you need a cicero CDS object (created above) and a genome coordinates file, which 
-          contains the lengths of each of the chromosomes in your organism. The human hg19 coordinates are included 
-          with the package and can be accessed with <code>data("human.hg19.genome")</code>. Here is an example call, 
-          continuing with our example data:
-        </p>
-      
-        {% highlight R %}
+      <p>
+        The easiest way to get Cicero co-accessibility scores is to run <code>run_cicero</code>. To run 
+        <code>run_cicero</code>, you need a cicero CDS object (created above) and a genome coordinates file, which 
+        contains the lengths of each of the chromosomes in your organism. The human hg19 coordinates are included 
+        with the package and can be accessed with <code>data("human.hg19.genome")</code>. Here is an example call, 
+        continuing with our example data:
+      </p>
+    
+      {% highlight R %}
 data("human.hg19.genome")
 sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 conns <- run_cicero(cicero_cds, sample_genome) # Takes a few minutes to run
 head(conns){% endhighlight %}
 
-        <table class = "table" style="overflow:auto;">
-          <tbody>
-            <tr>
-              <th>Peak1</th>
-              <th>Peak2</th>
-              <th>coaccess</th>
-            </tr>
-            <tr>
-              <th>chr18_10025_10225</th>
-              <th>chr18_104385_104585</th>
-              <th>0.03791526</th>
-            </tr>
-            <tr>
-              <th>chr18_10025_10225</th>
-              <th>chr18_10603_11103</th>
-              <th>0.86971957</th>
-            </tr>
-            <tr>
-              <th>chr18_10025_10225</th>
-              <th>chr18_111867_112367</th>
-              <th>0.00000000</th>
-            </tr>
-          </tbody>
-        </table>
+      <div class="table-wrapper">
+      <table class = "table" style="overflow:auto;">
+        <tbody>
+          <tr>
+            <th>Peak1</th>
+            <th>Peak2</th>
+            <th>coaccess</th>
+          </tr>
+          <tr>
+            <th>chr18_10025_10225</th>
+            <th>chr18_104385_104585</th>
+            <th>0.03791526</th>
+          </tr>
+          <tr>
+            <th>chr18_10025_10225</th>
+            <th>chr18_10603_11103</th>
+            <th>0.86971957</th>
+          </tr>
+          <tr>
+            <th>chr18_10025_10225</th>
+            <th>chr18_111867_112367</th>
+            <th>0.00000000</th>
+          </tr>
+        </tbody>
+      </table>
+      </div>
 
-        <h4 data-toc-text= "Call Cicero functions individually">Call Cicero functions individually 
-          <span class= "label label-success">Alternative</span></h4>
+      <h4 data-toc-text= "Call Cicero functions individually">Call Cicero functions individually 
+        <span class= "label label-success">Alternative</span></h4>
 
-        <p> 
-          The alternative to calling <code>run_cicero</code> is to run each piece of the Cicero pipeline in pieces. The 
-          three functions that make up the Cicero pipeline are:
-          <ul>
-            <li><strong><code>estimate_distance_parameter</code></strong>. This function calculates the distance 
-              penalty parameter based on small random windows of the genome.
-            <li><strong><code>generate_cicero_models</code></strong>. This function uses the distance parameter 
-              determined above and uses graphical LASSO to calculate the co-accessibility scores of overlapping windows 
-              of the genome using a distance-based penalty.
-            <li><strong><code>assemble_connections</code></strong>. This function takes as input the output of 
-              <code>generate_cicero_models</code> and reconciles the overlapping models to create the final list of 
-              co-accessibility scores.
-          </ul>
-        </p>
+      <p> 
+        The alternative to calling <code>run_cicero</code> is to run each piece of the Cicero pipeline in pieces. The 
+        three functions that make up the Cicero pipeline are:
+        <ul>
+          <li><strong><code>estimate_distance_parameter</code></strong>. This function calculates the distance 
+            penalty parameter based on small random windows of the genome.
+          <li><strong><code>generate_cicero_models</code></strong>. This function uses the distance parameter 
+            determined above and uses graphical LASSO to calculate the co-accessibility scores of overlapping windows 
+            of the genome using a distance-based penalty.
+          <li><strong><code>assemble_connections</code></strong>. This function takes as input the output of 
+            <code>generate_cicero_models</code> and reconciles the overlapping models to create the final list of 
+            co-accessibility scores.
+        </ul>
+      </p>
 
-        <p>
-          Use the manual pages in R (example: <code>?estimate_distance_parameter</code>) to see all options. Key 
-          options are detailed below:
-        </p>
+      <p>
+        Use the manual pages in R (example: <code>?estimate_distance_parameter</code>) to see all options. Key 
+        options are detailed below:
+      </p>
 
-        <div class= "panel panel-info">
-          <div class= "panel-heading">
-            <h4 class= "panel-title">estimate_distance_parameter</h4>
-          </div>
-          <div class= "panel-body">
-            <table class= "table">
-              <thead>
-                <tr>
-                  <th>Option</th>
-                  <th>Default</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>window</code></td>
-                  <td>500000</td>
-                  <td>The window parameter controls how large of a window (in base pairs) in the genome is used for 
+      <div class= "panel panel-info">
+        <div class= "panel-heading">
+          <h4 class= "panel-title">estimate_distance_parameter</h4>
+        </div>
+        <div class= "panel-body">
+          <table class= "table">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Default</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>window</code></td>
+                <td>500000</td>
+                <td>The window parameter controls how large of a window (in base pairs) in the genome is used for 
+                  calculating each individual model. This parameter will control the furthest distance between sites 
+                  that are compared. This parameter <strong>must</strong> be the same as the window parameter for 
+                  <code>generate_cicero_models</code>.</td>
+              </tr>
+              <tr>
+                <td><code>sample_num</code></td>
+                <td>100</td>
+                <td>This is the number of sample regions to calculate a distance parameter for.</td>
+              </tr>
+              <tr>
+                <td><code>distance_constraint</code></td>
+                <td>250000</td>
+                <td>The <code>distance_constraint</code> controls the distance at which Cicero expects few meaningful 
+                  <i>cis</i>-regulatory contacts. <code>estimate_distance_parameter</code> uses this value to estimate the 
+                  distance parameter by increasing regularization until there are few contacts at a distance beyond 
+                  the <code>distance_constraint</code>. The <code>distance_constraint</code> <strong>must</strong> be 
+                  sufficiently lower than the window parameter - as a rule of thumb, set your window to be at least 
+                  1/3 larger than your <code>distance_constraint</code>.</td>
+              </tr>
+              <tr>
+                <td><code>s</code></td>
+                <td>0.75</td>
+                <td><code>s</code> is a constant that captures the power-law distribution of contact frequencies 
+                  between different locations in the genome as a function of their linear distance. For a complete 
+                  discussion of the various polymer models of DNA packed into the nucleus and of justifiable values 
+                  for <code>s</code>, we refer readers to (Dekker et al., 2013). We use a value of 0.75 by default in 
+                  Cicero, which corresponds to the “tension globule” polymer model of DNA (Sanborn et al., 2015). For 
+                  data not from humans, we recommend you read further discussion of this parameter here: 
+                  <a href = "{{site.baseurl }}/docs/#important-considerations-for-non-human-data">Important 
+                    Considerations for Non-Human Data</a>. This parameter <strong>must</strong> be the same as the 
+                  <code>s</code> parameter for <code>generate_cicero_models</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class= "panel panel-info">
+        <div class= "panel-heading">
+          <h4 class= "panel-title">generate_cicero_models</h4>
+        </div>
+        <div class= "panel-body">
+          <table class= "table">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Default</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>window</code></td>
+                <td>500000</td>
+                <td>The window parameter controls how large of a window (in base pairs) in the genome is used for 
                     calculating each individual model. This parameter will control the furthest distance between sites 
                     that are compared. This parameter <strong>must</strong> be the same as the window parameter for 
-                    <code>generate_cicero_models</code>.</td>
-                </tr>
-                <tr>
-                  <td><code>sample_num</code></td>
-                  <td>100</td>
-                  <td>This is the number of sample regions to calculate a distance parameter for.</td>
-                </tr>
-                <tr>
-                  <td><code>distance_constraint</code></td>
-                  <td>250000</td>
-                  <td>The <code>distance_constraint</code> controls the distance at which Cicero expects few meaningful 
-                    <i>cis</i>-regulatory contacts. <code>estimate_distance_parameter</code> uses this value to estimate the 
-                    distance parameter by increasing regularization until there are few contacts at a distance beyond 
-                    the <code>distance_constraint</code>. The <code>distance_constraint</code> <strong>must</strong> be 
-                    sufficiently lower than the window parameter - as a rule of thumb, set your window to be at least 
-                    1/3 larger than your <code>distance_constraint</code>.</td>
-                </tr>
-                <tr>
-                  <td><code>s</code></td>
-                  <td>0.75</td>
-                  <td><code>s</code> is a constant that captures the power-law distribution of contact frequencies 
-                    between different locations in the genome as a function of their linear distance. For a complete 
-                    discussion of the various polymer models of DNA packed into the nucleus and of justifiable values 
-                    for <code>s</code>, we refer readers to (Dekker et al., 2013). We use a value of 0.75 by default in 
-                    Cicero, which corresponds to the “tension globule” polymer model of DNA (Sanborn et al., 2015). For 
-                    data not from humans, we recommend you read further discussion of this parameter here: 
-                    <a href = "{{site.baseurl }}/docs/#important-considerations-for-non-human-data">Important 
-                      Considerations for Non-Human Data</a>. This parameter <strong>must</strong> be the same as the 
-                    <code>s</code> parameter for <code>generate_cicero_models</code>.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    <code>estimate_distance_parameter</code>.</td>
+              </tr>
+              <tr>
+                <td><code>distance_parameter</code></td>
+                <td>100</td>
+                <td>The <code>distance_parameter</code> controls the distance-based scaling of the regularization 
+                  parameter in graphical LASSO. This parameter is generally the mean of the sample values calculated 
+                  using <code>estimate_distance_parameter</code></td>
+              </tr>
+              <tr>
+                <td><code>s</code></td>
+                <td>0.75</td>
+                <td>See above in the documentation for <code>estimate_distance_parameter</code>. This parameter 
+                  <strong>must</strong> be the same as the <code>s</code> parameter for 
+                  <code>estimate_distance_parameter</code>.</td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <div class= "panel panel-info">
-          <div class= "panel-heading">
-            <h4 class= "panel-title">generate_cicero_models</h4>
-          </div>
-          <div class= "panel-body">
-            <table class= "table">
-              <thead>
-                <tr>
-                  <th>Option</th>
-                  <th>Default</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>window</code></td>
-                  <td>500000</td>
-                  <td>The window parameter controls how large of a window (in base pairs) in the genome is used for 
-                      calculating each individual model. This parameter will control the furthest distance between sites 
-                      that are compared. This parameter <strong>must</strong> be the same as the window parameter for 
-                      <code>estimate_distance_parameter</code>.</td>
-                </tr>
-                <tr>
-                  <td><code>distance_parameter</code></td>
-                  <td>100</td>
-                  <td>The <code>distance_parameter</code> controls the distance-based scaling of the regularization 
-                    parameter in graphical LASSO. This parameter is generally the mean of the sample values calculated 
-                    using <code>estimate_distance_parameter</code></td>
-                </tr>
-                <tr>
-                  <td><code>s</code></td>
-                  <td>0.75</td>
-                  <td>See above in the documentation for <code>estimate_distance_parameter</code>. This parameter 
-                    <strong>must</strong> be the same as the <code>s</code> parameter for 
-                    <code>estimate_distance_parameter</code>.</td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class= "panel panel-info">
+        <div class= "panel-heading">
+          <h4 class= "panel-title">assemble_connections</h4>
         </div>
-
-        <div class= "panel panel-info">
-          <div class= "panel-heading">
-            <h4 class= "panel-title">assemble_connections</h4>
-          </div>
-          <div class= "panel-body">
-            <table class= "table">
-              <thead>
-                <tr>
-                  <th>Option</th>
-                  <th>Default</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>silent</code></td>
-                  <td>FALSE</td>
-                  <td>Logical, whether to print summary information.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class= "panel-body">
+          <table class= "table">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Default</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>silent</code></td>
+                <td>FALSE</td>
+                <td>Logical, whether to print summary information.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <h3>Visualizing Cicero Connections</h3>
+      <h3>Visualizing Cicero Connections</h3>
 
-        <p>
-          The Cicero package includes a general plotting function for visualizing co-accessibility called
-          <code>plot_connections</code>. This function uses the 
-          <a href="https://bioconductor.org/packages/release/bioc/html/Gviz.html">Gviz</a> framework for plotting 
-          genome browser-style plots. We have adapted a function from the
-           <a href="https://bioconductor.org/packages/release/bioc/html/Sushi.html">Sushi</a> R package for 
-           mapping connections. <code>plot_connections</code> has many options, some detailed in the 
-          <a href = "{{site.baseurl }}/docs/#advanced-visualizaton">Advanced Visualization</a> section, but to get a 
-          basic plot from your co-accessibility table is quite simple:
-        </p>
+      <p>
+        The Cicero package includes a general plotting function for visualizing co-accessibility called
+        <code>plot_connections</code>. This function uses the 
+        <a href="https://bioconductor.org/packages/release/bioc/html/Gviz.html">Gviz</a> framework for plotting 
+        genome browser-style plots. We have adapted a function from the
+          <a href="https://bioconductor.org/packages/release/bioc/html/Sushi.html">Sushi</a> R package for 
+          mapping connections. <code>plot_connections</code> has many options, some detailed in the 
+        <a href = "{{site.baseurl }}/docs/#advanced-visualizaton">Advanced Visualization</a> section, but to get a 
+        basic plot from your co-accessibility table is quite simple:
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 data(gene_annotation_sample)
 plot_connections(conns, "chr18", 8575097, 8839855, 
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = .25, 
-                 connection_width = .5, 
-                 collapseTranscripts = "longest" ){% endhighlight %}
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = .25, 
+                connection_width = .5, 
+                collapseTranscripts = "longest" ){% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/Cicero_example.png" width = "100%">
-        </div>
-        <h3>Comparing Cicero connections to other datasets</h3>
-        <p>
-          Often, it is useful to compare Cicero connections to other datasets with similar kinds of connections. For 
-          example, you might want to compare the output of Cicero to ChIA-PET ligations. To do this, Cicero includes a 
-          function called <code>compare_connections</code>. This function takes as input two data frames of connection 
-          pairs, <code>conns1</code> and <code>conns2</code>, and returns a logical vector of connections from 
-          <code>conns1</code> found in <code>conns2</code>. The comparison in this function is conducted using the 
-          <a href="https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a> 
-          package, and uses the <code>max_gap</code> argument from that package to allow slop in the comparisons.
-        </p>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/Cicero_example.png">
+      </div>
+      <h3>Comparing Cicero connections to other datasets</h3>
+      <p>
+        Often, it is useful to compare Cicero connections to other datasets with similar kinds of connections. For 
+        example, you might want to compare the output of Cicero to ChIA-PET ligations. To do this, Cicero includes a 
+        function called <code>compare_connections</code>. This function takes as input two data frames of connection 
+        pairs, <code>conns1</code> and <code>conns2</code>, and returns a logical vector of connections from 
+        <code>conns1</code> found in <code>conns2</code>. The comparison in this function is conducted using the 
+        <a href="https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a> 
+        package, and uses the <code>max_gap</code> argument from that package to allow slop in the comparisons.
+      </p>
 
-        <p>
-          For example, if we wanted to compare our Cicero predictions to a set of (made-up) ChIA-PET connections, we 
-          could run:
-        </p>
-        {% highlight R %}
+      <p>
+        For example, if we wanted to compare our Cicero predictions to a set of (made-up) ChIA-PET connections, we 
+        could run:
+      </p>
+      {% highlight R %}
 chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
-                                    "chr18_49500_49600"), 
-                          Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
-                                    "chr18_10600_10700"))
+                                  "chr18_49500_49600"), 
+                        Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
+                                  "chr18_10600_10700"))
 head(chia_conns)
 
 #               Peak1               Peak2
@@ -649,13 +653,13 @@ head(conns)
 # 6 chr18_10025_10225 chr18_104385_104585  0.00000000   FALSE
 # 7 chr18_10025_10225 chr18_111867_112367  0.01405174   FALSE
 {% endhighlight %}
-        <p>
-          You may find that this overlap is too strict when comparing completely distinct datasets. Looking carefully, 
-          the 2nd line of the ChIA-PET data matches fairly closely to the last line shown of conns. The difference is 
-          only ~67 base pairs, which could be a matter of peak-calling. This is where the <code>max_gap</code> 
-          parameter can be useful:
-        </p>
-        {% highlight R %}
+      <p>
+        You may find that this overlap is too strict when comparing completely distinct datasets. Looking carefully, 
+        the 2nd line of the ChIA-PET data matches fairly closely to the last line shown of conns. The difference is 
+        only ~67 base pairs, which could be a matter of peak-calling. This is where the <code>max_gap</code> 
+        parameter can be useful:
+      </p>
+      {% highlight R %}
 conns$in_chia_100 <- compare_connections(conns, chia_conns, maxgap=100)
 
 head(conns)
@@ -669,59 +673,59 @@ head(conns)
 # 7 chr18_10025_10225 chr18_111867_112367  0.01405174   FALSE        TRUE
 {% endhighlight %}
 
-        <p>
-          In addition, Cicero's plotting function has a way to compare datasets visually. To do this, use the 
-          <code>comparison_track</code> argument. The comparison data frame <strong>must</strong> include a third 
-          columns beyond the first two peak columns called "coaccess". This is how the plotting function determines the 
-          height of the plotted connections. This could be a quantitative measure, like the number of ligations in 
-          ChIA-PET, or simply a column of 1s. More info on plotting options in manual pages 
-          <code>?plot_connections</code> and in the <a href = "{{site.baseurl }}/docs/#advanced-visualizaton">Advanced 
-            Visualization</a> section. 
-        </p>
-        {% highlight R %}
+      <p>
+        In addition, Cicero's plotting function has a way to compare datasets visually. To do this, use the 
+        <code>comparison_track</code> argument. The comparison data frame <strong>must</strong> include a third 
+        columns beyond the first two peak columns called "coaccess". This is how the plotting function determines the 
+        height of the plotted connections. This could be a quantitative measure, like the number of ligations in 
+        ChIA-PET, or simply a column of 1s. More info on plotting options in manual pages 
+        <code>?plot_connections</code> and in the <a href = "{{site.baseurl }}/docs/#advanced-visualizaton">Advanced 
+          Visualization</a> section. 
+      </p>
+      {% highlight R %}
 # Add a column of 1s called "coaccess"
 chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
-                                    "chr18_49500_49600"), 
-                          Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
-                                    "chr18_10600_10700"),
-                          coaccess = c(1, 1, 1))
+                                  "chr18_49500_49600"), 
+                        Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
+                                  "chr18_10600_10700"),
+                        coaccess = c(1, 1, 1))
 plot_connections(conns, "chr18", 10000, 112367, 
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0,
-                 connection_width = .5,
-                 comparison_track = chia_conns,
-                 include_axis_track = F,
-                 collapseTranscripts = "longest") 
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0,
+                connection_width = .5,
+                comparison_track = chia_conns,
+                include_axis_track = F,
+                collapseTranscripts = "longest") 
 {% endhighlight %}
-        <div class= "text-center">
-          <img src= "/cicero-release/images/comparison_track.png" width = "100%">
-        </div>
-        <h3>Finding <i>cis</i>-Co-accessibility Networks (CCANS)</h3>
-        <p>
-          In addition to pairwise co-accessibility scores, Cicero also has a function to find <i>Cis</i>-Co-accessibility 
-          Networks (CCANs), which are modules of sites that are highly co-accessible with one another. We use the 
-          Louvain community detection algorithm (Blondel et al., 2008) to find clusters of sites that tended to be 
-          co-accessible. The function <code>generate_ccans</code> takes as input a connection data frame and outputs a 
-          data frame with CCAN assignments for each input peak. Sites not included in the output data frame were not 
-          assigned a CCAN.
-        </p>
-        <br>
-        <br>
-        <div class= "text-center">
-          <img src= "/cicero-release/images/ccan_diagram.png" width = 500>
-        </div>
-        <br>
-        <br>
-        <p>
-          The function <code>generate_ccans</code> has one optional input called <code>coaccess_cutoff_override</code>. 
-          When <code>coaccess_cutoff_override</code> is NULL, the function will determine and report an appropriate 
-          co-accessibility score cutoff value for CCAN generation based on the number of overall CCANs at varying 
-          cutoffs. You can also set <code>coaccess_cutoff_override</code> to be a numeric between 0 and 1, to override 
-          the cutoff-finding part of the function. This option is useful if you feel that the cutoff found 
-          automatically was too strict or loose, or for speed if you are rerunning the code and know what the cutoff 
-          will be, since the cutoff finding procedure can be slow.
-        </p>
-        {% highlight R %}
+      <div class= "text-center">
+        <img src= "/cicero-release/images/comparison_track.png">
+      </div>
+      <h3>Finding <i>cis</i>-Co-accessibility Networks (CCANS)</h3>
+      <p>
+        In addition to pairwise co-accessibility scores, Cicero also has a function to find <i>Cis</i>-Co-accessibility 
+        Networks (CCANs), which are modules of sites that are highly co-accessible with one another. We use the 
+        Louvain community detection algorithm (Blondel et al., 2008) to find clusters of sites that tended to be 
+        co-accessible. The function <code>generate_ccans</code> takes as input a connection data frame and outputs a 
+        data frame with CCAN assignments for each input peak. Sites not included in the output data frame were not 
+        assigned a CCAN.
+      </p>
+      <br>
+      <br>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/ccan_diagram.png">
+      </div>
+      <br>
+      <br>
+      <p>
+        The function <code>generate_ccans</code> has one optional input called <code>coaccess_cutoff_override</code>. 
+        When <code>coaccess_cutoff_override</code> is NULL, the function will determine and report an appropriate 
+        co-accessibility score cutoff value for CCAN generation based on the number of overall CCANs at varying 
+        cutoffs. You can also set <code>coaccess_cutoff_override</code> to be a numeric between 0 and 1, to override 
+        the cutoff-finding part of the function. This option is useful if you feel that the cutoff found 
+        automatically was too strict or loose, or for speed if you are rerunning the code and know what the cutoff 
+        will be, since the cutoff finding procedure can be slow.
+      </p>
+      {% highlight R %}
 CCAN_assigns <- generate_ccans(conns)
 
 # [1] "Co-accessibility cutoff used: 0.24"
@@ -737,31 +741,31 @@ head(CCAN_assigns)
 # chr18_157883_158536 chr18_157883_158536    1
 {% endhighlight %}
 
-        <h3>Cicero gene activity scores</h3>
-        <p>
-          We have found that often, accessibility at promoters is a poor predictor of gene expression. However, using 
-          Cicero links, we are able to get a better sense of the overall accessibility of a promoter and it's 
-          associated distal sites. This combined score of regional accessibility has a better concordance with gene 
-          expression. We call this score the Cicero gene activity score, and it is calculated using two functions.
-        </p>
-        <p>
-          The initial function is called <code>build_gene_activity_matrix</code>. This function takes an input CDS and 
-          a Cicero connection list, and outputs an unnormalized table of gene activity scores. 
-          <strong>IMPORTANT</strong>: the input CDS must have a column in the fData table called "gene" which indicates 
-          the gene if that peak is a promoter, and <code>NA</code> if the peak is distal. One way to add this column is 
-          demonstrated below.
-        </p>
-          
-        <p>  
-          The output of <code>build_gene_activity_matrix</code> is <strong>unnormalized</strong>. It must be normalized 
-          using a second function called <code>normalize_gene_activities</code>. If you intend to compare gene 
-          activities across different datasets of subsets of data, then all gene activity subsets should be normalized 
-          together, by passing in a list of unnormalized matrices. If you only wish to normalized one matrix, simply 
-          pass it to the function on its own. <code>normalize_gene_activities</code> also requires a named vector of 
-          of total accessible sites per cell. This is easily found in the pData table of your CDS, called 
-          "num_genes_expressed". See below for an example.
-        </p>
-        {% highlight R %}
+      <h3>Cicero gene activity scores</h3>
+      <p>
+        We have found that often, accessibility at promoters is a poor predictor of gene expression. However, using 
+        Cicero links, we are able to get a better sense of the overall accessibility of a promoter and it's 
+        associated distal sites. This combined score of regional accessibility has a better concordance with gene 
+        expression. We call this score the Cicero gene activity score, and it is calculated using two functions.
+      </p>
+      <p>
+        The initial function is called <code>build_gene_activity_matrix</code>. This function takes an input CDS and 
+        a Cicero connection list, and outputs an unnormalized table of gene activity scores. 
+        <strong>IMPORTANT</strong>: the input CDS must have a column in the fData table called "gene" which indicates 
+        the gene if that peak is a promoter, and <code>NA</code> if the peak is distal. One way to add this column is 
+        demonstrated below.
+      </p>
+        
+      <p>  
+        The output of <code>build_gene_activity_matrix</code> is <strong>unnormalized</strong>. It must be normalized 
+        using a second function called <code>normalize_gene_activities</code>. If you intend to compare gene 
+        activities across different datasets of subsets of data, then all gene activity subsets should be normalized 
+        together, by passing in a list of unnormalized matrices. If you only wish to normalized one matrix, simply 
+        pass it to the function on its own. <code>normalize_gene_activities</code> also requires a named vector of 
+        of total accessible sites per cell. This is easily found in the pData table of your CDS, called 
+        "num_genes_expressed". See below for an example.
+      </p>
+      {% highlight R %}
 # Make a subset of the gene annotation column containing just the coordinates and the 
 # gene name
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
@@ -787,185 +791,185 @@ unnorm_ga <- build_gene_activity_matrix(input_cds, conns)
 # make a list of num_genes_expressed
 num_genes <- pData(input_cds)$num_genes_expressed
 names(num_genes) <- row.names(pData(input_cds))
-                    
+                  
 # normalize
 cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
 
 
 # generate fake second unnormalized gene activity matrix
 unnorm_ga2 <- build_gene_activity_matrix(input_cds, conns)                    
-           
+          
 # if you had two datasets to normalize, you would pass both:
 # num_genes should then include all cells from both sets
 cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga, unnorm_ga2), 
-                                                    num_genes)
+                                                  num_genes)
 
 
-        {% endhighlight %}
+      {% endhighlight %}
 
 
-        <h3>Advanced visualizaton</h3>
+      <h3>Advanced visualizaton</h3>
 
-        <h4>Some useful parameters</h4>
-        <p>
-          Here, we will show some example of plotting parameters you may want to use to further explore your data 
-          visually. Find documentation of all of the parameters in R's manual pages using 
-          <code>?plot_connections</code>.
-        </p>
+      <h4>Some useful parameters</h4>
+      <p>
+        Here, we will show some example of plotting parameters you may want to use to further explore your data 
+        visually. Find documentation of all of the parameters in R's manual pages using 
+        <code>?plot_connections</code>.
+      </p>
 
-        <p>
-          <strong>Viewpoints:</strong> the <code>viewpoint</code> parameter lets you view only the connections 
-          originating from a specific place in the genome. This might be useful in comparing data with 4C-seq data.
-        </p>
-        {% highlight R %}
+      <p>
+        <strong>Viewpoints:</strong> the <code>viewpoint</code> parameter lets you view only the connections 
+        originating from a specific place in the genome. This might be useful in comparing data with 4C-seq data.
+      </p>
+      {% highlight R %}
 plot_connections(conns, "chr18", 10000, 112367, 
-                 viewpoint = "chr18_48000_53000",
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0,
-                 connection_width = .5,
-                 comparison_track = chia_conns,
-                 include_axis_track = F,
-                 collapseTranscripts = "longest") 
-        {% endhighlight %}
+                viewpoint = "chr18_48000_53000",
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0,
+                connection_width = .5,
+                comparison_track = chia_conns,
+                include_axis_track = F,
+                collapseTranscripts = "longest") 
+      {% endhighlight %}
 
-        <div class= "text-center">
-            <img src= "/cicero-release/images/viewpoint_example.png" width = "100%">
-        </div>
-        <p>
-            <strong><code>alpha_by_coaccess</code>:</strong> the <code>alpha_by_coaccess</code> parameter lets you is 
-            useful when you are concerned about overplotting. This parameter causes the alpha (transparency) of the 
-            connection curves to be scaled based on the magnitude of the co-accessibility. Compare the following two 
-            plots.
-        </p>
-        {% highlight R %}
+      <div class= "text-center">
+          <img src= "/cicero-release/images/viewpoint_example.png">
+      </div>
+      <p>
+          <strong><code>alpha_by_coaccess</code>:</strong> the <code>alpha_by_coaccess</code> parameter lets you is 
+          useful when you are concerned about overplotting. This parameter causes the alpha (transparency) of the 
+          connection curves to be scaled based on the magnitude of the co-accessibility. Compare the following two 
+          plots.
+      </p>
+      {% highlight R %}
 plot_connections(conns, 
-                 alpha_by_coaccess = FALSE, 
-                 "chr18", 8575097, 8839855, 
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0.1, 
-                 connection_width = .5, 
-                 collapseTranscripts = "longest" )
+                alpha_by_coaccess = FALSE, 
+                "chr18", 8575097, 8839855, 
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0.1, 
+                connection_width = .5, 
+                collapseTranscripts = "longest" )
 
 plot_connections(conns, 
-                 alpha_by_coaccess = TRUE, 
-                 "chr18", 8575097, 8839855, 
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0.1, 
-                 connection_width = .5, 
-                 collapseTranscripts = "longest" )
-        {% endhighlight %}
-  
-        <div class= "text-center">
-          <img src= "/cicero-release/images/alpha_by_co_F_example.png" width = "100%">
-        </div>
-        <div class= "text-center">
-          <img src= "/cicero-release/images/alpha_by_co_example.png" width = "100%">
-        </div>    
+                alpha_by_coaccess = TRUE, 
+                "chr18", 8575097, 8839855, 
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0.1, 
+                connection_width = .5, 
+                collapseTranscripts = "longest" )
+      {% endhighlight %}
+
+      <div class= "text-center">
+        <img src= "/cicero-release/images/alpha_by_co_F_example.png">
+      </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/alpha_by_co_example.png">
+      </div>    
 
 
-        <p>
-          <strong>Colors:</strong> There are several parameters having to do with colors:
-          <ul>
-            <li><code>peak_color</code></li>
-            <li><code>comparison_peak_color</code></li>
-            <li><code>connection_color</code></li>
-            <li><code>comparison_connection_color</code></li>
-            <li><code>gene_model_color</code></li>
-            <li><code>viewpoint_color</code></li>
-            <li><code>viewpoint_fill</code></li>
-          </ul>
-          Each of these parameters can be given color values in the form of color names, ex: "blue", or color codes, 
-          ex: "#B4656F". Alternatively, for the first four parameters above, you can provide the name of a column in 
-          your conns table that should be used to determine colors. In the case of <code>peak_color</code> and 
-          <code>comparison_peak_color</code>, the column should correspond to <strong>Peak1</strong> color assignment.
-        </p>
-        {% highlight R %}
+      <p>
+        <strong>Colors:</strong> There are several parameters having to do with colors:
+        <ul>
+          <li><code>peak_color</code></li>
+          <li><code>comparison_peak_color</code></li>
+          <li><code>connection_color</code></li>
+          <li><code>comparison_connection_color</code></li>
+          <li><code>gene_model_color</code></li>
+          <li><code>viewpoint_color</code></li>
+          <li><code>viewpoint_fill</code></li>
+        </ul>
+        Each of these parameters can be given color values in the form of color names, ex: "blue", or color codes, 
+        ex: "#B4656F". Alternatively, for the first four parameters above, you can provide the name of a column in 
+        your conns table that should be used to determine colors. In the case of <code>peak_color</code> and 
+        <code>comparison_peak_color</code>, the column should correspond to <strong>Peak1</strong> color assignment.
+      </p>
+      {% highlight R %}
 # When the color column is not already colors, random colors are assigned
 plot_connections(conns, 
-                 "chr18", 10000, 112367,
-                 connection_color = "in_chia_100",
-                 comparison_track = chia_conns,
-                 peak_color = "green",
-                 comparison_peak_color = "orange",
-                 comparison_connection_color = "purple",
-                 gene_model_color = "#2DD881",
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0.1, 
-                 connection_width = .5, 
-                 collapseTranscripts = "longest" )
-        {% endhighlight %}
+                "chr18", 10000, 112367,
+                connection_color = "in_chia_100",
+                comparison_track = chia_conns,
+                peak_color = "green",
+                comparison_peak_color = "orange",
+                comparison_connection_color = "purple",
+                gene_model_color = "#2DD881",
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0.1, 
+                connection_width = .5, 
+                collapseTranscripts = "longest" )
+      {% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/colors1_example.png" width = "100%">
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/colors1_example.png">
+      </div>
 
-        {% highlight R %}
+      {% highlight R %}
 # If I want specific color scheme, I can make a column of color names
 conns$conn_color <- "orange"
 conns$conn_color[conns$in_chia_100] <- "green"
 plot_connections(conns, 
-                 "chr18", 10000, 112367,
-                 connection_color = "conn_color",
-                 comparison_track = chia_conns,
-                 peak_color = "green",
-                 comparison_peak_color = "orange",
-                 comparison_connection_color = "purple",
-                 gene_model_color = "#2DD881",
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0.1, 
-                 connection_width = .5, 
-                 collapseTranscripts = "longest" )
-        {% endhighlight %}
+                "chr18", 10000, 112367,
+                connection_color = "conn_color",
+                comparison_track = chia_conns,
+                peak_color = "green",
+                comparison_peak_color = "orange",
+                comparison_connection_color = "purple",
+                gene_model_color = "#2DD881",
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0.1, 
+                connection_width = .5, 
+                collapseTranscripts = "longest" )
+      {% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/colors2_example.png" width = "100%">
-        </div>
-        
-        {% highlight R %}
+      <div class= "text-center">
+        <img src= "/cicero-release/images/colors2_example.png">
+      </div>
+      
+      {% highlight R %}
 # For coloring Peaks, I need the color column to correspond to Peak1:
 conns$peak1_color <- FALSE
 conns$peak1_color[conns$Peak1 == "chr18_11604_13986"] <- TRUE
 plot_connections(conns, 
-                 "chr18", 10000, 112367,
-                 connection_color = "green",
-                 comparison_track = chia_conns,
-                 peak_color = "peak1_color",
-                 comparison_peak_color = "orange",
-                 comparison_connection_color = "purple",
-                 gene_model_color = "#2DD881",
-                 gene_model = gene_annotation_sample, 
-                 coaccess_cutoff = 0.1, 
-                 connection_width = .5, 
-                 collapseTranscripts = "longest" )
+                "chr18", 10000, 112367,
+                connection_color = "green",
+                comparison_track = chia_conns,
+                peak_color = "peak1_color",
+                comparison_peak_color = "orange",
+                comparison_connection_color = "purple",
+                gene_model_color = "#2DD881",
+                gene_model = gene_annotation_sample, 
+                coaccess_cutoff = 0.1, 
+                connection_width = .5, 
+                collapseTranscripts = "longest" )
 
-        {% endhighlight %}
+      {% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/colors3_example.png" width = "100%">
-        </div>
-        
+      <div class= "text-center">
+        <img src= "/cicero-release/images/colors3_example.png">
+      </div>
+      
 
-        <h4>Customizing everything with <code>return_as_list</code></h4>
-        <p>
-          We realize that you may wish to plot other kinds of data along with Cicero connections. Because of this, we 
-          include the <code>return_as_list</code> option. This parameter allows you to use the extensive functionality 
-          of <a href="https://bioconductor.org/packages/release/bioc/html/Gviz.html">Gviz</a> to plot many different 
-          kinds of genomic data. See the 
-          <a href="http://bioconductor.org/packages/release/bioc/vignettes/Gviz/inst/doc/Gviz.pdf">Gviz user guide</a> 
-          to see the many options.
-        </p>
-        <p>
-          If <code>return_as_list</code></p> is set to <code>TRUE</code>, an image will not be plotted, and instead, a 
-          list of plot components will be returned. Let's go back to a simpler example:
-        </p>
-        {% highlight R %}
+      <h4>Customizing everything with <code>return_as_list</code></h4>
+      <p>
+        We realize that you may wish to plot other kinds of data along with Cicero connections. Because of this, we 
+        include the <code>return_as_list</code> option. This parameter allows you to use the extensive functionality 
+        of <a href="https://bioconductor.org/packages/release/bioc/html/Gviz.html">Gviz</a> to plot many different 
+        kinds of genomic data. See the 
+        <a href="http://bioconductor.org/packages/release/bioc/vignettes/Gviz/inst/doc/Gviz.pdf">Gviz user guide</a> 
+        to see the many options.
+      </p>
+      <p>
+        If <code>return_as_list</code></p> is set to <code>TRUE</code>, an image will not be plotted, and instead, a 
+        list of plot components will be returned. Let's go back to a simpler example:
+      </p>
+      {% highlight R %}
 plot_list <- plot_connections(conns, 
-                      "chr18", 10000, 112367,
-                      gene_model = gene_annotation_sample, 
-                      coaccess_cutoff = 0.1, 
-                      connection_width = .5, 
-                      collapseTranscripts = "longest", 
-                      return_as_list = TRUE)
+                    "chr18", 10000, 112367,
+                    gene_model = gene_annotation_sample, 
+                    coaccess_cutoff = 0.1, 
+                    connection_width = .5, 
+                    collapseTranscripts = "longest", 
+                    return_as_list = TRUE)
 plot_list
 # [[1]]
 # CustomTrack ''
@@ -984,21 +988,21 @@ plot_list
 # | genome: NA
 # | active chromosome: chr18
 # | annotation features: 33
-        {% endhighlight %}
-        <p>
-          This made a list of components in the order of plotting. First is the CustomTrack, which is the Cicero 
-          connections, next is the peak annotation track, next is the genome axis track, and lastly is the gene model 
-          track. I can now add another track, rearrange tracks, or replace tracks using Gviz:
-        </p>
-        {% highlight R %}
+      {% endhighlight %}
+      <p>
+        This made a list of components in the order of plotting. First is the CustomTrack, which is the Cicero 
+        connections, next is the peak annotation track, next is the genome axis track, and lastly is the gene model 
+        track. I can now add another track, rearrange tracks, or replace tracks using Gviz:
+      </p>
+      {% highlight R %}
 conservation <- UcscTrack(genome = "hg19", chromosome = "chr18",
-                          track = "Conservation", table = "phyloP100wayAll",
-                          fontsize.group=6,fontsize=6, cex.axis=.8,
-                          from = 10000, to = 112367, trackType = "DataTrack",
-                          start = "start", end = "end", data = "score", size = .1,
-                          type = "histogram", window = "auto", col.histogram = "#587B7F",
-                          fill.histogram = "#587B7F", ylim = c(-1, 2.5),
-                          name = "Conservation")
+                        track = "Conservation", table = "phyloP100wayAll",
+                        fontsize.group=6,fontsize=6, cex.axis=.8,
+                        from = 10000, to = 112367, trackType = "DataTrack",
+                        start = "start", end = "end", data = "score", size = .1,
+                        type = "histogram", window = "auto", col.histogram = "#587B7F",
+                        fill.histogram = "#587B7F", ylim = c(-1, 2.5),
+                        name = "Conservation")
 # I will replace the genome axis track with a track on conservation values
 plot_list[[3]] <- conservation   
 
@@ -1012,129 +1016,129 @@ plot_list[[3]] <- conservation
 # parameter must be a vector of the same length as plot_list
 
 Gviz::plotTracks(plot_list,  
-                 sizes = c(2,1,1,1),
-                 from = 10000, to = 112367, chromosome = "chr18", 
-                 transcriptAnnotation = "symbol",
-                 col.axis = "black", 
-                 fontsize.group = 6,
-                 fontcolor.legend = "black",
-                 lwd=.3,
-                 title.width = .5,
-                 background.title = "transparent", 
-                 col.border.title = "transparent")
-        {% endhighlight %}
+                sizes = c(2,1,1,1),
+                from = 10000, to = 112367, chromosome = "chr18", 
+                transcriptAnnotation = "symbol",
+                col.axis = "black", 
+                fontsize.group = 6,
+                fontcolor.legend = "black",
+                lwd=.3,
+                title.width = .5,
+                background.title = "transparent", 
+                col.border.title = "transparent")
+      {% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/return_as_list_example.png" width = "100%">
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/return_as_list_example.png">
+      </div>
 
 
-        
+      
 
-        <h3>Important Considerations for Non-Human Data</h3>
+      <h3>Important Considerations for Non-Human Data</h3>
 
-        <p>
-          Cicero's default parameters were designed for use in human and mouse. There are a few parameters that we 
-          expect will need to be changed for use in different model organisms. Here are the parameters along with a 
-          brief discussion of each:
+      <p>
+        Cicero's default parameters were designed for use in human and mouse. There are a few parameters that we 
+        expect will need to be changed for use in different model organisms. Here are the parameters along with a 
+        brief discussion of each:
 
-        <div class= "panel panel-info">
-            <div class= "panel-heading">
-              <h4 class= "panel-title">Parameters to consider for non-human data</h4>
-            </div>
-            <div class= "panel-body">
-              <table class= "table">
-                <thead>
-                  <tr>
-                    <th>Parameter</th>
-                    <th>Functions where used</th>
-                    <th>Notes</th>
-                    <th>Potential values</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>s</code></td>
-                    <td><code>estimate_distance_parameter</code>, <code>generate_cicero_models</code></td>
-                    <td>As discussed previously, the value <code>s</code> is the scaling exponent of the power-law 
-                      function that estimates the global decay in contact frequency. This value is generally estimated 
-                      using Hi-C contact frequencies. As a default, we have used 0.75, which corresponds to the 
-                      “tension globule” polymer model of DNA (Sanborn et al., 2015). However, in other organisms, 
-                      different decay functions have been observed. For example, in Drosophila, a scaling value of 0.85 
-                      has been proposed (Sexton et al., 2012).
-                    </td>
-                    <td>Human and mouse: 0.75<br>Drosophila: 0.85</td>
-                  </tr>
-                  <tr>
-                    <td><code>distance_constraint</code></td>
-                    <td><code>estimate_distance_parameter</code></td>
-                    <td>The value <code>distance_constraint</code> is the distance in base pairs at beyond which few
-                      (less than 5%) meaningful <i>cis</i>-regulatory connections are expected to exist. While there are 
-                      examples of very long range <i>cis</i>-regulatory contacts in various organisms, this value should be 
-                      more of a general rule as Cicero can still detect longer range connections with high 
-                      co-accessibility.
-                    </td>
-                    <td>Human and mouse: 250,000<br>Drosophila: 50,000</td>
-                    </tr>
-                    <tr>
-                      <td><code>window</code></td>
-                      <td><code>estimate_distance_parameter</code>, <code>generate_cicero_models</code></td>
-                      <td>The <code>window</code> value is the length in base pairs of the sliding window that Cicero 
-                        will use when measuring co-accessibility. This value must be significantly longer (>30%) than 
-                        the value for <code>distance_constraint</code>. This is the maximum distance of sites that 
-                        will be compared.
-                      </td>
-                      <td>Human and mouse: 500,000<br>Drosophila: 100,000</td>
-                    </tr>
-                </tbody>
-              </table>
-            </div>
+      <div class= "panel panel-info">
+          <div class= "panel-heading">
+            <h4 class= "panel-title">Parameters to consider for non-human data</h4>
           </div>
-        </p>
+          <div class= "panel-body">
+            <table class= "table">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Functions where used</th>
+                  <th>Notes</th>
+                  <th>Potential values</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>s</code></td>
+                  <td><code>estimate_distance_parameter</code>, <code>generate_cicero_models</code></td>
+                  <td>As discussed previously, the value <code>s</code> is the scaling exponent of the power-law 
+                    function that estimates the global decay in contact frequency. This value is generally estimated 
+                    using Hi-C contact frequencies. As a default, we have used 0.75, which corresponds to the 
+                    “tension globule” polymer model of DNA (Sanborn et al., 2015). However, in other organisms, 
+                    different decay functions have been observed. For example, in Drosophila, a scaling value of 0.85 
+                    has been proposed (Sexton et al., 2012).
+                  </td>
+                  <td>Human and mouse: 0.75<br>Drosophila: 0.85</td>
+                </tr>
+                <tr>
+                  <td><code>distance_constraint</code></td>
+                  <td><code>estimate_distance_parameter</code></td>
+                  <td>The value <code>distance_constraint</code> is the distance in base pairs at beyond which few
+                    (less than 5%) meaningful <i>cis</i>-regulatory connections are expected to exist. While there are 
+                    examples of very long range <i>cis</i>-regulatory contacts in various organisms, this value should be 
+                    more of a general rule as Cicero can still detect longer range connections with high 
+                    co-accessibility.
+                  </td>
+                  <td>Human and mouse: 250,000<br>Drosophila: 50,000</td>
+                  </tr>
+                  <tr>
+                    <td><code>window</code></td>
+                    <td><code>estimate_distance_parameter</code>, <code>generate_cicero_models</code></td>
+                    <td>The <code>window</code> value is the length in base pairs of the sliding window that Cicero 
+                      will use when measuring co-accessibility. This value must be significantly longer (>30%) than 
+                      the value for <code>distance_constraint</code>. This is the maximum distance of sites that 
+                      will be compared.
+                    </td>
+                    <td>Human and mouse: 500,000<br>Drosophila: 100,000</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </p>
 
-        <h2>Single-cell accessibility trajectories</h2>
-        <p>
-          The second major function of the Cicero package is to extend Monocle 2 for use with single-cell accessibility 
-          data. The main obstacle to overcome with chromatin accessibility data is the sparsity, so most of the 
-          extensions and methods are designed to address that.
-        </p>
+      <h2>Single-cell accessibility trajectories</h2>
+      <p>
+        The second major function of the Cicero package is to extend Monocle 2 for use with single-cell accessibility 
+        data. The main obstacle to overcome with chromatin accessibility data is the sparsity, so most of the 
+        extensions and methods are designed to address that.
+      </p>
 
-        <h3>Constructing trajectories with accessibility data</h3>
+      <h3>Constructing trajectories with accessibility data</h3>
 
-        <p>We strongly recommend that you consult the Monocle website, especially 
-          <a href ="http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories">
-          this section</a> prior to reading about Cicero's extension of the Monocle analysis described. Briefly, 
-          Monocle infers pseudotime trajectories in three steps:
-          <ol>
-            <li>Choosing sites that define progress</li>
-            <li>Reducing the dimensionality of the data</li>
-            <li>Ordering cells in pseudotime</li>
-          </ol>
-          We will describe how each piece is modified for use with sparse single-cell chromatin accessibility data.
-        </p>
+      <p>We strongly recommend that you consult the Monocle website, especially 
+        <a href ="http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories">
+        this section</a> prior to reading about Cicero's extension of the Monocle analysis described. Briefly, 
+        Monocle infers pseudotime trajectories in three steps:
+        <ol>
+          <li>Choosing sites that define progress</li>
+          <li>Reducing the dimensionality of the data</li>
+          <li>Ordering cells in pseudotime</li>
+        </ol>
+        We will describe how each piece is modified for use with sparse single-cell chromatin accessibility data.
+      </p>
 
-        <h4>Aggregation: the primary method for addressing sparsity</h4>
-        <p>
-          The primary way that the Cicero package deals with the sparsity of single-cell chromatin accessibility data 
-          is through aggregation. Aggregating the counts of either single cells or single peaks allows us to produce a 
-          "consensus" count matrix, reducing noise and allowing us to move out of the binary regime. Under this 
-          grouping, the number of cells in which a particular site is accessible can be modeled with a binomial 
-          distribution or, for sufficiently large groups, the corresponding Gaussian approximation. Modeling grouped 
-          accessibility counts as normally distributed allows Cicero to easily adjust them for arbitrary technical 
-          covariates by simply fitting a linear model and taking the residuals with respect to it as the adjusted 
-          accessibility score for each group of cells. We demonstrate how to apply this grouping practically below.
-        </p>
+      <h4>Aggregation: the primary method for addressing sparsity</h4>
+      <p>
+        The primary way that the Cicero package deals with the sparsity of single-cell chromatin accessibility data 
+        is through aggregation. Aggregating the counts of either single cells or single peaks allows us to produce a 
+        "consensus" count matrix, reducing noise and allowing us to move out of the binary regime. Under this 
+        grouping, the number of cells in which a particular site is accessible can be modeled with a binomial 
+        distribution or, for sufficiently large groups, the corresponding Gaussian approximation. Modeling grouped 
+        accessibility counts as normally distributed allows Cicero to easily adjust them for arbitrary technical 
+        covariates by simply fitting a linear model and taking the residuals with respect to it as the adjusted 
+        accessibility score for each group of cells. We demonstrate how to apply this grouping practically below.
+      </p>
 
-        <h5><code>aggregate_nearby_peaks</code></h5>
-        <p>
-          The primary aggregation used for trajectory reconstruction is betweeen nearby peaks. This keeps single cells 
-          separate while aggregating regions of the genome and looking for chromatin accessibility within them. The 
-          function <code>aggregate_nearby_peaks</code> finds sites within a certain distance of each other and 
-          aggregates them together by summing their counts. Depending on the density of your data, you may want to try 
-          different <code>distance</code> parameters. In published work we have used 1000 and 10,000.
-        </p>
+      <h5><code>aggregate_nearby_peaks</code></h5>
+      <p>
+        The primary aggregation used for trajectory reconstruction is betweeen nearby peaks. This keeps single cells 
+        separate while aggregating regions of the genome and looking for chromatin accessibility within them. The 
+        function <code>aggregate_nearby_peaks</code> finds sites within a certain distance of each other and 
+        aggregates them together by summing their counts. Depending on the density of your data, you may want to try 
+        different <code>distance</code> parameters. In published work we have used 1000 and 10,000.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 data("cicero_data")
 input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 
@@ -1148,201 +1152,200 @@ agg_cds <- detectGenes(agg_cds)
 agg_cds <- estimateSizeFactors(agg_cds)
 agg_cds <- estimateDispersions(agg_cds){% endhighlight %}
 
-        <h4>Choosing sites that define progress</h4>
+      <h4>Choosing sites that define progress</h4>
 
-        <p>
-          There are several options for choosing the sites to use during dimensionality reduction. Monocle has a 
-          discussion about the options 
-          <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#alternative-choices-for-ordering-genes">
-            here</a>. Any of these options could be used with your new aggregated CDS, depending on the information you 
-          have a available in your dataset. Here, we will show two examples:
-        </p>
+      <p>
+        There are several options for choosing the sites to use during dimensionality reduction. Monocle has a 
+        discussion about the options 
+        <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#alternative-choices-for-ordering-genes">
+          here</a>. Any of these options could be used with your new aggregated CDS, depending on the information you 
+        have a available in your dataset. Here, we will show two examples:
+      </p>
 
-        <h5 data-toc-text= "Choose sites by differential analysis">Choose sites by differential analysis<span class= "label label-success">Alternative</span></h5>
+      <h5 data-toc-text= "Choose sites by differential analysis">Choose sites by differential analysis<span class= "label label-success">Alternative</span></h5>
 
-        <p>
-          If your data has defined beginning and end points, you can determine which sites define progress by a 
-          differential accessibility test. We use Monocle's <code>differentialGeneTest</code> function looking for 
-          sites that are different in the timepoint groups.
-        </p>
+      <p>
+        If your data has defined beginning and end points, you can determine which sites define progress by a 
+        differential accessibility test. We use Monocle's <code>differentialGeneTest</code> function looking for 
+        sites that are different in the timepoint groups.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 # This takes a few minutes to run
 diff_timepoint <- differentialGeneTest(agg_cds,
-                      fullModelFormulaStr="~timepoint + num_genes_expressed")
+                    fullModelFormulaStr="~timepoint + num_genes_expressed")
 
 # We chose a very high q-value cutoff because there are
 # so few sites in the sample dataset, in general a q-value
 # cutoff in the range of 0.01 to 0.1 would be appropriate
 ordering_sites <- row.names(subset(diff_timepoint, qval < 1)){% endhighlight %}
 
-        <h5 data-toc-text= "Choose sites by dpFeature">Choose sites by dpFeature <span class= "label label-success">Alternative</span></h5>
-        <p>
-          Alternatively, you can choose sites for dimensionality reduction by using Monocle's 
-          <a href="http://cole-trapnell-lab.github.io/monocle-release/docs/#dpfeature-selecting-features-from-dense-cell-clusters">
-          dpFeature</a> method. dpFeature chooses sites based on how they differ among clusters of cells. Here, we give 
-          some example code reproduced from Monocle, for more information, see the 
-          <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#alternative-choices-for-ordering-genes">
-            Monocle description</a>.
-        </p>
+      <h5 data-toc-text= "Choose sites by dpFeature">Choose sites by dpFeature <span class= "label label-success">Alternative</span></h5>
+      <p>
+        Alternatively, you can choose sites for dimensionality reduction by using Monocle's 
+        <a href="http://cole-trapnell-lab.github.io/monocle-release/docs/#dpfeature-selecting-features-from-dense-cell-clusters">
+        dpFeature</a> method. dpFeature chooses sites based on how they differ among clusters of cells. Here, we give 
+        some example code reproduced from Monocle, for more information, see the 
+        <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#alternative-choices-for-ordering-genes">
+          Monocle description</a>.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 plot_pc_variance_explained(agg_cds, return_all = F) #Choose 2 PCs{% endhighlight %}
-        <div class= "text-center">
-          <img src= "/cicero-release/images/plot_pc_var.png" width = 500>
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/plot_pc_var.png">
+      </div>
 
-        {% highlight R %}
+      {% highlight R %}
 agg_cds <- reduceDimension(agg_cds,
-                              max_components = 2,
-                              norm_method = 'log',
-                              num_dim = 3,
-                              reduction_method = 'tSNE',
-                              verbose = T)
+                            max_components = 2,
+                            norm_method = 'log',
+                            num_dim = 3,
+                            reduction_method = 'tSNE',
+                            verbose = T)
 
 agg_cds <- clusterCells(agg_cds, verbose = F)
 
 plot_cell_clusters(agg_cds, color_by = 'as.factor(Cluster)'){% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/plot_cell_clust.png" width = 500>
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/plot_cell_clust.png">
+      </div>
 
-        {% highlight R %}
+      {% highlight R %}
 clustering_DA_sites <- differentialGeneTest(agg_cds, #Takes a few minutes
-                                            fullModelFormulaStr = '~Cluster')
+                                          fullModelFormulaStr = '~Cluster')
 
 ordering_sites <-
-  row.names(clustering_DA_sites)[order(clustering_DA_sites$qval)][1:1000]{% endhighlight %}
+row.names(clustering_DA_sites)[order(clustering_DA_sites$qval)][1:1000]{% endhighlight %}
 
-        <h4>Reduce the dimensionality of the data and order cells</h4>
-        <p>
-          However you chose your ordering sites, the first step of dimensionality reduction is to use 
-          <code>setOrderingFilter</code> to mark the sites you want to use for dimesionality reduction. In the 
-          following figures, we are using the ordering_sites from 
-          <strong>Choose sites by differential analysis</strong> above.
-        </p>
+      <h4>Reduce the dimensionality of the data and order cells</h4>
+      <p>
+        However you chose your ordering sites, the first step of dimensionality reduction is to use 
+        <code>setOrderingFilter</code> to mark the sites you want to use for dimesionality reduction. In the 
+        following figures, we are using the ordering_sites from 
+        <strong>Choose sites by differential analysis</strong> above.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 agg_cds <- setOrderingFilter(agg_cds, ordering_sites){% endhighlight %}
 
-        <p>
-          Next, we use DDRTree to reduce dimensionality and then order the cells along the trajectory. Importantly, we 
-          use num_genes_expressed in our residual model formula to account for overall assay efficiency.
-        </p>
+      <p>
+        Next, we use DDRTree to reduce dimensionality and then order the cells along the trajectory. Importantly, we 
+        use num_genes_expressed in our residual model formula to account for overall assay efficiency.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 agg_cds <- reduceDimension(agg_cds, max_components = 2,
-          residualModelFormulaStr="~as.numeric(num_genes_expressed)",
-          reduction_method = 'DDRTree')
+        residualModelFormulaStr="~as.numeric(num_genes_expressed)",
+        reduction_method = 'DDRTree')
 agg_cds <- orderCells(agg_cds)
 plot_cell_trajectory(agg_cds, color_by = "timepoint"){% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/HSMM_trajectory_example.png" width = 700>
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/HSMM_trajectory_example.png">
+      </div>
 
-        <p>
-          Once you have a cell trajectory, you need to make sure that pseudotime proceeds how you expect. In our 
-          example, we want pseudotime to start where most of the time 0 cells are located and proceed towards the later 
-          timepoints. Further information on this can be found 
-          <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories">
-            here</a> on the Monocle website. We first color our trajectory plot by State, which is how Monocle assigns 
-          segments of the tree.
-        </p>
+      <p>
+        Once you have a cell trajectory, you need to make sure that pseudotime proceeds how you expect. In our 
+        example, we want pseudotime to start where most of the time 0 cells are located and proceed towards the later 
+        timepoints. Further information on this can be found 
+        <a href = "http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories">
+          here</a> on the Monocle website. We first color our trajectory plot by State, which is how Monocle assigns 
+        segments of the tree.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 plot_cell_trajectory(agg_cds, color_by = "State"){% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/HSMM_trajectory_example_state.png" width = 700>
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/HSMM_trajectory_example_state.png">
+      </div>
 
-        <p>
-          From this plot, we can see that the beginning of pseudotime should be from state 4. We now reorder cells 
-          setting the root state to 4. We can then check that the ordering makes sense by coloring the plot by 
-          Pseudotime.
-        </p>
+      <p>
+        From this plot, we can see that the beginning of pseudotime should be from state 4. We now reorder cells 
+        setting the root state to 4. We can then check that the ordering makes sense by coloring the plot by 
+        Pseudotime.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 agg_cds <- orderCells(agg_cds, root_state = 4)
 plot_cell_trajectory(agg_cds, color_by = "Pseudotime"){% endhighlight %}
+      <div class= "text-center">
+        <img src= "/cicero-release/images/HSMM_trajectory_example_pseudo.png">
+      </div>
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/HSMM_trajectory_example_pseudo.png" width = 700>
-        </div>
+      <p>
+        Now that we have Pseudotime values for each cell (<code>pData(agg_cds)$Pseudotime</code>), we need to assign 
+        these values back to our original CDS object. In addition, we will assign the State information back to the 
+        original CDS.
+      </p>
 
-        <p>
-          Now that we have Pseudotime values for each cell (<code>pData(agg_cds)$Pseudotime</code>), we need to assign 
-          these values back to our original CDS object. In addition, we will assign the State information back to the 
-          original CDS.
-        </p>
-
-        {% highlight R %}
+      {% highlight R %}
 pData(input_cds)$Pseudotime <- pData(agg_cds)[colnames(input_cds),]$Pseudotime
 pData(input_cds)$State <- pData(agg_cds)[colnames(input_cds),]$State{% endhighlight %}
 
-        <h3>Differential Accessibility Analysis</h3>
-        <p>
-          Once you have your cells ordered in pseudotime, you can ask where in the genome chromatin accessibility is 
-          changing across time. If you know of specific sites that are important to your system, you may want to 
-          visualize the accessibility at those sites across pseudotime.
-        </p>
+      <h3>Differential Accessibility Analysis</h3>
+      <p>
+        Once you have your cells ordered in pseudotime, you can ask where in the genome chromatin accessibility is 
+        changing across time. If you know of specific sites that are important to your system, you may want to 
+        visualize the accessibility at those sites across pseudotime.
+      </p>
 
-        <h4>Visualizing accessibility across pseudotime</h4>
-        <h5><code>plot_accessibility_in_pseudotime</code></h5>
-        <p>
-          For simplicity, we will exclude the branch in our trajectory to make our trajectory linear.
-        </p>
+      <h4>Visualizing accessibility across pseudotime</h4>
+      <h5><code>plot_accessibility_in_pseudotime</code></h5>
+      <p>
+        For simplicity, we will exclude the branch in our trajectory to make our trajectory linear.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 input_cds_lin <- input_cds[,row.names(subset(pData(input_cds), State  != 5))]
 
 plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr18_48373358_48374180", "chr18_60457956_60459080")]){% endhighlight %}
 
-        <div class= "text-center">
-          <img src= "/cicero-release/images/example_plot_accessibility.png" width = 400>
-        </div>
+      <div class= "text-center">
+        <img src= "/cicero-release/images/example_plot_accessibility.png" width="400px">
+      </div>
 
-        <h4>Running <code>differentialGeneTest</code> with single cell chromatin accessibility data</h4>
-        <p>
-          In the previous section, we used aggregation of sites to discover cell-level information (cell pseudotime). 
-          In this section, we are interested in a site-level statistic (whether a site is changing in pseudotime), so 
-          we will aggregate similar cells. To do this, Cicero has a useful function called 
-          <code>aggregate_by_cell_bin</code>.
-        </p>
+      <h4>Running <code>differentialGeneTest</code> with single cell chromatin accessibility data</h4>
+      <p>
+        In the previous section, we used aggregation of sites to discover cell-level information (cell pseudotime). 
+        In this section, we are interested in a site-level statistic (whether a site is changing in pseudotime), so 
+        we will aggregate similar cells. To do this, Cicero has a useful function called 
+        <code>aggregate_by_cell_bin</code>.
+      </p>
 
-        <h5><code>aggregate_by_cell_bin</code></h5>
-        <p>
-          We use the function <code>aggregate_by_cell_bin</code> to aggregate our input CDS object by a column in the 
-          pData table. In this example, we will assign cells to bins by cutting the pseudotime trajectory into 10 parts.
-        </p>
+      <h5><code>aggregate_by_cell_bin</code></h5>
+      <p>
+        We use the function <code>aggregate_by_cell_bin</code> to aggregate our input CDS object by a column in the 
+        pData table. In this example, we will assign cells to bins by cutting the pseudotime trajectory into 10 parts.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 pData(input_cds_lin)$cell_subtype <- cut(pData(input_cds_lin)$Pseudotime, 10)
 binned_input_lin <-aggregate_by_cell_bin(input_cds_lin, "cell_subtype"){% endhighlight %}
 
-        <p>
-          We are now ready to run Monocle's differentialGeneTest function to find sites that are differentially 
-          accessible across pseudotime. In this example, we include num_genes_expressed as a covariate to subtract its 
-          effect.
-        </p>
+      <p>
+        We are now ready to run Monocle's differentialGeneTest function to find sites that are differentially 
+        accessible across pseudotime. In this example, we include num_genes_expressed as a covariate to subtract its 
+        effect.
+      </p>
 
-        {% highlight R %}
+      {% highlight R %}
 diff_test_res <- differentialGeneTest(binned_input_lin,
-    fullModelFormulaStr="~sm.ns(Pseudotime, df=3) + sm.ns(num_genes_expressed, df=3)",
-    reducedModelFormulaStr="~sm.ns(num_genes_expressed, df=3)", cores=1){% endhighlight %}
+  fullModelFormulaStr="~sm.ns(Pseudotime, df=3) + sm.ns(num_genes_expressed, df=3)",
+  reducedModelFormulaStr="~sm.ns(num_genes_expressed, df=3)", cores=1){% endhighlight %}
 
-        <h2>Useful Functions</h2>
-        <h3><code>annotate_cds_by_site</code></h3>
-        <p>
-          It is often useful to add additional annotations about your peaks to your CDS object. For example, you might 
-          want to know which peaks overlap an exon, or a transcription start site. Cicero includes the function 
-          <code>annotate_cds_by_site</code>, which takes as input your CDS, and a data frame or file path with 
-          bed-format information (chromosome, bp1, bp2, further columns). For example, suppose I have some data 
-          (<code>feat</code>) about epigenetic marks in my system:
-        </p>
-        {% highlight R %}
+      <h2>Useful Functions</h2>
+      <h3><code>annotate_cds_by_site</code></h3>
+      <p>
+        It is often useful to add additional annotations about your peaks to your CDS object. For example, you might 
+        want to know which peaks overlap an exon, or a transcription start site. Cicero includes the function 
+        <code>annotate_cds_by_site</code>, which takes as input your CDS, and a data frame or file path with 
+        bed-format information (chromosome, bp1, bp2, further columns). For example, suppose I have some data 
+        (<code>feat</code>) about epigenetic marks in my system:
+      </p>
+      {% highlight R %}
 head(fData(input_cds))
 
 #                               site_name chr    bp1    bp2 num_cells_expressed 
@@ -1354,9 +1357,9 @@ head(fData(input_cds))
 # chr18_104385_104585 chr18_104385_104585  18 104385 104585                   1  
 
 feat <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"), 
-                   bp1 = c(10000, 10800, 50000, 100000), 
-                   bp2 = c(10700, 11000, 60000, 110000), 
-                   type = c("Acetylated", "Methylated", "Acetylated", "Methylated"))
+                  bp1 = c(10000, 10800, 50000, 100000), 
+                  bp2 = c(10700, 11000, 60000, 110000), 
+                  type = c("Acetylated", "Methylated", "Acetylated", "Methylated"))
 head(feat)
 #     chr    bp1    bp2       type
 # 1 chr18  10000  10700 Acetylated
@@ -1364,10 +1367,10 @@ head(feat)
 # 3 chr18  50000  60000 Acetylated
 # 4 chr18 100000 110000 Methylated
 {% endhighlight %}
-        <p>
-          I can use annotate_cds_by_site to determine which of my peaks have those epigenetic marks.
-        </p>
-        {% highlight R %}
+      <p>
+        I can use annotate_cds_by_site to determine which of my peaks have those epigenetic marks.
+      </p>
+      {% highlight R %}
 temp <- annotate_cds_by_site(input_cds, feat)
 head(fData(temp))
 
@@ -1380,15 +1383,15 @@ head(fData(temp))
 # chr18_104385_104585 chr18_104385_104585  18 104385 104585                   1     201 Methylated
 {% endhighlight %}
 
-        <p>
-          This function has added two columns compared to above. Overlap represents the number of base pairs 
-          overlapping between the interval in <code>feat</code> and the given peak, and type is the assigned status 
-          based on the overlap. If you look closely, site <code>chr18_10603_11103</code> was actually overlapped by two 
-          intervals in <code>feat</code>. In its default mode, <code>annotate_cds_by_site</code> will choose the 
-          largest overlapping interval to report. If you would like to see all overlapping intervals, you can set the 
-          <code>all</code> flag to <code>TRUE</code>. 
-        </p>
-        {% highlight R %}
+      <p>
+        This function has added two columns compared to above. Overlap represents the number of base pairs 
+        overlapping between the interval in <code>feat</code> and the given peak, and type is the assigned status 
+        based on the overlap. If you look closely, site <code>chr18_10603_11103</code> was actually overlapped by two 
+        intervals in <code>feat</code>. In its default mode, <code>annotate_cds_by_site</code> will choose the 
+        largest overlapping interval to report. If you would like to see all overlapping intervals, you can set the 
+        <code>all</code> flag to <code>TRUE</code>. 
+      </p>
+      {% highlight R %}
 temp <- annotate_cds_by_site(input_cds, feat, all=TRUE)
 head(fData(temp))
 
@@ -1400,27 +1403,27 @@ head(fData(temp))
 # chr18_50240_50740     chr18_50240_50740  18  50240  50740                   2     501            Acetylated
 # chr18_104385_104585 chr18_104385_104585  18 104385 104585                   1     201            Methylated
 {% endhighlight %}
-        <p>
-          As you see above, when <code>all</code> is set to <code>TRUE</code>, all of the intervals that overlap are 
-          reported.
-        </p>
-        <h3><code>find_overlapping_coordinates</code></h3>
-        <p>
-          Lastly, you may simply want to know which of your peaks overlap a specific region of the genome. For that 
-          Cicero includes the function <code>find_overlapping_coordinates</code>. 
-        </p>
-        {% highlight R %}
+      <p>
+        As you see above, when <code>all</code> is set to <code>TRUE</code>, all of the intervals that overlap are 
+        reported.
+      </p>
+      <h3><code>find_overlapping_coordinates</code></h3>
+      <p>
+        Lastly, you may simply want to know which of your peaks overlap a specific region of the genome. For that 
+        Cicero includes the function <code>find_overlapping_coordinates</code>. 
+      </p>
+      {% highlight R %}
 find_overlapping_coordinates(fData(temp)$site_name, "chr18:10,100-10,604")
 
 # [1] "chr18_10025_10225" "chr18_10603_11103"
-        {% endhighlight %}
+      {% endhighlight %}
 
 
-        <h2>Citation </h2>
+      <h2>Citation </h2>
 
-        If you use Cicero to analyze your experiments, please cite:
+      If you use Cicero to analyze your experiments, please cite:
 
-        {% highlight R %}
+      {% highlight R %}
 
 citation("cicero")
 
@@ -1445,52 +1448,39 @@ citation("cicero")
 #     Steemers and Jay Shendure and Cole Trapnell},
 # }
 
-        {% endhighlight %}
+      {% endhighlight %}
 
-        <h2>Acknowledgements </h2>
+      <h2>Acknowledgements </h2>
 
-        Cicero was developed by Hannah Pliner in Cole Trapnell's and Jay Shendure's labs.
-        <br>
-        <br>
-        This vignette was created from Wolfgang Huber's Bioconductor vignette style document, and patterned after the 
-        vignette for <em>DESeq</em>, by Simon Anders and Wolfgang Huber.
+      Cicero was developed by Hannah Pliner in Cole Trapnell's and Jay Shendure's labs.
+      <br>
+      <br>
+      This vignette was created from Wolfgang Huber's Bioconductor vignette style document, and patterned after the 
+      vignette for <em>DESeq</em>, by Simon Anders and Wolfgang Huber.
 
-        <h2>References </h2>
-        <p>
-          Blondel, V.D., Guillaume, J.-L., Lambiotte, R., and Lefebvre, E. (2008). 
-          <a href = "http://iopscience.iop.org/article/10.1088/1742-5468/2008/10/P10008/meta">Fast unfolding of 
-            communities in large networks.</a>
-        </p>
-        <p>
-          Dekker, J., Marti-Renom, M.A., and Mirny, L.A. (2013). <a href = "https://www.nature.com/articles/nrg3454">
-            Exploring the three-dimensional organization of genomes: interpreting chromatin interaction data</a>. Nat. 
-          Rev. Genet. 14, 390–403.
-        </p>
-        <p>
-          Sanborn, A.L., Rao, S.S.P., Huang, S.-C., Durand, N.C., Huntley, M.H., Jewett, A.I., Bochkov, I.D., 
-          Chinnappan, D., Cutkosky, A., Li, J., et al. (2015). <a href = "http://www.pnas.org/content/112/47/E6456">
-            Chromatin extrusion explains key features of loop and domain formation in wild-type and engineered genomes.
-          </a>. Proc. Natl. Acad. Sci. U. S. A. 112, E6456–E6465.
-        </p>
-        <p>
-          Sexton, T., Yaffe, E., Kenigsberg, E., Bantignies, F., Leblanc, B., Hoichman, M., Parrinello, H., Tanay, A., 
-          and Cavalli, G. (2012). <a href = "https://www.sciencedirect.com/science/article/pii/S0092867412000165">
-            Three-Dimensional Folding and Functional Organization Principles of the Drosophila Genome.
-          </a>. Cell 148:3, 458-472.
-        </p>
-      </div>
+      <h2>References </h2>
+      <p>
+        Blondel, V.D., Guillaume, J.-L., Lambiotte, R., and Lefebvre, E. (2008). 
+        <a href = "http://iopscience.iop.org/article/10.1088/1742-5468/2008/10/P10008/meta">Fast unfolding of 
+          communities in large networks.</a>
+      </p>
+      <p>
+        Dekker, J., Marti-Renom, M.A., and Mirny, L.A. (2013). <a href = "https://www.nature.com/articles/nrg3454">
+          Exploring the three-dimensional organization of genomes: interpreting chromatin interaction data</a>. Nat. 
+        Rev. Genet. 14, 390–403.
+      </p>
+      <p>
+        Sanborn, A.L., Rao, S.S.P., Huang, S.-C., Durand, N.C., Huntley, M.H., Jewett, A.I., Bochkov, I.D., 
+        Chinnappan, D., Cutkosky, A., Li, J., et al. (2015). <a href = "http://www.pnas.org/content/112/47/E6456">
+          Chromatin extrusion explains key features of loop and domain formation in wild-type and engineered genomes.
+        </a>. Proc. Natl. Acad. Sci. U. S. A. 112, E6456–E6465.
+      </p>
+      <p>
+        Sexton, T., Yaffe, E., Kenigsberg, E., Bantignies, F., Leblanc, B., Hoichman, M., Parrinello, H., Tanay, A., 
+        and Cavalli, G. (2012). <a href = "https://www.sciencedirect.com/science/article/pii/S0092867412000165">
+          Three-Dimensional Folding and Functional Organization Principles of the Drosophila Genome.
+        </a>. Cell 148:3, 458-472.
+      </p>
     </div>
   </div>
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-
-  {% include footer.html %}
-
-</body>
-
-</html>
+</div>
