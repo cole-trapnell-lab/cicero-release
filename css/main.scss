@@ -16,6 +16,10 @@ $icon-font-path: "/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap";
 
 /* landing page styles */
+.jumbotron {
+    margin-top: -24px;
+}
+
 .jumbotron h1{
     color: #fff;
 }
@@ -44,6 +48,32 @@ nav#toc {
 	nav#toc {
         display: none;
 	}
+}
+
+/* content styles */
+body {
+    line-height: 1.6;
+}
+
+h2, h3, h4, h5 {
+    margin-top: 36px;
+}
+
+img {
+    max-width: 100%;
+}
+
+.panel-body, .table-wrapper {
+    max-width: 100%;
+    overflow: auto;
+}
+
+.panel,
+p,
+img,
+pre {
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 /* center the footer */

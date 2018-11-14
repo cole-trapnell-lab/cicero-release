@@ -12,7 +12,7 @@ tags: [monocle, manual, vignette]
     </div>
     <div class= "col-sm-8">
       
-      <h2>Abstract</h2>
+      <h1>Abstract</h1>
       <p> 
         <strong>Cicero</strong> is an R package that provides tools for analyzing single-cell chromatin accessibility 
         experiments. The main function of Cicero is to use single-cell chromatin accessibility data to predict 
@@ -130,6 +130,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
         The Cicero workflow is broken up into broad steps. When there's more than one way to do a certain step, we've 
         labeled the options as follows:
       </p>
+      <div class="table-wrapper">
       <table class= "table">
         <tbody>
           <tr>
@@ -146,6 +147,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h2>Constructing <i>cis</i>-regulatory networks</h2>
       <h3>Running Cicero</h3>
@@ -163,7 +165,9 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
         its feature data <code>fData</code> rather than genes or transcripts. Specifically, many Cicero functions 
         require peak information in the form chr1_10390134_10391134. For example, an input fData table might look 
         like this:
-        <table class = "table" style="overflow:auto;">
+
+        <div class="table-wrapper">
+        <table class = "table">
           <thead>
             <tr>
               <th></th>
@@ -211,6 +215,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
             </tr>
           </tbody>
         </table>
+        </div>
       </p>
 
       <p>
@@ -230,7 +235,8 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
         For example:
       </p> 
 
-        <table class = "table" style="overflow:auto;">
+        <div class="table-wrapper">
+        <table class = "table">
           <tbody>
             <tr>
               <th>chr10_100002625_100002940</th>
@@ -259,6 +265,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
             </tr>
           </tbody>
         </table>
+        </div>
       </p>
 
       <p>
@@ -319,6 +326,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
         the <code>pData</code> table of your CDS. The columns of <code>reduced_coordinates</code> should be the 
         coordinates of the reduced dimension object, for example:
       </p>
+      <div class="table-wrapper">
       <table class = "table" style="overflow:auto;">
         <tbody>
           <tr>
@@ -343,6 +351,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
           </tr>
         </tbody>
       </table>
+      </div>
 
       <p>
         Here is an example of both dimensionality reduction and creation of a Cicero CDS. Using monocle as a guide, 
@@ -411,6 +420,7 @@ sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 conns <- run_cicero(cicero_cds, sample_genome) # Takes a few minutes to run
 head(conns){% endhighlight %}
 
+      <div class="table-wrapper">
       <table class = "table" style="overflow:auto;">
         <tbody>
           <tr>
@@ -435,6 +445,7 @@ head(conns){% endhighlight %}
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h4 data-toc-text= "Call Cicero functions individually">Call Cicero functions individually 
         <span class= "label label-success">Alternative</span></h4>
@@ -601,7 +612,7 @@ plot_connections(conns, "chr18", 8575097, 8839855,
                 collapseTranscripts = "longest" ){% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/Cicero_example.png" width = "100%">
+        <img src= "/cicero-release/images/Cicero_example.png">
       </div>
       <h3>Comparing Cicero connections to other datasets</h3>
       <p>
@@ -687,7 +698,7 @@ plot_connections(conns, "chr18", 10000, 112367,
                 collapseTranscripts = "longest") 
 {% endhighlight %}
       <div class= "text-center">
-        <img src= "/cicero-release/images/comparison_track.png" width = "100%">
+        <img src= "/cicero-release/images/comparison_track.png">
       </div>
       <h3>Finding <i>cis</i>-Co-accessibility Networks (CCANS)</h3>
       <p>
@@ -701,7 +712,7 @@ plot_connections(conns, "chr18", 10000, 112367,
       <br>
       <br>
       <div class= "text-center">
-        <img src= "/cicero-release/images/ccan_diagram.png" width = 500>
+        <img src= "/cicero-release/images/ccan_diagram.png">
       </div>
       <br>
       <br>
@@ -822,7 +833,7 @@ plot_connections(conns, "chr18", 10000, 112367,
       {% endhighlight %}
 
       <div class= "text-center">
-          <img src= "/cicero-release/images/viewpoint_example.png" width = "100%">
+          <img src= "/cicero-release/images/viewpoint_example.png">
       </div>
       <p>
           <strong><code>alpha_by_coaccess</code>:</strong> the <code>alpha_by_coaccess</code> parameter lets you is 
@@ -849,10 +860,10 @@ plot_connections(conns,
       {% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/alpha_by_co_F_example.png" width = "100%">
+        <img src= "/cicero-release/images/alpha_by_co_F_example.png">
       </div>
       <div class= "text-center">
-        <img src= "/cicero-release/images/alpha_by_co_example.png" width = "100%">
+        <img src= "/cicero-release/images/alpha_by_co_example.png">
       </div>    
 
 
@@ -889,7 +900,7 @@ plot_connections(conns,
       {% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/colors1_example.png" width = "100%">
+        <img src= "/cicero-release/images/colors1_example.png">
       </div>
 
       {% highlight R %}
@@ -911,7 +922,7 @@ plot_connections(conns,
       {% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/colors2_example.png" width = "100%">
+        <img src= "/cicero-release/images/colors2_example.png">
       </div>
       
       {% highlight R %}
@@ -934,7 +945,7 @@ plot_connections(conns,
       {% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/colors3_example.png" width = "100%">
+        <img src= "/cicero-release/images/colors3_example.png">
       </div>
       
 
@@ -1018,7 +1029,7 @@ Gviz::plotTracks(plot_list,
       {% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/return_as_list_example.png" width = "100%">
+        <img src= "/cicero-release/images/return_as_list_example.png">
       </div>
 
 
@@ -1182,7 +1193,7 @@ ordering_sites <- row.names(subset(diff_timepoint, qval < 1)){% endhighlight %}
       {% highlight R %}
 plot_pc_variance_explained(agg_cds, return_all = F) #Choose 2 PCs{% endhighlight %}
       <div class= "text-center">
-        <img src= "/cicero-release/images/plot_pc_var.png" width = 500>
+        <img src= "/cicero-release/images/plot_pc_var.png">
       </div>
 
       {% highlight R %}
@@ -1198,7 +1209,7 @@ agg_cds <- clusterCells(agg_cds, verbose = F)
 plot_cell_clusters(agg_cds, color_by = 'as.factor(Cluster)'){% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/plot_cell_clust.png" width = 500>
+        <img src= "/cicero-release/images/plot_cell_clust.png">
       </div>
 
       {% highlight R %}
@@ -1232,7 +1243,7 @@ agg_cds <- orderCells(agg_cds)
 plot_cell_trajectory(agg_cds, color_by = "timepoint"){% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/HSMM_trajectory_example.png" width = 700>
+        <img src= "/cicero-release/images/HSMM_trajectory_example.png">
       </div>
 
       <p>
@@ -1248,7 +1259,7 @@ plot_cell_trajectory(agg_cds, color_by = "timepoint"){% endhighlight %}
 plot_cell_trajectory(agg_cds, color_by = "State"){% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/HSMM_trajectory_example_state.png" width = 700>
+        <img src= "/cicero-release/images/HSMM_trajectory_example_state.png">
       </div>
 
       <p>
@@ -1260,9 +1271,8 @@ plot_cell_trajectory(agg_cds, color_by = "State"){% endhighlight %}
       {% highlight R %}
 agg_cds <- orderCells(agg_cds, root_state = 4)
 plot_cell_trajectory(agg_cds, color_by = "Pseudotime"){% endhighlight %}
-1px solid #ecf0f1
       <div class= "text-center">
-        <img src= "/cicero-release/images/HSMM_trajectory_example_pseudo.png" width = 700>
+        <img src= "/cicero-release/images/HSMM_trajectory_example_pseudo.png">
       </div>
 
       <p>
@@ -1294,7 +1304,7 @@ input_cds_lin <- input_cds[,row.names(subset(pData(input_cds), State  != 5))]
 plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", "chr18_48373358_48374180", "chr18_60457956_60459080")]){% endhighlight %}
 
       <div class= "text-center">
-        <img src= "/cicero-release/images/example_plot_accessibility.png" width = 400>
+        <img src= "/cicero-release/images/example_plot_accessibility.png" width="400px">
       </div>
 
       <h4>Running <code>differentialGeneTest</code> with single cell chromatin accessibility data</h4>
