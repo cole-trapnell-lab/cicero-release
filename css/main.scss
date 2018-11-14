@@ -15,6 +15,7 @@ $icon-font-path: "/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 /* any style customization must be before the bootstrap import */
 @import "bootstrap";
 
+/* landing page styles */
 .jumbotron h1{
     color: #fff;
 }
@@ -32,7 +33,14 @@ $icon-font-path: "/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
     color: #00ffff
     !important;
 }
-//
-// .token.function { ... }
-// .token.variable { ... }
-// .token.namespace { ... }
+
+/* styles for docs menu */
+nav#toc {
+    width: 250px;
+}
+
+@media screen and (max-width: 767px) {
+	nav#toc {
+        display: none;
+	}
+}
