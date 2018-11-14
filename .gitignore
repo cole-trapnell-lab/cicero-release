@@ -1,0 +1,5 @@
+# Ruby and Jekyll files
+Gemfile.lock
+.sass-cache/
+_site/
+vendor/
