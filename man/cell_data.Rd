@@ -7,7 +7,7 @@
 \format{A data frame with 200 rows and 2 variables:
 \describe{
   \item{timepoint}{Time at cell collection}
-  \item{cell}{cell barcode}
+  \item{cell}{Cell barcode}
 }}
 \usage{
 cell_data

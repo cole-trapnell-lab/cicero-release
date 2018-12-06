@@ -8,7 +8,7 @@
 \describe{
   \item{Peak}{Peak information}
   \item{Cell}{Cell ID}
-  \item{Count}{reads per cell per peak}
+  \item{Count}{Reads per cell per peak}
 }}
 \usage{
 cicero_data

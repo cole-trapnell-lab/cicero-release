@@ -21,7 +21,7 @@ plot_connections(connection_df, chr, minbp, maxbp, coaccess_cutoff = 0,
 }
 \arguments{
 \item{connection_df}{Data frame of connections, which must include the
-columns 'Peak1', 'Peak2', and 'coaccess'. Generally the output of
+columns 'Peak1', 'Peak2', and 'coaccess'. Generally, the output of
 run_cicero or assemble_connections.}
 
 \item{chr}{The chromosome of the region you would like to plot in the form
@@ -32,7 +32,7 @@ plotted.}
 
 \item{maxbp}{The base pair coordinate of the end of the region to be plotted.}
 
-\item{coaccess_cutoff}{The minimum cicero coaccessibility score you would
+\item{coaccess_cutoff}{The minimum cicero co-accessibility score you would
 like to be plotted. Default is 0.}
 
 \item{peak_color}{Color for peak annotations - a single color, the name of a
@@ -47,7 +47,7 @@ character or factor to base connection colors on.}
 shown?}
 
 \item{alpha_by_coaccess}{Logical, should the transparency of connection
-lines be scaled based on coaccessibility score?}
+lines be scaled based on co-accessibility score?}
 
 \item{connection_width}{Width of connection lines.}
 
@@ -69,7 +69,7 @@ a second track of connections will be plotted based on this data. This
 data frame has the same requirements as connection_df (Peak1, Peak2 and
 coaccess columns).}
 
-\item{comparison_coaccess_cutoff}{The minimum cicero coaccessibility score
+\item{comparison_coaccess_cutoff}{The minimum cicero co-accessibility score
 you would like to be plotted for the comparison dataset. Default = 0.}
 
 \item{comparison_peak_color}{Color for comparison peak annotations - a
@@ -122,7 +122,7 @@ A gene region plot, or list of components if return_as_list is
 }
 \description{
 Plotting function for Cicero connections. Uses \code{\link[Gviz]{plotTracks}}
-as it's basis
+as its basis
 }
 \examples{
   cicero_cons <- data.frame(

@@ -10,7 +10,7 @@ annotate_cds_by_site(cds, feature_data, verbose = FALSE, maxgap = 0,
 \arguments{
 \item{cds}{A CDS object.}
 
-\item{feature_data}{Data frame, or a character path to the a file of
+\item{feature_data}{Data frame, or a character path to a file of
 feature data. If a path, the file should be tab separated. Default assumes
 no header, if your file has a header, set \code{header = FALSE}. For
 either a data frame or a path, the file should be in bed-like format, with
@@ -41,7 +41,7 @@ Annotate the sites of your CDS with feature data based on coordinate overlap.
 \details{
 \code{annotate_cds_by_site} will add columns to the \code{fData}
   table of a CDS object based on the overlap of peaks with features in a
-  data frame or file. A "overlap" column will be added, along with any
+  data frame or file. An "overlap" column will be added, along with any
   columns beyond the three required columns in the feature data. The
   "overlap" column is the number of base pairs overlapping the \code{fData}
   site. When maxgap is used, the true overlap is still calculated (overlap

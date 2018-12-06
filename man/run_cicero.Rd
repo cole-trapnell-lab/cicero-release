@@ -11,7 +11,7 @@ run_cicero(cds, genomic_coords, window = 5e+05, silent = FALSE,
 \item{cds}{Cicero CDS object, created using \code{\link{make_cicero_cds}}}
 
 \item{genomic_coords}{Either a data frame or a path (character) to a file
-with chromosome lengths. The file should have two columns, the first is a
+with chromosome lengths. The file should have two columns, the first is
 the chromosome name (ex. "chr1") and the second is the chromosome length
 in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 file, should be tab-separated and without header.}
@@ -24,7 +24,7 @@ file, should be tab-separated and without header.}
 \code{distance_parameter} parameter. Default: 100.}
 }
 \value{
-A table of coaccessiblity scores
+A table of co-accessibility scores
 }
 \description{
 A wrapper function that runs the primary functions of the Cicero pipeline

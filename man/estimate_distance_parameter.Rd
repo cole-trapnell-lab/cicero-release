@@ -31,7 +31,7 @@ smaller than \code{window}.}
 very large models from slowing performance.}
 
 \item{genomic_coords}{Either a data frame or a path (character) to a file
-with chromosome lengths. The file should have two columns, the first is a
+with chromosome lengths. The file should have two columns, the first is
 the chromosome name (ex. "chr1") and the second is the chromosome length
 in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 file, should be tab-separated and without header.}
@@ -64,7 +64,7 @@ The purpose of this function is to calculate the distance scaling
 
   If the chosen random window has fewer than 2 or greater than
   \code{max_elements} sites, the window is skipped. In addition, the random
-  window will be skipped if there are insufficient long range comparisons
+  window will be skipped if there are insufficient long-range comparisons
   (see below) to be made. The \code{max_elements} parameter exist to prevent
   very dense windows from slowing the calculation. If you expect that your
   data may regularly have this many sites in a window, you will need to
@@ -75,7 +75,7 @@ The purpose of this function is to calculate the distance scaling
   \code{distance_constraint} parameter. If there are not enough examples at
   high distance, the function will return the warning \code{"Warning: could
   not calculate sample_num distance_parameters - see documentation details"}
-  Generally this means your \code{window} parameter needs to be larger or
+  Generally, this means your \code{window} parameter needs to be larger or
   your \code{distance_constraint} parameter needs to be smaller. A less
   likely possibility is that your \code{max_elements} parameter needs to be
   larger. This would occur if your data is particularly dense.
