@@ -11,7 +11,7 @@ generate_cicero_models(cds, distance_parameter, s = 0.75,
 \arguments{
 \item{cds}{A cicero CDS object generated using \code{\link{make_cicero_cds}}.}
 
-\item{distance_parameter}{Distance based penalty parameter value. Generally
+\item{distance_parameter}{Distance based penalty parameter value. Generally,
 the mean of the calculated \code{distance_parameter} values from
 \code{\link{estimate_distance_parameter}}.}
 
@@ -23,7 +23,7 @@ the mean of the calculated \code{distance_parameter} values from
 very large models from slowing performance.}
 
 \item{genomic_coords}{Either a data frame or a path (character) to a file
-with chromosome lengths. The file should have two columns, the first is a
+with chromosome lengths. The file should have two columns, the first is
 the chromosome name (ex. "chr1") and the second is the chromosome length
 in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 file, should be tab-separated and without header.}

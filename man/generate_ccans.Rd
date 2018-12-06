@@ -2,17 +2,17 @@
 % Please edit documentation in R/runCicero.R
 \name{generate_ccans}
 \alias{generate_ccans}
-\title{Generate cis-coaccessibility networks (CCANs)}
+\title{Generate cis-co-accessibility networks (CCANs)}
 \usage{
 generate_ccans(connections_df, coaccess_cutoff_override = NULL,
   tolerance_digits = 2)
 }
 \arguments{
 \item{connections_df}{Data frame of connections with columns: Peak1, Peak2,
-coaccess. Generally the output of \code{\link{run_cicero}} or
+coaccess. Generally, the output of \code{\link{run_cicero}} or
 \code{\link{assemble_connections}}}
 
-\item{coaccess_cutoff_override}{Numeric, coaccessibility score threshold to
+\item{coaccess_cutoff_override}{Numeric, co-accessibility score threshold to
 impose. Overrides automatic calculation.}
 
 \item{tolerance_digits}{The number of digits to calculate cutoff to. Default
@@ -30,7 +30,7 @@ are co-accessible.
 CCANs are calculated by first specifying a minimum co-accessibility
   score and then using the Louvain community detection algorithm on the
   subgraph induced by excluding edges below this score. For this function,
-  either the user can specify the minimum coaccessibility using
+  either the user can specify the minimum co-accessibility using
   \code{coaccess_cutoff_override}, or the cutoff can be calculated
   automatically by optimizing for CCAN number. The cutoff calculation can be
   slow, so users may wish to use the \code{coaccess_cutoff_override} after

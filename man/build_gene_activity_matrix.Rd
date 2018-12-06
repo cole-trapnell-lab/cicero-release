@@ -16,12 +16,12 @@ site is a promoter, and \code{NA} if the site is distal.}
 \code{\link{run_cicero}}. This table is a data frame with three required
 columns named "Peak1", "Peak2", and "coaccess". Peak1 and Peak2 contain
 coordinates for the two compared elements, and coaccess contains their
-Cicero co-accessiblity score.}
+Cicero co-accessibility score.}
 
 \item{site_weights}{NULL or an individual weight for each site in input_cds.}
 
 \item{dist_thresh}{The maximum distance in base pairs between pairs of sites
-to included in the gene activity calculation.}
+to include in the gene activity calculation.}
 
 \item{coaccess_cutoff}{The minimum Cicero co-accessibility score that should
 be considered connected.}

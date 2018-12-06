@@ -11,10 +11,10 @@
 #'    \code{\link{run_cicero}}. This table is a data frame with three required
 #'    columns named "Peak1", "Peak2", and "coaccess". Peak1 and Peak2 contain
 #'    coordinates for the two compared elements, and coaccess contains their
-#'    Cicero co-accessiblity score.
+#'    Cicero co-accessibility score.
 #' @param site_weights NULL or an individual weight for each site in input_cds.
 #' @param dist_thresh The maximum distance in base pairs between pairs of sites
-#'    to included in the gene activity calculation.
+#'    to include in the gene activity calculation.
 #' @param coaccess_cutoff The minimum Cicero co-accessibility score that should
 #'    be considered connected.
 #'
@@ -196,11 +196,11 @@ build_composite_gene_activity_matrix <- function(input_cds,
 #' Normalize gene activities
 #'
 #' Normalize the output of \code{\link{build_gene_activity_matrix}}. Input is
-#' either one or multiple gene activity matrices. Any gene activties to be
+#' either one or multiple gene activity matrices. Any gene activities to be
 #' compared amongst each other should be normalized together.
 #'
 #'
-#' @param activity_matrices A gene activity matix, output from
+#' @param activity_matrices A gene activity matrix, output from
 #'     \code{\link{build_gene_activity_matrix}}, or a list of gene activity
 #'     matrices to be normalized together.
 #' @param cell_num_genes A named vector of the total number of accessible sites

@@ -212,12 +212,12 @@ make_cicero_cds <- function(cds,
 #' @param sample_num How many sample genomic windows to use to generate
 #'   \code{distance_parameter} parameter. Default: 100.
 #' @param genomic_coords Either a data frame or a path (character) to a file
-#'   with chromosome lengths. The file should have two columns, the first is a
+#'   with chromosome lengths. The file should have two columns, the first is
 #'   the chromosome name (ex. "chr1") and the second is the chromosome length
 #'   in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 #'   file, should be tab-separated and without header.
 #'
-#' @return A table of coaccessiblity scores
+#' @return A table of co-accessibility scores
 #' @export
 #'
 #' @examples
@@ -292,7 +292,7 @@ run_cicero <- function(cds,
 #' @param max_elements Maximum number of elements per window allowed. Prevents
 #'   very large models from slowing performance.
 #' @param genomic_coords Either a data frame or a path (character) to a file
-#'   with chromosome lengths. The file should have two columns, the first is a
+#'   with chromosome lengths. The file should have two columns, the first is
 #'   the chromosome name (ex. "chr1") and the second is the chromosome length
 #'   in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 #'   file, should be tab-separated and without header.
@@ -335,7 +335,7 @@ run_cicero <- function(cds,
 #'
 #'   If the chosen random window has fewer than 2 or greater than
 #'   \code{max_elements} sites, the window is skipped. In addition, the random
-#'   window will be skipped if there are insufficient long range comparisons
+#'   window will be skipped if there are insufficient long-range comparisons
 #'   (see below) to be made. The \code{max_elements} parameter exist to prevent
 #'   very dense windows from slowing the calculation. If you expect that your
 #'   data may regularly have this many sites in a window, you will need to
@@ -346,7 +346,7 @@ run_cicero <- function(cds,
 #'   \code{distance_constraint} parameter. If there are not enough examples at
 #'   high distance, the function will return the warning \code{"Warning: could
 #'   not calculate sample_num distance_parameters - see documentation details"}
-#'   Generally this means your \code{window} parameter needs to be larger or
+#'   Generally, this means your \code{window} parameter needs to be larger or
 #'   your \code{distance_constraint} parameter needs to be smaller. A less
 #'   likely possibility is that your \code{max_elements} parameter needs to be
 #'   larger. This would occur if your data is particularly dense.
@@ -453,7 +453,7 @@ estimate_distance_parameter <- function(cds,
 #' within overlapping genomic windows.
 #'
 #' @param cds A cicero CDS object generated using \code{\link{make_cicero_cds}}.
-#' @param distance_parameter Distance based penalty parameter value. Generally
+#' @param distance_parameter Distance based penalty parameter value. Generally,
 #'   the mean of the calculated \code{distance_parameter} values from
 #'   \code{\link{estimate_distance_parameter}}.
 #' @param s Power law value. See details.
@@ -461,7 +461,7 @@ estimate_distance_parameter <- function(cds,
 #' @param max_elements Maximum number of elements per window allowed. Prevents
 #'   very large models from slowing performance.
 #' @param genomic_coords Either a data frame or a path (character) to a file
-#'   with chromosome lengths. The file should have two columns, the first is a
+#'   with chromosome lengths. The file should have two columns, the first is
 #'   the chromosome name (ex. "chr1") and the second is the chromosome length
 #'   in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 #'   file, should be tab-separated and without header.
@@ -593,7 +593,7 @@ generate_cicero_models <- function(cds,
 #' negative). If they not concordant, NA is returned. If they are concordant
 #' the mean is returned.
 #'
-#' @param cicero_model_list A list of cicero output objects, generally the
+#' @param cicero_model_list A list of cicero output objects, generally, the
 #'   output of \code{\link{generate_cicero_models}}.
 #' @param silent Logical, should the function run silently?
 #'
@@ -776,15 +776,15 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
   return(site_graph)
 }
 
-#' Generate cis-coaccessibility networks (CCANs)
+#' Generate cis-co-accessibility networks (CCANs)
 #'
 #' Post process cicero co-accessibility scores to extract modules of sites that
 #' are co-accessible.
 #'
 #' @param connections_df Data frame of connections with columns: Peak1, Peak2,
-#'   coaccess. Generally the output of \code{\link{run_cicero}} or
+#'   coaccess. Generally, the output of \code{\link{run_cicero}} or
 #'   \code{\link{assemble_connections}}
-#' @param coaccess_cutoff_override Numeric, coaccessibility score threshold to
+#' @param coaccess_cutoff_override Numeric, co-accessibility score threshold to
 #'   impose. Overrides automatic calculation.
 #' @param tolerance_digits The number of digits to calculate cutoff to. Default
 #'   is 2 (0.01 tolerance)
@@ -792,7 +792,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #' @details CCANs are calculated by first specifying a minimum co-accessibility
 #'   score and then using the Louvain community detection algorithm on the
 #'   subgraph induced by excluding edges below this score. For this function,
-#'   either the user can specify the minimum coaccessibility using
+#'   either the user can specify the minimum co-accessibility using
 #'   \code{coaccess_cutoff_override}, or the cutoff can be calculated
 #'   automatically by optimizing for CCAN number. The cutoff calculation can be
 #'   slow, so users may wish to use the \code{coaccess_cutoff_override} after

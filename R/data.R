@@ -8,7 +8,7 @@
 #' \describe{
 #'   \item{Peak}{Peak information}
 #'   \item{Cell}{Cell ID}
-#'   \item{Count}{reads per cell per peak}
+#'   \item{Count}{Reads per cell per peak}
 #' }
 "cicero_data"
 
@@ -32,13 +32,13 @@
 #' @format A data frame with 15129 rows and 8 variables:
 #' \describe{
 #'   \item{chromosome}{Chromosome}
-#'   \item{start}{exon starting base}
-#'   \item{end}{exon ending base}
-#'   \item{strand}{exon mapping direction}
-#'   \item{feature}{feature type}
-#'   \item{gene}{gene ID}
-#'   \item{transcript}{transcript ID}
-#'   \item{symbol}{gene symbol}
+#'   \item{start}{Exon starting base}
+#'   \item{end}{Exon ending base}
+#'   \item{strand}{Exon mapping direction}
+#'   \item{feature}{Feature type}
+#'   \item{gene}{Gene ID}
+#'   \item{transcript}{Transcript ID}
+#'   \item{symbol}{Gene symbol}
 #' }
 "gene_annotation_sample"
 
@@ -49,6 +49,6 @@
 #' @format A data frame with 200 rows and 2 variables:
 #' \describe{
 #'   \item{timepoint}{Time at cell collection}
-#'   \item{cell}{cell barcode}
+#'   \item{cell}{Cell barcode}
 #' }
 "cell_data"

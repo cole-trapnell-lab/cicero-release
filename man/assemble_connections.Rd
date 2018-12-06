@@ -7,7 +7,7 @@
 assemble_connections(cicero_model_list, silent = FALSE)
 }
 \arguments{
-\item{cicero_model_list}{A list of cicero output objects, generally the
+\item{cicero_model_list}{A list of cicero output objects, generally, the
 output of \code{\link{generate_cicero_models}}.}
 
 \item{silent}{Logical, should the function run silently?}

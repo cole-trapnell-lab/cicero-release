@@ -7,13 +7,13 @@
 \format{A data frame with 15129 rows and 8 variables:
 \describe{
   \item{chromosome}{Chromosome}
-  \item{start}{exon starting base}
-  \item{end}{exon ending base}
-  \item{strand}{exon mapping direction}
-  \item{feature}{feature type}
-  \item{gene}{gene ID}
-  \item{transcript}{transcript ID}
-  \item{symbol}{gene symbol}
+  \item{start}{Exon starting base}
+  \item{end}{Exon ending base}
+  \item{strand}{Exon mapping direction}
+  \item{feature}{Feature type}
+  \item{gene}{Gene ID}
+  \item{transcript}{Transcript ID}
+  \item{symbol}{Gene symbol}
 }}
 \usage{
 gene_annotation_sample

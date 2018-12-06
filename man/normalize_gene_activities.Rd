@@ -7,7 +7,7 @@
 normalize_gene_activities(activity_matrices, cell_num_genes)
 }
 \arguments{
-\item{activity_matrices}{A gene activity matix, output from
+\item{activity_matrices}{A gene activity matrix, output from
 \code{\link{build_gene_activity_matrix}}, or a list of gene activity
 matrices to be normalized together.}
 
@@ -21,7 +21,7 @@ Normalized activity matrix or matrices.
 }
 \description{
 Normalize the output of \code{\link{build_gene_activity_matrix}}. Input is
-either one or multiple gene activity matrices. Any gene activties to be
+either one or multiple gene activity matrices. Any gene activities to be
 compared amongst each other should be normalized together.
 }
 \examples{

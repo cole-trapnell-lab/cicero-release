@@ -10,7 +10,7 @@ plot_accessibility_in_pseudotime(cds_subset, breaks = 10)
 \item{cds_subset}{Subset of the CDS object you want to plot. The CDS must
 have a column in the pData table called "Pseudotime".}
 
-\item{breaks}{Number of breaks along pseudotime. Controls the courseness of
+\item{breaks}{Number of breaks along pseudotime. Controls the coarseness of
 the plot.}
 }
 \value{

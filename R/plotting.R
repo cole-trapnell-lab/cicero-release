@@ -15,17 +15,17 @@ monocle_theme_opts <- function()
 #' Plot connections
 #'
 #' Plotting function for Cicero connections. Uses \code{\link[Gviz]{plotTracks}}
-#' as it's basis
+#' as its basis
 #'
 #' @param connection_df Data frame of connections, which must include the
-#'   columns 'Peak1', 'Peak2', and 'coaccess'. Generally the output of
+#'   columns 'Peak1', 'Peak2', and 'coaccess'. Generally, the output of
 #'   run_cicero or assemble_connections.
 #' @param chr The chromosome of the region you would like to plot in the form
 #'   'chr10'.
 #' @param minbp The base pair coordinate of the start of the region to be
 #'   plotted.
 #' @param maxbp The base pair coordinate of the end of the region to be plotted.
-#' @param coaccess_cutoff The minimum cicero coaccessibility score you would
+#' @param coaccess_cutoff The minimum cicero co-accessibility score you would
 #'   like to be plotted. Default is 0.
 #' @param peak_color Color for peak annotations - a single color, the name of a
 #'   column containing color values that correspond to Peak1, or the name of
@@ -34,7 +34,7 @@ monocle_theme_opts <- function()
 #'   of a column containing color values, or the name of a column containing a
 #'   character or factor to base connection colors on.
 #' @param alpha_by_coaccess Logical, should the transparency of connection
-#'   lines be scaled based on coaccessibility score?
+#'   lines be scaled based on co-accessibility score?
 #' @param connection_width Width of connection lines.
 #' @param connection_ymax Connection y-axis height. If \code{NULL}, chosen
 #'   automatically.
@@ -49,7 +49,7 @@ monocle_theme_opts <- function()
 #'   a second track of connections will be plotted based on this data. This
 #'   data frame has the same requirements as connection_df (Peak1, Peak2 and
 #'   coaccess columns).
-#' @param comparison_coaccess_cutoff The minimum cicero coaccessibility score
+#' @param comparison_coaccess_cutoff The minimum cicero co-accessibility score
 #'   you would like to be plotted for the comparison dataset. Default = 0.
 #' @param comparison_peak_color Color for comparison peak annotations - a
 #'   single color, the name of a column containing color values that correspond
@@ -630,7 +630,7 @@ get_colors <- function(type_list) {
 #'
 #' @param cds_subset Subset of the CDS object you want to plot. The CDS must
 #'   have a column in the pData table called "Pseudotime".
-#' @param breaks Number of breaks along pseudotime. Controls the courseness of
+#' @param breaks Number of breaks along pseudotime. Controls the coarseness of
 #'   the plot.
 #'
 #' @details This function plots each site in the CDS subset by cell pseudotime
