@@ -149,9 +149,8 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
       </table>
       </div>
 
-      <h2>Constructing <i>cis</i>-regulatory networks</h2>
-      <h3>Running Cicero</h3>
-      <h4>The CellDataSet class</h4>
+      <h2>Loading your data</h2>
+      <h3>The CellDataSet class</h3>
       <p>
         Cicero holds data in objects of the <code><a href = "https://rdrr.io/bioc/monocle/man/CellDataSet.html">
           CellDataSet (CDS)</a></code> class. The class is derived from the Bioconductor <code>ExpressionSet</code> 
@@ -218,6 +217,7 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
         </div>
       </p>
 
+      <h3>Loading data from a simple sparse matrix format</h3>
       <p>
         The Cicero package includes a small dataset called <code>cicero_data</code> as an example.
 
@@ -301,7 +301,48 @@ devtools::install_github("cole-trapnell-lab/cicero-release")
             </table>
           </div>
         </div>
-    
+      <h3>Loading 10X scATAC-seq data</h3>
+      <p>
+        If your scATAC-seq data comes from the 10x Genomics platform, here is an example of creating your input CDS 
+        from the output of Cell Ranger ATAC. The output of interest will be in the folder called 
+        <strong>filtered_peak_bc_matrix</strong>.
+      </p>
+{% highlight R %}
+# read in matrix data using the Matrix package
+indata <- Matrix::readMM("filtered_peak_bc_matrix/matrix.mtx") 
+# binarize the matrix
+indata@x[indata@x > 0] <- 1
+
+# format cell info
+cellinfo <- read.table("filtered_peak_bc_matrix/barcodes.tsv")
+row.names(cellinfo) <- cellinfo$V1
+names(cellinfo) <- "cells"
+
+# format peak info
+peakinfo <- read.table("filtered_peak_bc_matrix/peaks.bed")
+names(peakinfo) <- c("chr", "bp1", "bp2")
+peakinfo$site_name <- paste(peakinfo$chr, peakinfo$bp1, peakinfo$bp2, sep="_")
+row.names(peakinfo) <- peakinfo$site_name
+
+row.names(indata) <- row.names(peakinfo)
+colnames(indata) <- row.names(cellinfo)
+
+# make CDS
+fd <- methods::new("AnnotatedDataFrame", data = peakinfo)
+pd <- methods::new("AnnotatedDataFrame", data = cellinfo)
+input_cds <-  suppressWarnings(newCellDataSet(indata,
+                            phenoData = pd,
+                            featureData = fd,
+                            expressionFamily=binomialff(),
+                            lowerDetectionLimit=0))
+input_cds@expressionFamily@vfamily <- "binomialff"
+input_cds <- monocle::detectGenes(input_cds)
+
+{% endhighlight %}
+
+      <h2>Constructing <i>cis</i>-regulatory networks</h2>
+
+      <h3>Running Cicero</h3>
       <h4 data-toc-text= "Create a Cicero CDS">Create a Cicero CDS 
         <span class= "label label-danger">Required</span></h4>
 
