@@ -333,11 +333,13 @@ pd <- methods::new("AnnotatedDataFrame", data = cellinfo)
 input_cds <-  suppressWarnings(newCellDataSet(indata,
                             phenoData = pd,
                             featureData = fd,
-                            expressionFamily=binomialff(),
+                            expressionFamily=VGAM::binomialff(),
                             lowerDetectionLimit=0))
 input_cds@expressionFamily@vfamily <- "binomialff"
 input_cds <- monocle::detectGenes(input_cds)
 
+#Ensure there are no peaks included with zero reads
+input_cds <- input_cds[Matrix::rowSums(exprs(input_cds)) != 0,] 
 {% endhighlight %}
 
       <h2>Constructing <i>cis</i>-regulatory networks</h2>
@@ -401,6 +403,9 @@ input_cds <- monocle::detectGenes(input_cds)
 set.seed(2017)
 input_cds <- detectGenes(input_cds)
 input_cds <- estimateSizeFactors(input_cds)
+
+# *** if you are using Monocle 3, you need to run the following line as well!
+#input_cds <- preprocessCDS(input_cds, norm_method = "none")
 input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
                       reduction_method = 'tSNE', norm_method = "none"){% endhighlight %}
 
