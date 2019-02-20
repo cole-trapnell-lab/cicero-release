@@ -134,10 +134,10 @@ make_cicero_cds <- function(cds,
   exprs_old <- exprs(cds)
   
   mask <- sapply(seq_len(nrow(cell_sample)), function(x) seq_len(ncol(exprs_old)) %in% cell_sample[x,,drop=FALSE])
-  mask <- Matrix(mask)
+  mask <- Matrix::Matrix(mask)
   new_exprs <- exprs_old %*% mask
   
-  new_exprs <- t(new_exprs)
+  new_exprs <- Matrix::t(new_exprs)
   new_exprs <- as.matrix(new_exprs)
   
   pdata <- pData(cds)
