@@ -133,12 +133,12 @@ make_cicero_cds <- function(cds,
   
   exprs_old <- exprs(cds)
   
-  x <- lapply(seq_len(nrow(cell_sample)), function(x) {
-    return(Matrix::rowSums(exprs_old %*%
-                             Matrix::Diagonal(x=seq_len(ncol(exprs_old)) %in%
-                                                cell_sample[x,,drop=FALSE])))})
-
-  new_exprs <- do.call(rbind, x)
+  mask <- sapply(seq_len(nrow(cell_sample)), function(x) seq_len(ncol(exprs_old)) %in% cell_sample[x,,drop=FALSE])
+  mask <- Matrix::Matrix(mask)
+  new_exprs <- exprs_old %*% mask
+  
+  new_exprs <- Matrix::t(new_exprs)
+  new_exprs <- as.matrix(new_exprs)
   
   pdata <- pData(cds)
   new_pcols <- "agg_cell"
