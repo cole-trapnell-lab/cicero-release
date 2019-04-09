@@ -48,7 +48,6 @@ r_binary_packages:
 - magrittr
 - mass
 - mgcv
-- munsel
 - nlme
 - nnet
 - pillar
@@ -70,7 +69,6 @@ r_binary_packages:
 - utf8
 - viridislite
 - withr
-- html
 
 after_success:
 - Rscript -e 'covr::codecov()'
