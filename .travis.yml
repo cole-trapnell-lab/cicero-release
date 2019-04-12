@@ -10,7 +10,6 @@ before_install: [
 
 language: r
 r:
-- bioc-devel
 - bioc-release
 
 r_binary_packages:
