@@ -255,6 +255,7 @@ normalize_gene_activities <- function(activity_matrices,
                     }))
     }
 
+    scores <- scores[Matrix::rowSums(scores) != 0, Matrix::colSums(scores) != 0]
     normalization_df$cell_group <- factor(normalization_df$cell_group)
     normalization_df$total_activity <- Matrix::colSums(scores)
     normalization_df$total_sites <-
