@@ -346,9 +346,26 @@ vector of of total accessible sites per cell. This is easily found in the pData
 table of your CDS, called "num_genes_expressed". See below for an example.
 
 ```{r, eval=TRUE}
-# Make a subset of the gene annotation column containing just the coordinates 
+
+#### Add a column for the pData table indicating the gene if a peak is a promoter ####
+# Create a gene annotation set that only marks the transcription start sites of 
+# the genes. We use this as a proxy for promoters.
+# To do this we need the first exon of each transcript
+pos <- subset(gene_annotation_sample, strand == "+")
+pos <- pos[order(pos$start),] 
+pos <- pos[!duplicated(pos$transcript),] # remove all but the first exons per transcript
+pos$end <- pos$start + 1 # make a 1 base pair marker of the TSS
+
+neg <- subset(gene_annotation_sample, strand == "-")
+neg <- neg[order(neg$start, decreasing = TRUE),] 
+neg <- neg[!duplicated(neg$transcript),] # remove all but the first exons per transcript
+neg$start <- neg$end - 1
+
+gene_annotation_sub <- rbind(pos, neg)
+
+# Make a subset of the TSS annotation columns containing just the coordinates 
 # and the gene name
-gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
+gene_annotation_sub <- gene_annotation_sub[,c(1:3, 8)]
 
 # Rename the gene symbol column to "gene"
 names(gene_annotation_sub)[4] <- "gene"
@@ -357,8 +374,13 @@ input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
 
 head(fData(input_cds))
 
+
+#### Generate gene activity scores ####
 # generate unnormalized gene activity matrix
 unnorm_ga <- build_gene_activity_matrix(input_cds, conns)
+
+# remove any rows/columns with all zeroes
+unnorm_ga <- unnorm_ga[!Matrix::rowSums(unnorm_ga) == 0, !Matrix::colSums(unnorm_ga) == 0]
 
 # make a list of num_genes_expressed
 num_genes <- pData(input_cds)$num_genes_expressed
