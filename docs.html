@@ -809,12 +809,28 @@ head(CCAN_assigns)
         together, by passing in a list of unnormalized matrices. If you only wish to normalized one matrix, simply 
         pass it to the function on its own. <code>normalize_gene_activities</code> also requires a named vector of 
         of total accessible sites per cell. This is easily found in the pData table of your CDS, called 
-        "num_genes_expressed". See below for an example.
+        "num_genes_expressed". See below for an example. Normalized gene activity scores range from 0 to 1.
       </p>
       {% highlight R %}
-# Make a subset of the gene annotation column containing just the coordinates and the 
-# gene name
-gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
+#### Add a column for the pData table indicating the gene if a peak is a promoter ####
+# Create a gene annotation set that only marks the transcription start sites of 
+# the genes. We use this as a proxy for promoters.
+# To do this we need the first exon of each transcript
+pos <- subset(gene_annotation_sample, strand == "+")
+pos <- pos[order(pos$start),] 
+pos <- pos[!duplicated(pos$transcript),] # remove all but the first exons per transcript
+pos$end <- pos$start + 1 # make a 1 base pair marker of the TSS
+
+neg <- subset(gene_annotation_sample, strand == "-")
+neg <- neg[order(neg$start, decreasing = TRUE),] 
+neg <- neg[!duplicated(neg$transcript),] # remove all but the first exons per transcript
+neg$start <- neg$end - 1
+
+gene_annotation_sub <- rbind(pos, neg)
+
+# Make a subset of the TSS annotation columns containing just the coordinates 
+# and the gene name
+gene_annotation_sub <- gene_annotation_sub[,c(1:3, 8)]
 
 # Rename the gene symbol column to "gene"
 names(gene_annotation_sub)[4] <- "gene"
@@ -831,24 +847,24 @@ head(fData(input_cds))
 # chr18_50240_50740     chr18_50240_50740  18  50240  50740                   2     129 RP11-683L23.1
 # chr18_104385_104585 chr18_104385_104585  18 104385 104585                   1      NA          <NA>
 
+#### Generate gene activity scores ####
 # generate unnormalized gene activity matrix
 unnorm_ga <- build_gene_activity_matrix(input_cds, conns)
+
+# remove any rows/columns with all zeroes
+unnorm_ga <- unnorm_ga[!Matrix::rowSums(unnorm_ga) == 0, !Matrix::colSums(unnorm_ga) == 0]
 
 # make a list of num_genes_expressed
 num_genes <- pData(input_cds)$num_genes_expressed
 names(num_genes) <- row.names(pData(input_cds))
-                  
+
 # normalize
 cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
 
-
-# generate fake second unnormalized gene activity matrix
-unnorm_ga2 <- build_gene_activity_matrix(input_cds, conns)                    
-          
 # if you had two datasets to normalize, you would pass both:
 # num_genes should then include all cells from both sets
-cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga, unnorm_ga2), 
-                                                  num_genes)
+unnorm_ga2 <- unnorm_ga
+cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga, unnorm_ga2), num_genes)
 
 
       {% endhighlight %}
