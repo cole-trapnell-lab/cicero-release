@@ -404,7 +404,9 @@ set.seed(2017)
 input_cds <- detectGenes(input_cds)
 input_cds <- estimateSizeFactors(input_cds)
 
-# *** if you are using Monocle 3, you need to run the following line as well!
+# *** if you are using Monocle 3 alpha, you need to run the following line as well!
+# NOTE: Cicero does not yet support the Monocle 3 beta release (monocle3 package). We hope
+# to update soon!
 #input_cds <- preprocessCDS(input_cds, norm_method = "none")
 input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
                       reduction_method = 'tSNE', norm_method = "none"){% endhighlight %}
