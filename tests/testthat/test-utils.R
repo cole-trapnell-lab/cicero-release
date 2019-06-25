@@ -6,14 +6,14 @@ test_that("make_atac_cds makes a valid cds object", {
   data("cicero_data")
   #### make_atac_cds ####
   test_cds <- make_atac_cds(cicero_data)
-  expect_is(test_cds, "CellDataSet")
+  expect_is(test_cds, "cell_data_set")
   expect_equal(nrow(exprs(test_cds)), 6146)
   expect_equal(ncol(exprs(test_cds)), 200)
   expect_match(row.names(test_cds)[1], "chr18_10025_10225")
   expect_match(colnames(test_cds)[1], "AGCGATAGAACGAATTCGGCGCAATGACCCTATCCT")
   expect_is(exprs(test_cds), "dgCMatrix")
   test_cds <-make_atac_cds(cicero_data, binarize=TRUE)
-  expect_is(test_cds, "CellDataSet")
+  expect_is(test_cds, "cell_data_set")
   expect_equal(nrow(exprs(test_cds)), 6146)
   expect_equal(ncol(exprs(test_cds)), 200)
   expect_match(row.names(test_cds)[1], "chr18_10025_10225")
@@ -22,7 +22,7 @@ test_that("make_atac_cds makes a valid cds object", {
   expect_error(test_cds <- make_atac_cds(3),
                "Input must be file path, matrix, or data.frame")
   test_cds <-make_atac_cds("../cicero_data_sub.txt", binarize=TRUE)
-  expect_is(test_cds, "CellDataSet")
+  expect_is(test_cds, "cell_data_set")
   expect_equal(nrow(exprs(test_cds)), 2148)
   expect_equal(ncol(exprs(test_cds)), 7)
   expect_match(row.names(test_cds)[1], "chr18_10025_10225")
@@ -90,8 +90,8 @@ test_that("annotate_cds_by_site works", {
   test_cds2 <- annotate_cds_by_site(test_cds, feat, verbose = TRUE)
   test_cds3 <- annotate_cds_by_site(test_cds, feat, all=TRUE, verbose = TRUE)
 
-  expect_is(test_cds2, "CellDataSet")
-  expect_is(test_cds3, "CellDataSet")
+  expect_is(test_cds2, "cell_data_set")
+  expect_is(test_cds3, "cell_data_set")
   expect_equal(nrow(fData(test_cds2)), nrow(fData(test_cds)))
   expect_equal(nrow(fData(test_cds3)), nrow(fData(test_cds)))
   expect_equal(ncol(fData(test_cds2)), ncol(fData(test_cds)) + 2)
@@ -110,8 +110,8 @@ test_that("annotate_cds_by_site works", {
   test_cds2 <- annotate_cds_by_site(test_cds, feat)
   test_cds3 <- annotate_cds_by_site(test_cds, feat, all=TRUE)
 
-  expect_is(test_cds2, "CellDataSet")
-  expect_is(test_cds3, "CellDataSet")
+  expect_is(test_cds2, "cell_data_set")
+  expect_is(test_cds3, "cell_data_set")
   expect_equal(nrow(fData(test_cds2)), nrow(fData(test_cds)))
   expect_equal(nrow(fData(test_cds3)), nrow(fData(test_cds)))
   expect_equal(ncol(fData(test_cds2)), ncol(fData(test_cds)) + 2)
@@ -130,8 +130,8 @@ test_that("annotate_cds_by_site works", {
   test_cds2 <- annotate_cds_by_site(test_cds, "../feat.txt", verbose =TRUE)
   test_cds3 <- annotate_cds_by_site(test_cds, "../feat.txt", all=TRUE)
 
-  expect_is(test_cds2, "CellDataSet")
-  expect_is(test_cds3, "CellDataSet")
+  expect_is(test_cds2, "cell_data_set")
+  expect_is(test_cds3, "cell_data_set")
   expect_equal(nrow(fData(test_cds2)), nrow(fData(test_cds)))
   expect_equal(nrow(fData(test_cds3)), nrow(fData(test_cds)))
   expect_equal(ncol(fData(test_cds2)), ncol(fData(test_cds)) + 2)
@@ -152,8 +152,8 @@ test_that("annotate_cds_by_site works", {
   test_cds3 <- annotate_cds_by_site(test_cds, "../feat_head.txt",
                                     header = TRUE, all=TRUE)
 
-  expect_is(test_cds2, "CellDataSet")
-  expect_is(test_cds3, "CellDataSet")
+  expect_is(test_cds2, "cell_data_set")
+  expect_is(test_cds3, "cell_data_set")
   expect_equal(nrow(fData(test_cds2)), nrow(fData(test_cds)))
   expect_equal(nrow(fData(test_cds3)), nrow(fData(test_cds)))
   expect_equal(ncol(fData(test_cds2)), ncol(fData(test_cds)) + 2)
@@ -239,11 +239,11 @@ test_that("find_overlapping_coordinates works", {
   expect(all(is.na(find_overlapping_coordinates(test_coords,
                                                    c("chr19_10226_10602",
                                                      "chr19:11604-246234"),
-                                                   maxgap = 1))))
+                                                   maxgap = 1))), failure_message = "overlap failure")
   expect(all(is.na(find_overlapping_coordinates(test_coords,
                                                 c("chr18_1022600_1060200",
                                                   "chr18:1160400-24623400"),
-                                                maxgap = 1))))
+                                                maxgap = 1))), failure_message = "overlap failure")
 })
 
 

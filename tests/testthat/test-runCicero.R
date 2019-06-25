@@ -10,9 +10,8 @@ context("runCicero")
   input_cds <- make_atac_cds(cicero_data)
 
   set.seed(2017)
-  input_cds <- detectGenes(input_cds, min_expr = .1)
-  input_cds <- estimateSizeFactors(input_cds)
-  input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
+  input_cds <- detect_genes(input_cds, min_expr = .1)
+  input_cds <- estimate_size_factors(input_cds)
 
   set.seed(2018)
   cicero_cds <- make_cicero_cds(input_cds,
@@ -22,7 +21,7 @@ context("runCicero")
 
 test_that("make_cicero_cds aggregates correctly", {
   #skip_on_bioc()
-  expect_is(cicero_cds, "CellDataSet")
+  expect_is(cicero_cds, "cell_data_set")
   expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
   expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
                                    "Size_Factor", "num_genes_expressed"))
@@ -42,7 +41,7 @@ test_that("make_cicero_cds aggregates correctly", {
                                 silent = TRUE,
                                 size_factor_normalize = FALSE,
                                 summary_stats = c("num_genes_expressed"))
-  expect_is(cicero_cds, "CellDataSet")
+  expect_is(cicero_cds, "cell_data_set")
   expect_equal(nrow(fData(cicero_cds)), nrow(fData(input_cds)))
   expect_named(pData(cicero_cds),c("agg_cell", "mean_num_genes_expressed",
                                    "Size_Factor", "num_genes_expressed"))
@@ -233,7 +232,7 @@ test_that("find_overlapping_ccans works", {
 #### activity scores ####
 
 input_cds <- make_atac_cds(cicero_data, binarize=TRUE)
-input_cds <- detectGenes(input_cds, min_expr = .1)
+input_cds <- detect_genes(input_cds, min_expr = .1)
 
 data(gene_annotation_sample)
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
@@ -245,7 +244,7 @@ expect_equal(nrow(unnorm_ga), 626)
 expect_equal(ncol(unnorm_ga), 200)
 expect_equal(unnorm_ga[1,1], 1.19, tolerance = 1e-2)
 
-exprs(input_cds) <- as.matrix(exprs(input_cds))
+input_cds <- suppressWarnings(new_cell_data_set(as.matrix(exprs(input_cds)), gene_metadata = fData(input_cds), cell_metadata = pData(input_cds)))
 unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
 
 test_that("build_gene_activity_matrix works", {

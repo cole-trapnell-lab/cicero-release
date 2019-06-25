@@ -450,6 +450,7 @@ test_that("plot_connections given all partial info", {
 
 test_that("plot_accessibility_in_pseudotime works", {
   skip_on_bioc()
+  data(cicero_data)
   input_cds <- make_atac_cds(cicero_data)
 
   pData(input_cds)$Pseudotime <- c(3.48, 2.19, 0.70, 0.95, 3.19, 2.31, 2.26,
