@@ -3,3 +3,4 @@ Gemfile.lock
 .sass-cache/
 _site/
 vendor/
+.Rproj.user
