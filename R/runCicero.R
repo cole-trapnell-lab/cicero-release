@@ -48,7 +48,7 @@ make_cicero_cds <- function(cds,
                             size_factor_normalize = TRUE,
                             silent = FALSE) {
   
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(is.data.frame(reduced_coordinates) |
                             is.matrix(reduced_coordinates))
   assertthat::assert_that(assertthat::are_equal(nrow(reduced_coordinates),
@@ -166,18 +166,12 @@ make_cicero_cds <- function(cds,
   fdf <- fData(cds)
   new_pdata$temp <- NULL
   
-  fd <- new("AnnotatedDataFrame", data = fdf)
-  pd <- new("AnnotatedDataFrame", data = new_pdata)
+  cicero_cds <-  suppressWarnings(new_cell_data_set(new_exprs,
+                                                 cell_metadata = new_pdata,
+                                                 gene_metadata = fdf))
   
-  cicero_cds <-  suppressWarnings(newCellDataSet(new_exprs,
-                                                 phenoData = pd,
-                                                 featureData = fd,
-                                                 expressionFamily=negbinomial.size(),
-                                                 lowerDetectionLimit=0))
-  
-  cicero_cds <- monocle::detectGenes(cicero_cds, min_expr = .1)
-  cicero_cds <- BiocGenerics::estimateSizeFactors(cicero_cds)
-  #cicero_cds <- suppressWarnings(BiocGenerics::estimateDispersions(cicero_cds))
+  cicero_cds <- monocle3::detect_genes(cicero_cds, min_expr = .1)
+  cicero_cds <- estimate_size_factors(cicero_cds)
 
   if (any(!c("chr", "bp1", "bp2") %in% names(fData(cicero_cds)))) {
     fData(cicero_cds)$chr <- NULL
@@ -188,8 +182,9 @@ make_cicero_cds <- function(cds,
   }
   
   if (size_factor_normalize) {
-    Biobase::exprs(cicero_cds) <-
-      t(t(Biobase::exprs(cicero_cds))/Biobase::pData(cicero_cds)$Size_Factor)
+    cicero_cds <- suppressWarnings(new_cell_data_set(t(t(exprs(cicero_cds))/pData(cicero_cds)$Size_Factor), 
+                                    cell_metadata = pData(cicero_cds), 
+                                    gene_metadata = fData(cicero_cds)))
   }
   
   cicero_cds
@@ -240,7 +235,7 @@ run_cicero <- function(cds,
                        silent=FALSE,
                        sample_num = 100) {
   # Check input
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(is.logical(silent))
   assertthat::assert_that(assertthat::is.number(window))
   assertthat::assert_that(assertthat::is.count(sample_num))
@@ -386,7 +381,7 @@ estimate_distance_parameter <- function(cds,
                                    max_elements = 200,
                                    genomic_coords = cicero::human.hg19.genome) {
 
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(assertthat::is.number(window))
   assertthat::assert_that(assertthat::is.count(maxit))
   assertthat::assert_that(assertthat::is.number(s), s < 1, s > 0)
@@ -532,7 +527,7 @@ generate_cicero_models <- function(cds,
                                    max_elements = 200,
                                    genomic_coords = cicero::human.hg19.genome) {
 
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(assertthat::is.number(distance_parameter))
   assertthat::assert_that(assertthat::is.number(s), s < 1, s > 0)
   assertthat::assert_that(assertthat::is.number(window))

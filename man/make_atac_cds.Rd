@@ -22,7 +22,7 @@ A CDS object containing your ATAC data in proper format.
 }
 \description{
 This function takes as input a data frame or a path to a file in a sparse
-matrix format and returns a properly formatted \code{CellDataSet} (CDS)
+matrix format and returns a properly formatted \code{cell_data_set} (CDS)
 object.
 }
 \examples{

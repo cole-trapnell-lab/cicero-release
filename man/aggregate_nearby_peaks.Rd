@@ -7,7 +7,7 @@
 aggregate_nearby_peaks(cds, distance = 1000)
 }
 \arguments{
-\item{cds}{A CellDataSet (CDS) object. For example, output of
+\item{cds}{A cell_data_set (CDS) object. For example, output of
 \code{\link{make_atac_cds}}}
 
 \item{distance}{The distance within which peaks should be collapsed}

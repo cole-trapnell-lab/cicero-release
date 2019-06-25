@@ -1,7 +1,7 @@
 #' Make ATAC CDS object
 #'
 #' This function takes as input a data frame or a path to a file in a sparse
-#' matrix format and returns a properly formatted \code{CellDataSet} (CDS)
+#' matrix format and returns a properly formatted \code{cell_data_set} (CDS)
 #' object.
 #'
 #' @param input Either a data frame or a path to input data. If a file, it
@@ -66,24 +66,17 @@ make_atac_cds <- function(input, binarize = FALSE) {
                                            j=intersect_lean_ord$cell_name_num,
                                            x=intersect_lean_ord$read_count)
 
-  fd <- methods::new("AnnotatedDataFrame", data = dhsinfo)
-  pd <- methods::new("AnnotatedDataFrame", data = cellinfo)
-  atac_cds <-  suppressWarnings(newCellDataSet(methods::as(sparse_intersect,
+  atac_cds <-  suppressWarnings(new_cell_data_set(methods::as(sparse_intersect,
                                                            "sparseMatrix"),
-                              phenoData = pd,
-                              featureData = fd,
-                              expressionFamily=negbinomial.size(),
-                              lowerDetectionLimit=0))
-  if(binarize) {
-    atac_cds@expressionFamily <- binomialff()
-    atac_cds@expressionFamily@vfamily <- "binomialff"
-  }
+                              cell_metadata = cellinfo,
+                              gene_metadata = dhsinfo))
+
   pData(atac_cds)$temp <- NULL
   fData(atac_cds)$chr <- as.character(fData(atac_cds)$chr)
   fData(atac_cds)$bp1 <- as.numeric(as.character(fData(atac_cds)$bp1))
   fData(atac_cds)$bp2 <- as.numeric(as.character(fData(atac_cds)$bp2))
   atac_cds <- atac_cds[order(fData(atac_cds)$chr, fData(atac_cds)$bp1),]
-  atac_cds <- monocle::detectGenes(atac_cds)
+  atac_cds <- monocle3::detect_genes(atac_cds)
   atac_cds
 }
 
@@ -230,7 +223,7 @@ annotate_cds_by_site <- function(cds,
                                  all = FALSE,
                                  header = FALSE) {
 
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(is.character(feature_data) |
                             is.data.frame(feature_data))
   assertthat::assert_that(assertthat::is.number(maxgap) | maxgap == "nearest")
@@ -296,10 +289,10 @@ annotate_cds_by_site <- function(cds,
 
   fd <- merge(fd, olaps, by="row_name", all.x=TRUE)
 
-  fData(cds) <- as.data.frame(fd)
-  row.names(fData(cds)) <- fData(cds)$row_name
-  fData(cds)$row_name <- NULL
-  fData(cds) <- fData(cds)[row.names(exprs(cds)),]
+  fd <- as.data.frame(fd)
+  row.names(fd) <- fd$row_name
+  fd$row_name <- NULL
+  fData(cds) <- fd[row.names(exprs(cds)),]
 
   cds
 }

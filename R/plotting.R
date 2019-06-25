@@ -651,11 +651,12 @@ get_colors <- function(type_list) {
 #' }
 #'
 plot_accessibility_in_pseudotime <- function(cds_subset,
-                                             breaks = 10) {
-  assertthat::assert_that(is(cds_subset, "CellDataSet"))
+                                             breaks = 10, 
+                                             expression_family = "binomialff") {
+  assertthat::assert_that(is(cds_subset, "cell_data_set"))
   assertthat::assert_that(assertthat::is.count(breaks))
   assertthat::assert_that(breaks >=2)
-  assertthat::assert_that(nrow(fData(cds_subset)) <= 30,
+  assertthat::assert_that(nrow(fData(cds_subset)) <= 30,  
                           msg = paste("Too many sites to plot. Be sure you are",
                                       "passing only a subset of your CDS.",
                                       collapse = " "))
@@ -671,12 +672,12 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
   cds_exprs <- merge(cds_exprs, pData(cds_subset), by.x="Cell",
                      by.y="row.names")
 
-  trend_formula <- "expression~ sm.ns(Pseudotime, df=3)"
+  trend_formula <- "expression~ VGAM::sm.ns(Pseudotime, df=3)"
 
   merged_df_with_vgam <- plyr::ddply(cds_exprs, plyr::.(f_id), function(x) {
     fit_res <- tryCatch({
       vg <- suppressWarnings(VGAM::vgam(formula = as.formula(trend_formula),
-                                        family = cds_subset@expressionFamily,
+                                        family = expression_family,
                                         data = x, maxit=30, checkwz=FALSE))
       res <- predict(vg, type="response")
       res[res < min_expr] <- min_expr

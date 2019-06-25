@@ -1,6 +1,6 @@
 #' Make an aggregate count cds by collapsing nearby peaks
 #'
-#' @param cds A CellDataSet (CDS) object. For example, output of
+#' @param cds A cell_data_set (CDS) object. For example, output of
 #' \code{\link{make_atac_cds}}
 #' @param distance The distance within which peaks should be collapsed
 #'
@@ -21,7 +21,7 @@
 aggregate_nearby_peaks <- function(cds,
                                    distance = 1000) {
     assertthat::assert_that(assertthat::is.number(distance))
-    assertthat::assert_that(is(cds, "CellDataSet"))
+    assertthat::assert_that(is(cds, "cell_data_set"))
 
     fData(cds)$bin <- make_bin_col(cds, distance)
     cds <- cds[!is.na(fData(cds)$bin),]
@@ -54,7 +54,7 @@ aggregate_nearby_peaks <- function(cds,
     pdf <- data.frame(cells = levels(factor(genomic_bins$cell)),
                       row.names = levels(factor(genomic_bins$cell)))
     fdf$bin <- NULL
-    pdf <- pdf[row.names(pData(cds)),]
+    pdf <- pdf[row.names(pData(cds)),, drop=FALSE]
     pdf <- cbind(pdf, pData(cds))
     pdf$pdf <- NULL
 
@@ -66,21 +66,14 @@ aggregate_nearby_peaks <- function(cds,
 
     out <- out[row.names(fdf), row.names(pdf)]
 
-    fd <- new("AnnotatedDataFrame", data = fdf)
-    pd <- new("AnnotatedDataFrame", data = pdf)
-
     if (is(exprs(cds), "dgCMatrix")) {
-        compart_cds <-  suppressWarnings(newCellDataSet(as(out, "sparseMatrix"),
-                                         phenoData = pd,
-                                         featureData = fd,
-                                         expressionFamily=negbinomial.size(),
-                                         lowerDetectionLimit=0))
+        compart_cds <-  suppressWarnings(new_cell_data_set(as(out, "sparseMatrix"),
+                                         cell_metadata = pdf,
+                                         gene_metadata = fdf))
     } else {
-        compart_cds <-  suppressWarnings(newCellDataSet(as.matrix(out),
-                                         phenoData = pd,
-                                         featureData = fd,
-                                         expressionFamily=negbinomial.size(),
-                                         lowerDetectionLimit=0))
+        compart_cds <-  suppressWarnings(new_cell_data_set(as.matrix(out),
+                                                           cell_metadata = pdf,
+                                                           gene_metadata = fdf))
     }
 
     return(compart_cds)
@@ -143,12 +136,12 @@ sparse_to_datatable <- function(sparse) {
 #'   #binned_input_lin <-aggregate_by_cell_bin(input_cds, "cell_subtype")
 #'
 aggregate_by_cell_bin <- function(cds, group_col) {
-    assertthat::assert_that(is(cds, "CellDataSet"))
+    assertthat::assert_that(is(cds, "cell_data_set"))
     assertthat::assert_that(is.character(group_col))
     assertthat::assert_that(group_col %in% names(pData(cds)),
                             msg = "group_col is missing from your pData table")
 
-    pData_grouping <- pData(cds) %>%
+    pData_grouping <- as.data.frame(pData(cds)) %>%
         tibble::rownames_to_column() %>%
         dplyr::group_by_(group_col)
 
@@ -172,22 +165,15 @@ aggregate_by_cell_bin <- function(cds, group_col) {
     fdf <- data.frame(site_name = agg_counts$site, row.names = agg_counts$site)
 
     bin_names <- colnames(agg_counts)[-1]
-
     pdf <- pData_cols
-
-    fd <- new("AnnotatedDataFrame", data = fdf)
-    pd <- new("AnnotatedDataFrame", data = pdf)
     out <- agg_counts[,bin_names]
 
-    compart_cds <-  suppressWarnings(newCellDataSet(as.matrix(out),
-                                     phenoData = pd,
-                                     featureData = fd,
-                                     expressionFamily=negbinomial.size(),
-                                     lowerDetectionLimit=0))
+    compart_cds <-  suppressWarnings(new_cell_data_set(as.matrix(out),
+                                     cell_metadata = pdf,
+                                     gene_metadata = fdf))
 
-    compart_cds <- detectGenes(compart_cds, min_expr=0.1)
-    compart_cds <- estimateSizeFactors(compart_cds)
-    compart_cds <- estimateDispersions(compart_cds)
+    compart_cds <- detect_genes(compart_cds, min_expr=0.1)
+    compart_cds <- estimate_size_factors(compart_cds)
 
     fData(compart_cds)$use_for_ordering <- FALSE
 
