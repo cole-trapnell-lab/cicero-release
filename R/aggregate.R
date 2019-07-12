@@ -141,6 +141,7 @@ aggregate_by_cell_bin <- function(cds, group_col) {
     assertthat::assert_that(group_col %in% names(pData(cds)),
                             msg = "group_col is missing from your pData table")
 
+    group_col <- enquo(group_col)
     pData_grouping <- as.data.frame(pData(cds)) %>%
         tibble::rownames_to_column() %>%
         dplyr::group_by_(group_col)

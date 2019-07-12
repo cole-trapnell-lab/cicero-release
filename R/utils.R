@@ -273,7 +273,7 @@ annotate_cds_by_site <- function(cds,
   if (all) {
     olaps <- olaps %>%
       dplyr::rename(overlap = width) %>%
-      dplyr::group_by_("row_name") %>%
+      dplyr::group_by(row_name) %>%
       dplyr::summarise_all(paste, collapse=",")
   } else {
     olaps <- olaps[order(olaps$width, decreasing = TRUE),]

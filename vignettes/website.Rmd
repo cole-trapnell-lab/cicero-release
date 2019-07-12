@@ -23,6 +23,12 @@ knitr::opts_chunk$set(
   [Cicero website](https://cole-trapnell-lab.github.io/cicero-release). Please 
   check out the website for more details.
   
+  **WARNING:** This vignette demonstrates usage with the new 
+  [Monocle 3](https://cole-trapnell-lab.github.io/monocle3) version of Cicero. 
+  More information about the Cicero transition from Monocle 2 to Monocle 3 is 
+  available on the 
+  [Cicero website](https://cole-trapnell-lab.github.io/cicero-release).
+  
 # Introduction:
   The main purpose of Cicero is to use single-cell chromatin accessibility data 
   to predict regions of the genome that are more likely to be in physical 
@@ -41,7 +47,7 @@ knitr::opts_chunk$set(
   In addition, the Cicero package provides an extension toolkit for analyzing 
   single-cell ATAC-seq experiments using the framework provided by the 
   single-cell RNA-seq analysis software, 
-  [Monocle](https://cole-trapnell-lab.github.io/monocle-release). This vignette 
+  [Monocle 3](https://cole-trapnell-lab.github.io/monocle3). This vignette 
   provides an overview of a single-cell ATAC-Seq analysis workflow with Cicero. 
   For further information and more options, please see the manual pages for the 
   Cicero R package, the 
@@ -54,22 +60,18 @@ knitr::opts_chunk$set(
   co-accessibility to identify putative cis-regulatory interactions, and uses 
   various techniques to visualize and analyze them.
   * **General single-cell chromatin accessibility analysis.** Cicero also 
-  extends the software package Monocle to allow for identification of 
+  extends the software package Monocle 3 to allow for identification of 
   differential accessibility, clustering, visualization, and trajectory 
   reconstruction using single-cell chromatin accessibility data.
   
 # Installing Cicero
 
-1. Download the package from Bioconductor.
-```{r getPackage, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
- BiocManager::install("cicero")
-```
+1. Download and install Monocle 3 and the Monocle 3 branch of Cicero from 
+Github:
 
-  Or install the development version of the package from Github.
 ```{r, eval = FALSE}
-BiocManager::install(cole-trapnell-lab/cicero)
+devtools::install_github(cole-trapnell-lab/monocle3)
+devtools::install_github(cole-trapnell-lab/cicero-release, ref = "monocle3")
 ```
  
 2. Load the package into R session.
@@ -81,15 +83,16 @@ BiocManager::install(cole-trapnell-lab/cicero)
 
 ## Running Cicero
 
-### The CellDataSet class
-Cicero holds data in objects of the CellDataSet (CDS) class. The class is 
-derived from the Bioconductor ExpressionSet class, which provides a common 
-interface familiar to those who have analyzed microarray experiments with 
-Bioconductor. Monocle provides detailed documentation about how to generate an 
-input CDS [here](http://cole-trapnell-lab.github.io/monocle-release/docs/#the-celldataset-class).
+### The cell_data_set class
+Cicero holds data in objects of the cell_data_set (CDS) class. The class is 
+derived from the Bioconductor SingleCellExperiment class, which provides a 
+common interface familiar to those who have analyzed single-cell experiments 
+with Bioconductor. Monocle 3 provides detailed documentation about how to 
+generate an input CDS 
+[here](https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#the-cell-data-set-class).
 
 To modify the CDS object to hold chromatin accessibility rather than expression 
-data, Cicero uses peaks as its feature data fData rather than genes or 
+data, Cicero uses peaks as its feature data (fData) rather than genes or 
 transcripts. Specifically, many Cicero functions require peak information in the 
 form chr1_10390134_10391134. For example, an input fData table might look like 
 this:
@@ -139,12 +142,12 @@ estimation of co-accessibility scores requires us to aggregate similar cells to
 create more dense count data. Cicero does this using a k-nearest-neighbors 
 approach which creates overlapping sets of cells. Cicero constructs these sets 
 based on a reduced dimension coordinate map of cell similarity, for example, 
-from a tSNE or DDRTree map.
+from a tSNE or UMAP map.
 
 You can use any dimensionality reduction method to base your aggregated CDS on. 
-We will show you how to create two versions, tSNE and DDRTree (below). Both of 
+We will show you how to create two versions, tSNE and UMAP (below). Both of 
 these dimensionality reduction methods are available from 
-[Monocle](http://cole-trapnell-lab.github.io/monocle-release/) (and loaded 
+[Monocle 3](http://cole-trapnell-lab.github.io/monocle3/) (and loaded 
 by Cicero).
 
 Once you have your reduced dimension coordinate map, you can use the function 
@@ -155,34 +158,40 @@ data.frame or a matrix where the row names match the cell IDs from the pData
 table of your CDS. The columns of reduced_coordinates should be the coordinates 
 of the reduced dimension object, for example:
 
-&nbsp;   	  | ddrtree_coord1 | ddrtree_coord2
+&nbsp;   	    | umap_coord1    | umap_coord2
 --------------|----------------|---------------
 cell1         | -0.7084047     | -0.7232994
 cell2         |	-4.4767964     | 0.8237284
 cell3         |	1.4870098      | -0.4723493
 
 Here is an example of both dimensionality reduction and creation of a Cicero 
-CDS. Using Monocle as a guide, we first find tSNE coordinates for our input_cds:
+CDS. Using Monocle 3 as a guide, we first find UMAP coordinates for our 
+input_cds:
 
 ```{r, eval=TRUE}
 set.seed(2017)
-input_cds <- detectGenes(input_cds)
-input_cds <- estimateSizeFactors(input_cds)
-input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-                        reduction_method = 'tSNE', norm_method = "none")
+input_cds <- detect_genes(input_cds)
+input_cds <- estimate_size_factors(input_cds)
+input_cds <- preprocess_cds(input_cds, method = "LSI")
+input_cds <- reduce_dimension(input_cds, reduction_method = 'UMAP', 
+                              preprocess_method = "LSI")
 ```
 
 For more information on the above code, see the 
-[Monocle](http://cole-trapnell-lab.github.io/monocle-release/) website 
+[Monocle 3](http://cole-trapnell-lab.github.io/monocle3/) website 
 section on clustering cells.
 
-Next, we access the tSNE coordinates from the input CDS object where they are 
-stored by Monocle and run make_cicero_cds:
+We can use Monocle's plotting function to visualize the reduced dimension map:
+```{r}
+plot_cells(input_cds)
+```
+
+Next, we access the UMAP coordinates from the input CDS object where they are 
+stored by Monocle 3 and run make_cicero_cds:
 
 ```{r, eval=TRUE}
-tsne_coords <- t(reducedDimA(input_cds))
-row.names(tsne_coords) <- row.names(pData(input_cds))
-cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+umap_coords <- reducedDims(input_cds)$UMAP
+cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = umap_coords)
 ```
 
 ### Run Cicero
@@ -447,10 +456,42 @@ pData(input_cds) <- cbind(pData(input_cds), cell_data[row.names(pData(input_cds)
 pData(input_cds)$cell <- NULL
 
 agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
-agg_cds <- detectGenes(agg_cds)
-agg_cds <- estimateSizeFactors(agg_cds)
-agg_cds <- estimateDispersions(agg_cds)
+agg_cds <- detect_genes(agg_cds)
+agg_cds <- estimate_size_factors(agg_cds)
+
+
+mouse_rowdata <- readRDS("mouse_rowdata")
+mouse_coldata <- readRDS("mouse_coldata")
+mouse_exprs <- readRDS("mouse_exprs")
+
+mouse_cds <- new_cell_data_set(mouse_exprs, cell_metadata = mouse_coldata, gene_metadata = mouse_rowdata)
+
+
+agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
+agg_cds <- detect_genes(agg_cds)
+agg_cds <- estimate_size_factors(agg_cds)
 ```
+
+
+```{r}
+mouse_expr <- readRDS("~/Downloads/atac_matrix.binary.qc_filtered.rds")
+mouse_rowdata <- read.table("~/Downloads/atac_matrix.binary.qc_filtered.peaks.txt")
+mouse_coldata <- read.table("~/Downloads/atac_matrix.binary.qc_filtered.cells.txt")
+
+
+cell_meta <- read.table("~/Downloads/cell_metadata.txt",sep="\t", header=T)
+mouse_coldata <- cbind(mouse_coldata, cell_meta)
+row.names(mouse_coldata) <- mouse_coldata$V1
+row.names(mouse_rowdata) <- mouse_rowdata$V1
+
+mouse_cds <- new_cell_data_set(mouse_expr, cell_metadata = mouse_coldata[colnames(mouse_expr),,drop=FALSE], gene_metadata = mouse_rowdata[row.names(mouse_expr),, drop=FALSE])
+
+agg_cds <- aggregate_nearby_peaks(mouse_cds, distance = 10000)
+agg_cds <- detect_genes(agg_cds)
+agg_cds <- estimate_size_factors(agg_cds)
+```
+
+
 
 ## Choose sites for dimensionality reduction
 
@@ -462,73 +503,16 @@ Any of these options could be used with your new aggregated CDS, depending on
 the information you have a available in your dataset. Here, we will show two 
 examples:
 
-#### Choose sites by differential analysis
-If your data has defined beginning and end points, you can determine which sites 
-define progress by a differential accessibility test. We use Monocle's 
-differentialGeneTest function looking for sites that are different in the 
-timepoint groups.
-```{r, eval=TRUE}
-# This takes a few minutes to run
-diff_timepoint <- differentialGeneTest(agg_cds,
-                      fullModelFormulaStr="~timepoint + num_genes_expressed")
-
-# We chose a very high q-value cutoff because there are
-# so few sites in the sample dataset, in general a q-value
-# cutoff in the range of 0.01 to 0.1 would be appropriate
-ordering_sites <- row.names(subset(diff_timepoint, qval < .5))
-length(ordering_sites)
-```
-
-
-#### Choose sites by dpFeature
-Alternatively, you can choose sites for dimensionality reduction by using 
-Monocle's dpFeature method. dpFeature chooses sites based on how they differ 
-among clusters of cells. Here, we give some example code reproduced from 
-Monocle, for more information, see the Monocle description.
-
-```{r, fig.show='hold', eval=FALSE}
-plot_pc_variance_explained(agg_cds, return_all = FALSE) #Choose 2 PCs
-agg_cds <- reduceDimension(agg_cds,
-                              max_components = 2,
-                              norm_method = 'log',
-                              num_dim = 2,
-                              reduction_method = 'tSNE',
-                              verbose = TRUE)
-
-agg_cds <- clusterCells(agg_cds, verbose = FALSE)
-
-plot_cell_clusters(agg_cds, color_by = 'as.factor(Cluster)') + theme(text = element_text(size=8))
-clustering_DA_sites <- differentialGeneTest(agg_cds[1:10,], #Subset for example only
-                                             fullModelFormulaStr = '~Cluster')
-
-# Not run because using Option 1 to continue
-# ordering_sites <-
-#  row.names(clustering_DA_sites)[order(clustering_DA_sites$qval)][1:1000]
-
-```
-
-
-### Reduce the dimensionality of the data and order cells
-However you choose your ordering sites, the first step of dimensionality 
-reduction is to use setOrderingFilter to mark the sites you want to use for 
-dimesionality reduction. In the following figures, we are using the 
-ordering_sites from "Choose sites by differential analysis" above.
-
-```{r, eval=TRUE}
-agg_cds <- setOrderingFilter(agg_cds, ordering_sites)
-```
 
 Next, we use DDRTree to reduce dimensionality and then order the cells along 
 the trajectory. Importantly, we use num_genes_expressed in our residual model 
 formula to account for overall assay efficiency.
 
 ```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
-agg_cds <- reduceDimension(agg_cds, max_components = 2,
-          residualModelFormulaStr="~num_genes_expressed",
-          reduction_method = 'DDRTree')
-agg_cds <- orderCells(agg_cds)
-
-plot_cell_trajectory(agg_cds, color_by = "timepoint")
+agg_cds <- preprocess_cds(agg_cds, residual_model_formula_str = "~num_genes_expressed")
+agg_cds <- reduce_dimension(agg_cds, 
+          reduction_method = 'UMAP')
+plot_cells(agg_cds, color_cells_by = "timepoint")
 ```
 
 Once you have a cell trajectory, you need to make sure that pseudotime proceeds 

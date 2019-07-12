@@ -182,7 +182,7 @@ make_cicero_cds <- function(cds,
   }
   
   if (size_factor_normalize) {
-    cicero_cds <- suppressWarnings(new_cell_data_set(t(t(exprs(cicero_cds))/pData(cicero_cds)$Size_Factor), 
+    cicero_cds <- suppressWarnings(new_cell_data_set(Matrix::t(Matrix::t(exprs(cicero_cds))/pData(cicero_cds)$Size_Factor), 
                                     cell_metadata = pData(cicero_cds), 
                                     gene_metadata = fData(cicero_cds)))
   }
@@ -558,7 +558,7 @@ generate_cicero_models <- function(cds,
 
     rho_mat <- get_rho_mat(dist_matrix, distance_parameter, s)
 
-    vals <- exprs(win_range)
+    vals <- as.matrix(exprs(win_range))
     cov_mat <- cov(t(vals))
     diag(cov_mat) <- diag(cov_mat) + 1e-4
 
@@ -702,7 +702,7 @@ find_distance_parameter <- function(dist_mat,
   distance_parameter_min <- 0
   it <- 0
   while(found != TRUE & it < maxit) {
-    vals <- exprs(gene_range)
+    vals <- as.matrix(exprs(gene_range))
     cov_mat <- cov(t(vals))
     diag(cov_mat) <- diag(cov_mat) + 1e-4
 
