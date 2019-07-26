@@ -66,11 +66,10 @@ knitr::opts_chunk$set(
   
 # Installing Cicero
 
-1. Download and install Monocle 3 and the Monocle 3 branch of Cicero from 
-Github:
+1. Download and install Monocle 3 following the instructions [here](https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#installing-monocle-3) 
+and the Monocle 3 branch of Cicero from Github:
 
 ```{r, eval = FALSE}
-devtools::install_github(cole-trapnell-lab/monocle3)
 devtools::install_github(cole-trapnell-lab/cicero-release, ref = "monocle3")
 ```
  
@@ -105,9 +104,15 @@ chr10_100011280_100011780 |	chr10_100011280_100011780 |	10        | 100011280 | 
 chr10_100013372_100013596 |	chr10_100013372_100013596 |	10        | 100013372 | 100013596
 chr10_100015079_100015428 |	chr10_100015079_100015428 |	10        | 100015079 | 100015428
 
-The Cicero package includes a small dataset called cicero_data as an example.
+The you can access an example dataset derived from the [Mouse sci-ATAC-seq Atlas](http://atlas.gs.washington.edu/mouse-atac/) published in [Cusanovich and Hill, et. al.](https://www.cell.com/cell/fulltext/S0092-8674(18)30855-9) using the code below:
+
 ```{r}
-data(cicero_data)
+# Code to download (54M) and unzip the file - can take a couple minutes 
+# depending on internet connection:
+temp <- textConnection(readLines(gzcon(url("http://staff.washington.edu/hpliner/data/kidney_data.txt.gz"))))
+
+# read in the data
+cicero_data <- read.table(temp)
 ```
 
 For convenience, Cicero includes a function called make_atac_cds. This function 
@@ -214,14 +219,21 @@ the package manual pages and on the
 The easiest way to get Cicero co-accessibility scores is to run run_cicero. To 
 run run_cicero, you need a cicero CDS object (created above) and a genome 
 coordinates file, which contains the lengths of each of the chromosomes in your 
-organism. The human hg19 coordinates are included with the package and can be 
-accessed with data("human.hg19.genome"). Here is an example call, continuing 
-with our example data:
+organism. The human hg19 coordinates and the mouse mm9 coordinates are included 
+with the package and can be accessed with data("human.hg19.genome") and 
+data("mouse.mm9.genome"). Here is an example call, continuing with our example 
+data:
+
+**Note** for speed in the vignette, we run Cicero here on only a small portion 
+of chromosome 2. 
 
 ```{r, eval=TRUE}
-data("human.hg19.genome")
-sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+data("mouse.mm9.genome")
+
+# use only a small part of the genome for speed
+sample_genome <- subset(mouse.mm9.genome, V1 == "chr2")
 sample_genome$V2[1] <- 10000000
+
 conns <- run_cicero(cicero_cds, sample_genome, sample_num = 2) # Takes a few minutes to run
 head(conns)
 ```
@@ -233,12 +245,33 @@ for plotting genome browser-style plots. We have adapted a function from the
 Sushi R package for mapping connections. plot_connections has many options, 
 some detailed in the Advanced Visualization section on the 
 [Cicero website](https://cole-trapnell-lab.github.io/cicero-release), but 
-to get a basic plot from your co-accessibility table is quite simple:
+to get a basic plot from your co-accessibility table is quite simple. 
+
+Here, we will include optional gene_model data so that genes can be plotted as
+well. 
+
+```{r}
+# Download the GTF associated with this data (mm9) from ensembl and load it
+# using rtracklayer
+
+# download and unzip
+temp <- tempfile()
+download.file("ftp://ftp.ensembl.org/pub/release-65/gtf/mus_musculus/Mus_musculus.NCBIM37.65.gtf.gz", temp)
+gene_anno <- rtracklayer::readGFF(temp)
+unlink(temp)
+
+# rename some columns to match requirements
+gene_anno$chromosome <- paste0("chr", gene_anno$seqid)
+gene_anno$gene <- gene_anno$gene_id
+gene_anno$transcript <- gene_anno$transcript_id
+gene_anno$symbol <- gene_anno$gene_name
+
+```
 
 ```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=TRUE}
-data(gene_annotation_sample)
-plot_connections(conns, "chr18", 8575097, 8839855, 
-                 gene_model = gene_annotation_sample, 
+
+plot_connections(conns, "chr2", 9773451, 9848598,
+                 gene_model = gene_anno, 
                  coaccess_cutoff = .25, 
                  connection_width = .5, 
                  collapseTranscripts = "longest" )
@@ -258,17 +291,20 @@ For example, if we wanted to compare our Cicero predictions to a set of
 (made-up) ChIA-PET connections, we could run:
 
 ```{r, eval=TRUE}
-chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
-                                    "chr18_49500_49600"), 
-                          Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
-                                    "chr18_10600_10700"))
+chia_conns <-  data.frame(Peak1 = c("chr2_3005100_3005200", "chr2_3004400_3004600", 
+                                    "chr2_3004900_3005100"), 
+                          Peak2 = c("chr2_3006400_3006600", "chr2_3006400_3006600", 
+                                    "chr2_3035100_3035200"))
+head(chia_conns)
 
 conns$in_chia <- compare_connections(conns, chia_conns)
+
+head(conns)
 ```
 
 You may find that this overlap is too strict when comparing completely distinct 
-datasets. Looking carefully, the 2nd line of the ChIA-PET data matches fairly 
-closely to the last line shown of conns. The difference is only ~67 base pairs, 
+datasets. Looking carefully, the 3rd line of the ChIA-PET data matches fairly 
+closely to the last line shown of conns. The difference is only ~80 base pairs, 
 which could be a matter of peak-calling. This is where the max_gap parameter 
 can be useful:
 
@@ -287,16 +323,16 @@ in ChIA-PET, or simply a column of 1s. More info on plotting options in manual
 pages ?plot_connections and in the Advanced Visualization section of the 
 [Cicero website](https://cole-trapnell-lab.github.io/cicero-release).
 
-```{r, eval=TRUE}
+```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=TRUE}
 # Add a column of 1s called "coaccess"
-chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
-                                    "chr18_49500_49600"), 
-                          Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
-                                    "chr18_10600_10700"),
+chia_conns <-  data.frame(Peak1 = c("chr2_3005100_3005200", "chr2_3004400_3004600", 
+                                    "chr2_3004900_3005100"), 
+                          Peak2 = c("chr2_3006400_3006600", "chr2_3006400_3006600", 
+                                    "chr2_3035100_3035200"),
                           coaccess = c(1, 1, 1))
 
-plot_connections(conns, "chr18", 10000, 112367, 
-                 gene_model = gene_annotation_sample, 
+plot_connections(conns, "chr2", 3004000, 3040000, 
+                 gene_model = gene_anno, 
                  coaccess_cutoff = 0,
                  connection_width = .5,
                  comparison_track = chia_conns,
@@ -360,12 +396,12 @@ table of your CDS, called "num_genes_expressed". See below for an example.
 # Create a gene annotation set that only marks the transcription start sites of 
 # the genes. We use this as a proxy for promoters.
 # To do this we need the first exon of each transcript
-pos <- subset(gene_annotation_sample, strand == "+")
+pos <- subset(gene_anno, strand == "+")
 pos <- pos[order(pos$start),] 
 pos <- pos[!duplicated(pos$transcript),] # remove all but the first exons per transcript
 pos$end <- pos$start + 1 # make a 1 base pair marker of the TSS
 
-neg <- subset(gene_annotation_sample, strand == "-")
+neg <- subset(gene_anno, strand == "-")
 neg <- neg[order(neg$start, decreasing = TRUE),] 
 neg <- neg[!duplicated(neg$transcript),] # remove all but the first exons per transcript
 neg$start <- neg$end - 1
@@ -374,15 +410,14 @@ gene_annotation_sub <- rbind(pos, neg)
 
 # Make a subset of the TSS annotation columns containing just the coordinates 
 # and the gene name
-gene_annotation_sub <- gene_annotation_sub[,c(1:3, 8)]
+gene_annotation_sub <- gene_annotation_sub[,c("chromosome", "start", "end", "symbol")]
 
 # Rename the gene symbol column to "gene"
 names(gene_annotation_sub)[4] <- "gene"
 
 input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
 
-head(fData(input_cds))
-
+tail(fData(input_cds))
 
 #### Generate gene activity scores ####
 # generate unnormalized gene activity matrix
@@ -406,23 +441,68 @@ cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga, unnorm_ga2),
 ```
 
 # Single-cell accessibility trajectories
-The second major function of the Cicero package is to extend Monocle 2 for use 
+The second major function of the Cicero package is to extend Monocle 3 for use 
 with single-cell accessibility data. The main obstacle to overcome with 
 chromatin accessibility data is the sparsity, so most of the extensions and 
 methods are designed to address that.
 
 ## Constructing trajectories with accessibility data
-We strongly recommend that you consult the Monocle website, especially 
-[this section](http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories)
+We strongly recommend that you consult the Monocle 3 website, especially 
+[this section](https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#constructing-single-cell-trajectories)
 prior to reading about Cicero's extension of the Monocle analysis described. 
-Briefly, Monocle infers pseudotime trajectories in three steps:
+Briefly, Monocle 3 infers pseudotime trajectories in five steps:
 
-1. Choosing sites that define progress
-2. Reducing the dimensionality of the data
-3. Ordering cells in pseudotime
+1. Preprocess the data
+2. Reduce the dimensionality of the data
+3. Cluster the cells
+4. Learn the trajectory graph
+5. Order the cells in pseudotime
 
-We will describe how each piece is modified for use with sparse single-cell 
-chromatin accessibility data.
+These steps can be run on accessibility data with only minor modifications:
+
+First, we download and load in the data (same as above):
+```{r}
+# Code to download (54M) and unzip the file - can take a couple minutes 
+# depending on internet connection:
+temp <- textConnection(readLines(gzcon(url("http://staff.washington.edu/hpliner/data/kidney_data.txt.gz"))))
+
+# read in the data
+cicero_data <- read.table(temp)
+```
+
+Next, we preprocess the data using Latent Semantic Indexing (LSI) and then 
+continue with the standard dimensionality reduction used in Monocle 3. See
+[here](http://andrewjohnhill.com/blog/2019/05/06/dimensionality-reduction-for-scatac-data/) 
+for an excellent discussion by Andrew Hill on why we use LSI for single-cell 
+ATAC-seq.
+```{r}
+set.seed(2017)
+input_cds <- estimate_size_factors(input_cds)
+
+#1
+input_cds <- preprocess_cds(input_cds, method = "LSI")
+
+#2
+input_cds <- reduce_dimension(input_cds, reduction_method = 'UMAP', 
+                              preprocess_method = "LSI")
+
+#3
+input_cds <- cluster_cells(input_cds)
+
+#4
+input_cds <- learn_graph(input_cds)
+
+#5
+# cell ordering can be done interactively by leaving out "root_cells"
+input_cds <- order_cells(input_cds, root_cells = "GAGATTCCAGTTGAATCACTCCATCGAGATAGAGGC")
+```
+
+Plot the results:
+```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=TRUE}
+
+plot_cells(input_cds, color_cells_by = "pseudotime")
+```
+
 
 ### Aggregation: the primary method for addressing sparsity
 The primary way that the Cicero package deals with the sparsity of single-cell 
@@ -437,136 +517,28 @@ covariates by simply fitting a linear model and taking the residuals with
 respect to it as the adjusted accessibility score for each group of cells. We 
 demonstrate how to apply this grouping practically below.
 
-#### aggregate_nearby_peaks
-The primary aggregation used for trajectory reconstruction is between nearby 
-peaks. This keeps single cells separate while aggregating regions of the genome 
-and looking for chromatin accessibility within them. The function 
-aggregate_nearby_peaks finds sites within a certain distance of each other and 
-aggregates them together by summing their counts. Depending on the density of 
-your data, you may want to try different distance parameters. In published work 
-we have used 1,000 and 10,000.
-
-```{r, eval=TRUE}
-data("cicero_data")
-input_cds <- make_atac_cds(cicero_data)
-
-# Add some cell meta-data
-data("cell_data")
-pData(input_cds) <- cbind(pData(input_cds), cell_data[row.names(pData(input_cds)),])
-pData(input_cds)$cell <- NULL
-
-agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
-agg_cds <- detect_genes(agg_cds)
-agg_cds <- estimate_size_factors(agg_cds)
-
-
-mouse_rowdata <- readRDS("mouse_rowdata")
-mouse_coldata <- readRDS("mouse_coldata")
-mouse_exprs <- readRDS("mouse_exprs")
-
-mouse_cds <- new_cell_data_set(mouse_exprs, cell_metadata = mouse_coldata, gene_metadata = mouse_rowdata)
-
-
-agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
-agg_cds <- detect_genes(agg_cds)
-agg_cds <- estimate_size_factors(agg_cds)
-```
-
-
-```{r}
-mouse_expr <- readRDS("~/Downloads/atac_matrix.binary.qc_filtered.rds")
-mouse_rowdata <- read.table("~/Downloads/atac_matrix.binary.qc_filtered.peaks.txt")
-mouse_coldata <- read.table("~/Downloads/atac_matrix.binary.qc_filtered.cells.txt")
-
-
-cell_meta <- read.table("~/Downloads/cell_metadata.txt",sep="\t", header=T)
-mouse_coldata <- cbind(mouse_coldata, cell_meta)
-row.names(mouse_coldata) <- mouse_coldata$V1
-row.names(mouse_rowdata) <- mouse_rowdata$V1
-
-mouse_cds <- new_cell_data_set(mouse_expr, cell_metadata = mouse_coldata[colnames(mouse_expr),,drop=FALSE], gene_metadata = mouse_rowdata[row.names(mouse_expr),, drop=FALSE])
-
-agg_cds <- aggregate_nearby_peaks(mouse_cds, distance = 10000)
-agg_cds <- detect_genes(agg_cds)
-agg_cds <- estimate_size_factors(agg_cds)
-```
-
-
-
-## Choose sites for dimensionality reduction
-
-### Choosing sites that define progress
-There are several options for choosing the sites to use during dimensionality 
-reduction. Monocle has a discussion about the options 
-[here](http://cole-trapnell-lab.github.io/monocle-release/docs/#alternative-choices-for-ordering-genes). 
-Any of these options could be used with your new aggregated CDS, depending on 
-the information you have a available in your dataset. Here, we will show two 
-examples:
-
-
-Next, we use DDRTree to reduce dimensionality and then order the cells along 
-the trajectory. Importantly, we use num_genes_expressed in our residual model 
-formula to account for overall assay efficiency.
-
-```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
-agg_cds <- preprocess_cds(agg_cds, residual_model_formula_str = "~num_genes_expressed")
-agg_cds <- reduce_dimension(agg_cds, 
-          reduction_method = 'UMAP')
-plot_cells(agg_cds, color_cells_by = "timepoint")
-```
-
-Once you have a cell trajectory, you need to make sure that pseudotime proceeds 
-how you expect. In our example, we want pseudotime to start where most of the 
-time 0 cells are located and proceed towards the later timepoints. Further 
-information on this can be found 
-[here](http://cole-trapnell-lab.github.io/monocle-release/docs/#constructing-single-cell-trajectories) 
-on the Monocle website. We first color our trajectory plot by State, which is 
-how Monocle assigns segments of the tree.
-
-```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
-plot_cell_trajectory(agg_cds, color_by = "State")
-```
-
-From this plot, we can see that the beginning of pseudotime should be from 
-state 4. We now reorder cells setting the root state to 4. We can then check 
-that the ordering makes sense by coloring the plot by Pseudotime.
-
-```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
-agg_cds <- orderCells(agg_cds, root_state = 4)
-plot_cell_trajectory(agg_cds, color_by = "Pseudotime")
-```
-
-Now that we have Pseudotime values for each cell (pData(agg_cds)$Pseudotime), 
-we need to assign these values back to our original CDS object. In addition, 
-we will assign the State information back to the original CDS.
-
-```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
-pData(input_cds)$Pseudotime <- pData(agg_cds)[colnames(input_cds),]$Pseudotime
-pData(input_cds)$State <- pData(agg_cds)[colnames(input_cds),]$State
-```
 
 ## Differential Accessibility Analysis
 Once you have your cells ordered in pseudotime, you can ask where in the genome 
-chromatin accessibility is changing across time. If you know of specific sites 
+chromatin accessibility is changing across pseudotime. If you know of specific sites 
 that are important to your system, you may want to visualize the accessibility 
 at those sites across pseudotime.
 
 ### Visualizing accessibility across pseudotime
 
-For simplicity, we will exclude the branch in our trajectory to make our 
-trajectory linear.
-```{r, fig.width = 3, fig.height = 4, fig.align='center', eval=TRUE}
-input_cds_lin <- input_cds[,row.names(subset(pData(input_cds), State  != 5))]
+For simplicity, we will include only the main section of the trajectory.
 
-plot_accessibility_in_pseudotime(input_cds_lin[c("chr18_38156577_38158261", 
-                                                 "chr18_48373358_48374180", 
-                                                 "chr18_60457956_60459080")])
+```{r, fig.width = 3, fig.height = 4, fig.align='center', eval=TRUE}
+input_cds_lin <- input_cds[,is.finite(pseudotime(input_cds))]
+
+plot_accessibility_in_pseudotime(input_cds_lin[c("chr1_3238849_3239700", 
+                                                 "chr1_3406155_3407044", 
+                                                 "chr1_3397204_3397842")])
 ```
 
 
-### Running differentialGeneTest with single-cell chromatin accessibility data
-In the previous section, we used aggregation of sites to discover cell-level 
-information (cell pseudotime). In this section, we are interested in a 
+### Running fit models with single-cell chromatin accessibility data
+In this section, we are interested in a 
 site-level statistic (whether a site is changing in pseudotime), so we will 
 aggregate similar cells. To do this, Cicero has a useful function called 
 aggregate_by_cell_bin.
@@ -577,20 +549,29 @@ a column in the pData table. In this example, we will assign cells to bins by
 cutting the pseudotime trajectory into 10 parts.
 
 ```{r, eval=TRUE}
-pData(input_cds_lin)$cell_subtype <- cut(pData(input_cds_lin)$Pseudotime, 10)
+# First, assign a column in the pData table to umap pseudotime
+pData(input_cds_lin)$Pseudotime <- pseudotime(input_cds_lin)
+
+pData(input_cds_lin)$cell_subtype <- cut(pseudotime(input_cds_lin), 10)
 binned_input_lin <- aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
 ```
 
-We are now ready to run Monocle's differentialGeneTest function to find sites 
+We are now ready to run Monocle 3's differentialGeneTest function to find sites 
 that are differentially accessible across pseudotime. In this example, we 
 include num_genes_expressed as a covariate to subtract its effect.
 
 ```{r, eval=TRUE}
-diff_test_res <- differentialGeneTest(binned_input_lin[1:10,], #Subset for example only
-    fullModelFormulaStr="~sm.ns(Pseudotime, df=3) + sm.ns(num_genes_expressed, df=3)",
-    reducedModelFormulaStr="~sm.ns(num_genes_expressed, df=3)", cores=1)
 
-head(diff_test_res)
+# run 1000 random sites for speed
+set.seed(1000)
+acc_fits <- fit_models(binned_input_lin[sample(1:nrow(fData(binned_input_lin)), 1000),], model_formula_str = "~Pseudotime + num_genes_expressed" )
+
+fit_coefs <- coefficient_table(acc_fits)
+
+# Subset out the differentially accessible sites with respect to Pseudotime
+pseudotime_terms <- subset(fit_coefs, term == "Pseudotime" & q_value < .05)
+
+head(pseudotime_terms)
 ```
 
 # References

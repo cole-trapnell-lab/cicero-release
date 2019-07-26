@@ -632,6 +632,8 @@ get_colors <- function(type_list) {
 #'   have a column in the pData table called "Pseudotime".
 #' @param breaks Number of breaks along pseudotime. Controls the coarseness of
 #'   the plot.
+#' @param expression_family String indicating the expression family to be used
+#'   when calculating the smoothed regression curve. Default is "binomialff"
 #'
 #' @details This function plots each site in the CDS subset by cell pseudotime
 #'   as a barplot. Cells are divided into bins by pseudotime (number determined
@@ -660,16 +662,16 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
                           msg = paste("Too many sites to plot. Be sure you are",
                                       "passing only a subset of your CDS.",
                                       collapse = " "))
-
+  pData(cds_subset)$Pseudotime <- pseudotime(cds_subset)
   min_expr = 0
   fData(cds_subset)$site_name <- row.names(fData(cds_subset))
   cds_exprs <- reshape2::melt(as.matrix(exprs(cds_subset)))
   colnames(cds_exprs) <- c("f_id", "Cell", "expression")
   cds_exprs$expression <- as.numeric(cds_exprs$expression > 0)
 
-  cds_exprs <- merge(cds_exprs, fData(cds_subset), by.x="f_id",
+  cds_exprs <- merge(cds_exprs, as.data.frame(fData(cds_subset)), by.x="f_id",
                      by.y="row.names")
-  cds_exprs <- merge(cds_exprs, pData(cds_subset), by.x="Cell",
+  cds_exprs <- merge(cds_exprs, as.data.frame(pData(cds_subset)), by.x="Cell",
                      by.y="row.names")
 
   trend_formula <- "expression~ VGAM::sm.ns(Pseudotime, df=3)"

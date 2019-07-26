@@ -24,6 +24,18 @@
 #' }
 "human.hg19.genome"
 
+#' Chromosome lengths from mouse genome mm9
+#'
+#' A list of the chromosomes in mm9 and their lengths
+#' in base pairs.
+#'
+#' @format A data frame with 93 rows and 2 variables:
+#' \describe{
+#'   \item{V1}{Chromosome}
+#'   \item{V2}{Chromosome length, base pairs}
+#' }
+"mouse.mm9.genome"
+
 #' Example gene annotation information
 #'
 #' Gencode gene annotation data from chromosome 18 of the

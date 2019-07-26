@@ -13,6 +13,9 @@ have a column in the pData table called "Pseudotime".}
 
 \item{breaks}{Number of breaks along pseudotime. Controls the coarseness of
 the plot.}
+
+\item{expression_family}{String indicating the expression family to be used
+when calculating the smoothed regression curve. Default is "binomialff"}
 }
 \value{
 ggplot object

@@ -141,10 +141,9 @@ aggregate_by_cell_bin <- function(cds, group_col) {
     assertthat::assert_that(group_col %in% names(pData(cds)),
                             msg = "group_col is missing from your pData table")
 
-    group_col <- enquo(group_col)
     pData_grouping <- as.data.frame(pData(cds)) %>%
         tibble::rownames_to_column() %>%
-        dplyr::group_by_(group_col)
+        dplyr::group_by_at(group_col)
 
     cell_bins <- pData_grouping %>% dplyr::do(agg_cells(exprs(cds)[,.$rowname]))
     var_cols <- setdiff(colnames(cell_bins), c("site", "compartment_count"))
@@ -155,7 +154,7 @@ aggregate_by_cell_bin <- function(cds, group_col) {
                                   value.var="compartment_count")
 
     pData_cols <- as.data.frame(pData_grouping %>%
-                                dplyr::group_by_(group_col) %>%
+                                dplyr::group_by_at(group_col) %>%
                                 dplyr::add_tally() %>%
                                 dplyr::summarise_if(is.numeric,
                                                     mean,

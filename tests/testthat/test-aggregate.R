@@ -28,7 +28,7 @@ test_that("aggregate_nearby_peaks makes a valid cds object not sparse", {
   expect_equal(exprs(agg_cds)[1,4], 4)
   expect_match(row.names(agg_cds)[1], "chr18_10006196_10017274")
   expect_match(colnames(agg_cds)[1], "AGCGATAGAACGAATTCGGCGCAATGACCCTATCCT")
-  expect_is(exprs(agg_cds), "matrix")
+  expect_is(exprs(agg_cds), "dgCMatrix")
 })
 
 test_that("aggregate_by_cell_bin makes a valid cds object", {
@@ -41,7 +41,7 @@ test_that("aggregate_by_cell_bin makes a valid cds object", {
   expect_equal(exprs(agg_cds2)[1,4], 2)
   expect_match(row.names(agg_cds2)[1], "chr18_10006196_10006822")
   expect_match(colnames(agg_cds2)[1], "1")
-  expect_is(exprs(agg_cds2), "matrix")
+  expect_is(exprs(agg_cds2), "dgCMatrix")
 })
 
 test_that("aggregate_by_cell_bin makes a valid cds object not sparse", {
@@ -54,5 +54,5 @@ test_that("aggregate_by_cell_bin makes a valid cds object not sparse", {
   expect_equal(exprs(agg_cds2)[1,4], 2)
   expect_match(row.names(agg_cds2)[1], "chr18_10006196_10006822")
   expect_match(colnames(agg_cds2)[1], "1")
-  expect_is(exprs(agg_cds2), "matrix")
+  expect_is(exprs(agg_cds2), "dgCMatrix")
 })
