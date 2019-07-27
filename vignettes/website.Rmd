@@ -556,7 +556,7 @@ pData(input_cds_lin)$cell_subtype <- cut(pseudotime(input_cds_lin), 10)
 binned_input_lin <- aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
 ```
 
-We are now ready to run Monocle 3's differentialGeneTest function to find sites 
+We are now ready to run Monocle 3's fit_models function to find sites 
 that are differentially accessible across pseudotime. In this example, we 
 include num_genes_expressed as a covariate to subtract its effect.
 
