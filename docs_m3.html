@@ -1467,7 +1467,33 @@ find_overlapping_coordinates(fData(temp)$site_name, "chr1:3,000,200-3,090,000")
 
 # [1] "chr1_3002478_3002968" "chr1_3084739_3085712"{% endhighlight %}
         
-        
+<h2>Frequently Asked Questions </h2>
+
+<h4>Where do I get a genome_coordinates file for my genome/build?</h4>
+<p>
+  The genome_coordinates files are simply a table for chromosomes and their sizes. You can find one
+  for your genome/build on the USCS genome browser website. Go <a href="http://hgdownload.soe.ucsc.edu/downloads.html">here</a>,
+  find the "Full Data Set" link for your genome of interest, and find the [genome].chrom.sizes file. Download this and pass 
+  the path into the cicero function you're running! Note: some genomes have a lot of non-standard chromosomes in the sizes file 
+  (chr_unk, alternative haplotypes, etc). You may want to remove these lines from your file, which will help speed up your run.
+</p>
+
+<h4>Where do I get the gene_model/gene_annotation_sample for my genome/build?</h4>
+<p>
+  A gene_model to pass to plotting functions can be derived from the ENSEMBL GTF for your
+  organism/build. Download the GTF file from <a href="https://uswest.ensembl.org/info/data/ftp/index.html">here</a> - found
+  under the "Gene sets" column. GTF files need a bit of processing to be ready for plotting:
+{% highlight R %}
+# load in your data using rtracklayer
+gene_anno <- rtracklayer::readGFF("Path/To/Downloaded/GTF.GTF")
+
+# rename some columns to match plotting requirements
+gene_anno$chromosome <- paste0("chr", gene_anno$seqid)
+gene_anno$gene <- gene_anno$gene_id
+gene_anno$transcript <- gene_anno$transcript_id
+gene_anno$symbol <- gene_anno$gene_name{% endhighlight %}
+  
+</p>        
         <h2>Citation </h2>
         
         If you use Cicero to analyze your experiments, please cite:
