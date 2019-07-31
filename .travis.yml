@@ -76,6 +76,11 @@ r_binary_packages:
 - viridislite
 - withr
 
+script: 
+  - |
+    R CMD build .
+    travis_wait 20 R CMD check cicero*tar.gz
+    
 after_success:
 - Rscript -e 'covr::codecov()'
 
