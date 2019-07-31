@@ -75,7 +75,8 @@ devtools::install_github(cole-trapnell-lab/cicero-release, ref = "monocle3")
  
 2. Load the package into R session.
 ```{r Load, message=FALSE}
- library(cicero)
+library(monocle3)
+library(cicero)
 ```
 
 # Constructing cis-regulatory networks
