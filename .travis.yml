@@ -78,7 +78,7 @@ r_binary_packages:
 
 script: 
   - |
-    R CMD build .
+    travis_wait 20 R CMD build .
     travis_wait 20 R CMD check cicero*tar.gz
     
 after_success:
