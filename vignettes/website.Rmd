@@ -257,7 +257,7 @@ well.
 
 # download and unzip
 temp <- tempfile()
-download.file("ftp://ftp.ensembl.org/pub/release-65/gtf/mus_musculus/Mus_musculus.NCBIM37.65.gtf.gz", temp)
+download.file("http://staff.washington.edu/hpliner/data/Mus_musculus.NCBIM37.65.gtf.gz", temp)
 gene_anno <- rtracklayer::readGFF(temp)
 unlink(temp)
 
