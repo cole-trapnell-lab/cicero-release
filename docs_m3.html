@@ -91,7 +91,7 @@ tags: [monocle, manual, vignette]
             <p>
                 Cicero builds upon a package called <a href= "http://cole-trapnell-lab.github.io/monocle3/">Monocle 3</a>. 
                 Before installing Cicero, first follow 
-                <a href= "https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#installing-monocle-3" target="_blank">these instructions</a> 
+                <a href= "https://cole-trapnell-lab.github.io/monocle3/docs/installation/" target="_blank">these instructions</a> 
                 to install <a href= "http://cole-trapnell-lab.github.io/monocle3/">Monocle 3</a>. 
             </p>
             
@@ -150,11 +150,11 @@ devtools::install_github(cole-trapnell-lab/cicero-release, ref = "monocle3"){% e
             <h3>The cell_data_set class</h3>
             <p>
                 Cicero holds data in objects of the 
-                <code><a href = "https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#the-cell-data-set-class">cell_data_set (CDS)</a></code> 
+                <code><a href = "https://cole-trapnell-lab.github.io/monocle3/docs/starting/#cell_data_set">cell_data_set (CDS)</a></code> 
                 class. The class is derived from the Bioconductor <code>SingleCellExperiment</code> class, which provides a 
                 common interface familiar to those who have analyzed single-cell experiments with Bioconductor. Monocle provides 
                 detailed documentation about how to generate an input CDS
-                <a href = "https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#the-cell-data-set-class">here</a>.
+                <a href = "https://cole-trapnell-lab.github.io/monocle3/docs/starting/#cell_data_set">here</a>.
             </p>
             
             <p>
@@ -406,7 +406,7 @@ input_cds <- reduce_dimension(input_cds, reduction_method = 'UMAP',
                               preprocess_method = "LSI"){% endhighlight %}
             
             For more information on the above code, see the Monocle 3 website on
-            <a href = "https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#constructing-single-cell-trajectories">constructing single-cell trajectories</a>
+            <a href = "https://cole-trapnell-lab.github.io/monocle3/docs/trajectories/">constructing single-cell trajectories</a>
         </p>
         
         <p>
@@ -1217,7 +1217,7 @@ Gviz::plotTracks(plot_list,
         <h3>Constructing trajectories with accessibility data</h3>
         
         <p>We strongly recommend that you consult the Monocle website, especially 
-            <a href ="https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#constructing-single-cell-trajectories">this section</a> 
+            <a href ="https://cole-trapnell-lab.github.io/monocle3/docs/trajectories/">this section</a> 
             prior to reading about Cicero's extension of the Monocle analysis described. Briefly, 
             Monocle infers pseudotime trajectories in three steps:
             <ol>
@@ -1335,7 +1335,7 @@ binned_input_lin <- aggregate_by_cell_bin(input_cds_lin, "cell_subtype")
             We are now ready to run <a href= "http://cole-trapnell-lab.github.io/monocle3/">Monocle 3</a>'s <code>fit_models</code> function to find sites that are differentially 
             accessible across pseudotime. In this example, we include num_genes_expressed as a covariate to subtract its 
             effect. Read more about <code>fit_models</code> and the code below 
-            <a href="https://cole-trapnell-lab.github.io/monocle3/monocle3_docs/#regression-analysis">here</a>.
+            <a href="https://cole-trapnell-lab.github.io/monocle3/docs/differential/#regression-analysis">here</a>.
         </p>
         
 {% highlight R %}
