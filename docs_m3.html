@@ -450,7 +450,7 @@ cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = umap_coords){% en
             <div class= "panel-body">
                 The default parameters are designed for data from human and mouse cells. There are certain non-default 
                 parameters that each user should consider, especially users not using data from humans. Read the section 
-                <a href = "{{site.baseurl }}/docs/#important-considerations-for-non-human-data">Important Considerations for Non-Human Data</a> 
+                <a href = "{{site.baseurl }}/docs_m3/#important-considerations-for-non-human-data">Important Considerations for Non-Human Data</a> 
                 for more information.
             </div>
         </div>
@@ -578,7 +578,7 @@ head(conns){% endhighlight %}
                                 for <code>s</code>, we refer readers to (Dekker et al., 2013). We use a value of 0.75 by default in 
                                 Cicero, which corresponds to the “tension globule” polymer model of DNA (Sanborn et al., 2015). For 
                                 data not from humans, we recommend you read further discussion of this parameter here: 
-                                <a href = "{{site.baseurl }}/docs/#important-considerations-for-non-human-data">Important Considerations for Non-Human Data</a>. 
+                                <a href = "{{site.baseurl }}/docs_m3/#important-considerations-for-non-human-data">Important Considerations for Non-Human Data</a>. 
                                 This parameter <strong>must</strong> be the same as the <code>s</code> parameter for 
                                 <code>generate_cicero_models</code>.
                             </td>
@@ -665,7 +665,7 @@ head(conns){% endhighlight %}
             genome browser-style plots. We have adapted a function from the
             <a href="https://bioconductor.org/packages/release/bioc/html/Sushi.html">Sushi</a> R package for 
             mapping connections. <code>plot_connections</code> has many options, some detailed in the 
-            <a href = "{{site.baseurl }}/docs/#advanced-visualizaton">Advanced Visualization</a> section, but to get a 
+            <a href = "{{site.baseurl }}/docs_m3/#advanced-visualizaton">Advanced Visualization</a> section, but to get a 
             basic plot from your co-accessibility table is quite simple.
         </p>
         <p>
@@ -764,7 +764,7 @@ head(conns)
             columns beyond the first two peak columns called "coaccess". This is how the plotting function determines the 
             height of the plotted connections. This could be a quantitative measure, like the number of ligations in 
             ChIA-PET, or simply a column of 1s. More info on plotting options in manual pages 
-            <code>?plot_connections</code> and in the <a href = "{{site.baseurl }}/docs/#advanced-visualizaton">Advanced Visualization</a> section. 
+            <code>?plot_connections</code> and in the <a href = "{{site.baseurl }}/docs_m3/#advanced-visualizaton">Advanced Visualization</a> section. 
         </p>
 {% highlight R %}
 # Add a column of 1s called "coaccess"
