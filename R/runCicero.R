@@ -136,8 +136,8 @@ make_cicero_cds <- function(cds,
   mask <- Matrix::Matrix(mask)
   new_exprs <- exprs_old %*% mask
   
-  new_exprs <- Matrix::t(new_exprs)
-  new_exprs <- as.matrix(new_exprs)
+  #new_exprs <- Matrix::t(new_exprs)
+  #new_exprs <- as.matrix(new_exprs)
   
   pdata <- pData(cds)
   new_pcols <- "agg_cell"
@@ -159,8 +159,8 @@ make_cicero_cds <- function(cds,
   new_pdata <- new_pdata[,new_pcols, drop = FALSE] # fixes order, drops X1 and temp
   
   row.names(new_pdata) <- new_pdata$agg_cell
-  row.names(new_exprs) <- new_pdata$agg_cell
-  new_exprs <- as.matrix(t(new_exprs))
+  colnames(new_exprs) <- new_pdata$agg_cell
+  #new_exprs <- as.matrix(t(new_exprs))
   
   fdf <- fData(cds)
   new_pdata$temp <- NULL
