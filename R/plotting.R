@@ -175,6 +175,8 @@ plot_connections <- function(connection_df,
                             assertthat::has_name(gene_model, "end"),
                             assertthat::has_name(gene_model, "strand"),
                             assertthat::has_name(gene_model, "transcript"))
+    assertthat::assert_that(class(gene_model$start) %in% c("integer", "numeric"))
+    assertthat::assert_that(class(gene_model$end) %in% c("integer", "numeric"))
     assertthat::assert_that(is_color(gene_model_color))
   }
 
@@ -385,6 +387,12 @@ plot_connections <- function(connection_df,
   }
 
   if(!is.null(gene_model)) {
+    gene_model <- gene_model[!is.na(gene_model$chromosome) & 
+                             !is.na(gene_model$start) &
+                             !is.na(gene_model$end) &
+                             !is.na(gene_model$strand) &
+                             !is.na(gene_model$transcript),]
+
     gene_model <-
       gene_model[gene_model$chromosome == chr &
                    ((gene_model$start > minbp & gene_model$start < maxbp) |
