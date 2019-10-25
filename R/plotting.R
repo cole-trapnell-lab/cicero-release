@@ -517,7 +517,9 @@ make_gene_model_track <- function(txdb,
   if(nrow(txdb) != 0) {
     txdb <- txdb[txdb$chromosome == chr,]
     txdb$transcript <- as.character(txdb$transcript)
-    txdb$feature <- as.character(txdb$feature)
+    if("feature" %in% names(txdb)) {
+      txdb$feature <- as.character(txdb$feature)
+    }
     grtrack <- Gviz::GeneRegionTrack(txdb, chromosome = chr, geneSymbols=TRUE,
                                      name = "Gene Model", fill=gene_model_color,
                                      col= gene_model_color,  fontcolor="black",
