@@ -562,10 +562,9 @@ that are differentially accessible across pseudotime. In this example, we
 include num_genes_expressed as a covariate to subtract its effect.
 
 ```{r, eval=TRUE}
-
 # run 1000 random sites for speed
 set.seed(1000)
-acc_fits <- fit_models(binned_input_lin[sample(1:nrow(fData(binned_input_lin)), 1000),], model_formula_str = "~Pseudotime + num_genes_expressed" )
+acc_fits <- fit_models(binned_input_lin[1:100,], model_formula_str = "~Pseudotime + num_genes_expressed" )
 
 fit_coefs <- coefficient_table(acc_fits)
 
