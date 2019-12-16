@@ -236,11 +236,11 @@ test_that("find_overlapping_coordinates works", {
                                                    c("chr18_10226_10602",
                                                      "chr18:11604-246234"),
                                                    maxgap = 1)), 6)
-  expect(all(is.na(find_overlapping_coordinates(test_coords,
+  expect_true(all(is.na(find_overlapping_coordinates(test_coords,
                                                    c("chr19_10226_10602",
                                                      "chr19:11604-246234"),
                                                    maxgap = 1))))
-  expect(all(is.na(find_overlapping_coordinates(test_coords,
+  expect_true(all(is.na(find_overlapping_coordinates(test_coords,
                                                 c("chr18_1022600_1060200",
                                                   "chr18:1160400-24623400"),
                                                 maxgap = 1))))

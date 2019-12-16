@@ -673,8 +673,11 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
 
   min_expr = 0
   fData(cds_subset)$site_name <- row.names(fData(cds_subset))
-  cds_exprs <- reshape2::melt(as.matrix(exprs(cds_subset)))
-  colnames(cds_exprs) <- c("f_id", "Cell", "expression")
+  
+  df <- as.data.frame(as.matrix(exprs(cds_subset)))
+  df$f_id <- row.names(df)
+  cds_exprs <- tidyr::gather(df, "Cell", "expression", -f_id)
+
   cds_exprs$expression <- as.numeric(cds_exprs$expression > 0)
 
   cds_exprs <- merge(cds_exprs, fData(cds_subset), by.x="f_id",
@@ -707,8 +710,11 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
 
   cds_exprs$br <- cut(cds_exprs$Pseudotime,breaks=breaks)
 
-  mean.wt <- reshape2::melt(with(cds_exprs, tapply(expression, list(br, f_id),
-                                                   mean)))
+  df <- as.data.frame(with(cds_exprs, tapply(expression, list(br, f_id),
+                                             mean)))
+  df$Var1 <- row.names(df)
+  mean.wt <- tidyr::gather(df, "Var2", "value", -Var1)
+  
   # fix to avoid reshape v reshape2 incompatability
   names(mean.wt) <- c("Var1", "Var2", "value")
   mean.wt <- cbind(mean.wt, stringr::str_split_fixed(mean.wt$Var1, ",", 2))

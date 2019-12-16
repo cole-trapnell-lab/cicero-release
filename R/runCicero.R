@@ -617,6 +617,7 @@ generate_cicero_models <- function(cds,
 #'   cicero_cons <- assemble_connections(model_output)
 #'
 #' @seealso \code{\link{generate_cicero_models}}
+#' @importFrom data.table melt.data.table
 #' @export
 assemble_connections <- function(cicero_model_list, silent = FALSE) {
   types <- vapply(cicero_model_list, FUN=class, FUN.VALUE="character")
@@ -631,10 +632,12 @@ assemble_connections <- function(cicero_model_list, silent = FALSE) {
 
   cors <- lapply(gl_only, function(gl)  {
     cors <- stats::cov2cor(gl$w)
-    data.table::melt(cors)
+    data.table::melt(as.data.table(cors, keep.rownames=TRUE), 
+                     measure=patterns("[0-9]"))
   })
 
   cors <- data.table::rbindlist(cors)
+  names(cors) <- c("Var1", "Var2", "value")
   data.table::setkey(cors, "Var1", "Var2")
 
   cors_rec <- as.data.frame(cors[,list(mean_coaccess = reconcile(value)),
