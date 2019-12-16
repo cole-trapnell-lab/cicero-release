@@ -67,6 +67,7 @@ r_binary_packages:
 - survival
 - svglite
 - tidyselect
+- tidyr
 - utf8
 - viridislite
 - withr
