@@ -259,7 +259,7 @@ run_cicero <- function(cds,
                            genomic_coords = genomic_coords)
 
   if (!silent) print("Assembling connections")
-  all_cons <- assemble_connections(cicero_out, silent=TRUE)
+  all_cons <- assemble_connections(cicero_out, silent=silent)
 
   if (!silent) print("Done")
   all_cons
