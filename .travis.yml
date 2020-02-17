@@ -16,7 +16,6 @@ r:
 r_binary_packages:
 - assertthat
 - crayon
-- data.table
 - dplyr
 - FNN
 - ggplot2
