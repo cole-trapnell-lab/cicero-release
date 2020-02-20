@@ -31,7 +31,17 @@ df <- data.frame(Peak1 = c("chr18_10034652_10034983", "chr18_10034652_10034983",
                             "#66C2A5", "#FC8D62", "#66C2A5", "#66C2A5",
                             "#66C2A5", "#66C2A5", "#66C2A5", "#FC8D62"))
 
-test_that("plot_connections with coaccess_cutoff", {
+library(data.table)
+dt <- as.data.table(df)
+test_that("plot_connections with data.table", {
+  skip_on_bioc()
+  vdiffr::expect_doppelganger("basic connections plot dt",
+                              plot_connections(dt, chr = "chr18",
+                                               minbp = 10034652,
+                                               maxbp = 10251585))
+  })
+
+test_that("plot_connections with coaccess_cutoff ", {
   skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections plot",
                               plot_connections(df, chr = "chr18",
@@ -43,15 +53,16 @@ test_that("plot_connections with coaccess_cutoff", {
                                                maxbp = 10251585,
                                                coaccess_cutoff = .1))
   testthat::expect_warning(vdiffr::expect_doppelganger("basic connections high cutoff",
-                              plot_connections(df, chr = "chr18",
-                                               minbp = 10034652,
-                                               maxbp = 10251585,
-                                               coaccess_cutoff = 5)))
+                                                       plot_connections(df, chr = "chr18",
+                                                                        minbp = 10034652,
+                                                                        maxbp = 10251585,
+                                                                        coaccess_cutoff = 5)))
   testthat::expect_error(plot_connections(df, chr = "chr18",
                                           minbp = 10034652,
                                           maxbp = 10251585,
                                           coaccess_cutoff = -1))
-  })
+})
+
 
 test_that("plot_connections with peak_color", {
   skip_on_bioc()
