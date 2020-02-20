@@ -31,6 +31,17 @@ df <- data.frame(Peak1 = c("chr18_10034652_10034983", "chr18_10034652_10034983",
                             "#66C2A5", "#FC8D62", "#66C2A5", "#66C2A5",
                             "#66C2A5", "#66C2A5", "#66C2A5", "#FC8D62"))
 
+library(data.table)
+dt <- as.data.table(df)
+test_that("plot_connections with data.table", {
+  skip_on_bioc()
+  vdiffr::expect_doppelganger("basic connections plot dt",
+                              plot_connections(dt, chr = "chr18",
+                                               minbp = 10034652,
+                                               maxbp = 10251585))
+})
+
+
 test_that("plot_connections with coaccess_cutoff", {
   skip_on_bioc()
   vdiffr::expect_doppelganger("basic connections plot",

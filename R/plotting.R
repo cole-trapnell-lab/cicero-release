@@ -445,12 +445,12 @@ generate_plotting_subset <- function(connections, chr, minbp, maxbp) {
 
   if(sum(!c("chr_1", "chr_2", "bp1_1", "bp2_1", "bp2_1", "bp2_2") %in%
          names(connections)) != 0 ) {
-    connections$chr <- NULL
-    connections$bp1 <- NULL
-    connections$bp2 <- NULL
-    connections$chr_2 <- NULL
-    connections$bp1_2 <- NULL
-    connections$bp2_2 <- NULL
+    suppressWarnings(connections$chr <- NULL)
+    suppressWarnings(connections$bp1 <- NULL)
+    suppressWarnings(connections$bp2 <- NULL)
+    suppressWarnings(connections$chr_2 <- NULL)
+    suppressWarnings(connections$bp1_2 <- NULL)
+    suppressWarnings(connections$bp2_2 <- NULL)
 
     connections <- cbind(connections, df_for_coords(connections$Peak1)[,c(1, 2, 3)])
     cons2 <- df_for_coords(connections$Peak2) #slow
@@ -564,8 +564,14 @@ plotBedpe <- function(bedpedata,
   bedpedata <- bedpedata[abs(bedpedata$height) > 0,]
 
   # reclass data
-  for(i in c("start1", "stop1", "start2", "stop2")) {
-    bedpedata[,i] <- as.numeric(as.character((bedpedata[,i])))
+  if (any(class(bedpedata) == "data.table")) {
+    for(i in c("start1", "stop1", "start2", "stop2")) {
+      bedpedata[[i]] <- as.numeric(as.character((bedpedata[[i]])))
+    }
+  } else {
+    for(i in c("start1", "stop1", "start2", "stop2")) {
+      bedpedata[,i] <- as.numeric(as.character((bedpedata[,i])))
+    }
   }
 
   # add position columns
