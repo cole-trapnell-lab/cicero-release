@@ -10,13 +10,11 @@ before_install: [
 
 language: r
 r:
-- bioc-devel
 - bioc-release
 
 r_binary_packages:
 - assertthat
 - crayon
-- data.table
 - dplyr
 - FNN
 - ggplot2
