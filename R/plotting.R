@@ -149,7 +149,7 @@ plot_connections <- function(connection_df,
                           assertthat::has_name(connection_df, "Peak2"),
                           assertthat::has_name(connection_df, "coaccess"))
 
-  assertthat::assert_that(is.character(chr), is_chr(chr))
+  #assertthat::assert_that(is.character(chr), is_chr(chr))
   assertthat::assert_that(assertthat::is.number(minbp),
                           assertthat::is.number(maxbp))
 
@@ -502,7 +502,7 @@ make_peak_track <- function(df) {
   gr <-  GenomicRanges::GRanges(as.character(df$chr),
                  IRanges::IRanges(as.numeric(as.character(df$bp1)),
                          as.numeric(as.character(df$bp2))))
-
+  options(ucscChromosomeNames=FALSE)
   anntrack <- Gviz::AnnotationTrack(gr, name="Peaks", fill = df$peak_color,
                                     lwd = .0000001, fontsize.group=6,
                                     fontsize=6, cex.feature = 0.5)
