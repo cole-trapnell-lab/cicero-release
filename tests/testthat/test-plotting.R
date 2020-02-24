@@ -40,6 +40,16 @@ test_that("plot_connections with data.table", {
                                                minbp = 10034652,
                                                maxbp = 10251585))
   })
+test_that("plot_connections with bad chromosomes", {
+  df$Peak1 <- gsub("chr", "A0", df$Peak1)
+  df$Peak2 <- gsub("chr", "A0", df$Peak2)
+  skip_on_bioc()
+  vdiffr::expect_doppelganger("basic connections plot bad chr",
+                              plot_connections(df, chr = "A018",
+                                               minbp = 10034652,
+                                               maxbp = 10251585))
+})
+
 
 test_that("plot_connections with coaccess_cutoff ", {
   skip_on_bioc()

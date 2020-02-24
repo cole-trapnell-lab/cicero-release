@@ -178,6 +178,37 @@ test_that("run_cicero gives output", {
   expect_equal(nrow(cons), 543482)
 })
 
+test_that("run_cicero gives output bad chromosomes", {
+  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+  input_cds <- make_atac_cds(cicero_data)
+  
+  fdata <- fData(input_cds)
+  mtx <- exprs(input_cds)
+  pdata <- pData(input_cds)
+  row.names(fdata) <- gsub("chr", "A0", row.names(fdata))
+  fdata$site_name <- row.names(fdata)
+  row.names(mtx) <- row.names(fdata)
+  new_inp <- new_cell_data_set(mtx, pdata, fdata)
+  
+  set.seed(2017)
+  new_inp <- detect_genes(new_inp, min_expr = .1)
+  new_inp <- estimate_size_factors(new_inp)
+  
+  set.seed(2018)
+  cicero_cds <- make_cicero_cds(new_inp,
+                                reduced_coordinates = tsne_coords,
+                                silent = TRUE,
+                                summary_stats = c("num_genes_expressed"))
+  
+  cons <- run_cicero(cicero_cds, window = 500000, silent=TRUE, sample_num = 2,
+                     genomic_coords = "../human.hg19.genome_sub.txt")
+  
+  #skip_on_bioc()
+  expect_equal(cons[cons$Peak1 == "A018_10025_10225" & cons$Peak2 == "A018_10603_11103",]$coaccess, 0.877, tolerance = 1e-3)
+  expect_equal(ncol(cons), 3)
+  expect_equal(nrow(cons), 543482)
+})
+
 #### generate_ccans ####
 
 test_that("generate_ccans gives output", { #slow
