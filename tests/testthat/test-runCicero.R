@@ -189,11 +189,13 @@ test_that("run_cicero gives output bad chromosomes", {
   row.names(fdata) <- gsub("chr", "A0", row.names(fdata))
   fdata$site_name <- row.names(fdata)
   row.names(mtx) <- row.names(fdata)
-  new_inp <- new_cell_data_set(mtx, pdata, fdata)
+  pdata <- new("AnnotatedDataFrame", data = pdata)
+  fdata <- new("AnnotatedDataFrame", data = fdata)
+  new_inp <- suppressWarnings(newCellDataSet(mtx, pdata, fdata))
   
   set.seed(2017)
-  new_inp <- detect_genes(new_inp, min_expr = .1)
-  new_inp <- estimate_size_factors(new_inp)
+  new_inp <- detectGenes(new_inp, min_expr = .1)
+  new_inp <- estimateSizeFactors(new_inp)
   
   set.seed(2018)
   cicero_cds <- make_cicero_cds(new_inp,
