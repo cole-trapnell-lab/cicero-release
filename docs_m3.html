@@ -99,8 +99,10 @@ tags: [monocle, manual, vignette]
                 In addition to Monocle, Cicero requires the following packages from Bioconductor:
             </p>
             {% highlight R %}
-source("https://bioconductor.org/biocLite.R")
-biocLite(c("Gviz", "GenomicRanges", "rtracklayer")){% endhighlight %}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("Gviz", "GenomicRanges", "rtracklayer"))
+{% endhighlight %}
             <p>
                 You're now ready to install Cicero:
             </p>
