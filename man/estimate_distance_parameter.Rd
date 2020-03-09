@@ -4,10 +4,18 @@
 \alias{estimate_distance_parameter}
 \title{Calculate distance penalty parameter}
 \usage{
-estimate_distance_parameter(cds, window = 5e+05, maxit = 100,
-  s = 0.75, sample_num = 100, distance_constraint = 250000,
-  distance_parameter_convergence = 1e-22, max_elements = 200,
-  genomic_coords = cicero::human.hg19.genome)
+estimate_distance_parameter(
+  cds,
+  window = 5e+05,
+  maxit = 100,
+  s = 0.75,
+  sample_num = 100,
+  distance_constraint = 250000,
+  distance_parameter_convergence = 1e-22,
+  max_elements = 200,
+  genomic_coords = cicero::human.hg19.genome,
+  max_sample_windows = 500
+)
 }
 \arguments{
 \item{cds}{A cicero CDS object generated using \code{\link{make_cicero_cds}}.}
@@ -35,6 +43,9 @@ with chromosome lengths. The file should have two columns, the first is
 the chromosome name (ex. "chr1") and the second is the chromosome length
 in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 file, should be tab-separated and without header.}
+
+\item{max_sample_windows}{Maximum number of random windows to screen to find
+sample_num windows for distance calculation. Default 500.}
 }
 \value{
 A list of results of length \code{sample_num}. List members are
@@ -73,12 +84,20 @@ The purpose of this function is to calculate the distance scaling
   Calculating the \code{distance_parameter} in a sample window requires
   peaks in that window that are at a distance greater than the
   \code{distance_constraint} parameter. If there are not enough examples at
-  high distance, the function will return the warning \code{"Warning: could
-  not calculate sample_num distance_parameters - see documentation details"}
-  Generally, this means your \code{window} parameter needs to be larger or
-  your \code{distance_constraint} parameter needs to be smaller. A less
-  likely possibility is that your \code{max_elements} parameter needs to be
-  larger. This would occur if your data is particularly dense.
+  high distance have been found, the function will return the warning 
+  \code{"Warning: could not calculate sample_num distance_parameters - see 
+  documentation details"}.When looking for \code{sample_num} example 
+  windows, the function will search \code{max_sample_windows} windows. By 
+  default this is set at 500, which should be well beyond the 100 windows 
+  that need to be found. However, in very sparse datasets, increasing 
+  \code{max_sample_windows} may help avoid the above warning. Increasing 
+  \code{max_sample_windows} may slow performance in sparse datasets. If you 
+  are still not able to get enough example windows, even with a large
+  \code{max_sample_windows} paramter, this may mean your \code{window} 
+  parameter needs to be larger or your \code{distance_constraint} parameter 
+  needs to be smaller. A less likely possibility is that your 
+  \code{max_elements} parameter needs to be larger. This would occur if your 
+  data is particularly dense.
 
   The parameter \code{s} is a constant that captures the power-law
   distribution of contact frequencies between different locations in the

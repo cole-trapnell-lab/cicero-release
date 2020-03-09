@@ -4,8 +4,13 @@
 \alias{run_cicero}
 \title{Run Cicero}
 \usage{
-run_cicero(cds, genomic_coords, window = 5e+05, silent = FALSE,
-  sample_num = 100)
+run_cicero(
+  cds,
+  genomic_coords,
+  window = 5e+05,
+  silent = FALSE,
+  sample_num = 100
+)
 }
 \arguments{
 \item{cds}{Cicero CDS object, created using \code{\link{make_cicero_cds}}}

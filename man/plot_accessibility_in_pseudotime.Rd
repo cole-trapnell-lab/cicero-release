@@ -4,8 +4,11 @@
 \alias{plot_accessibility_in_pseudotime}
 \title{Plot accessibility by pseudotime}
 \usage{
-plot_accessibility_in_pseudotime(cds_subset, breaks = 10,
-  expression_family = "binomialff")
+plot_accessibility_in_pseudotime(
+  cds_subset,
+  breaks = 10,
+  expression_family = "binomialff"
+)
 }
 \arguments{
 \item{cds_subset}{Subset of the CDS object you want to plot. The CDS must

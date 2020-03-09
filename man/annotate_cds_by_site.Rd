@@ -4,8 +4,14 @@
 \alias{annotate_cds_by_site}
 \title{Add feature data columns to fData}
 \usage{
-annotate_cds_by_site(cds, feature_data, verbose = FALSE, maxgap = 0,
-  all = FALSE, header = FALSE)
+annotate_cds_by_site(
+  cds,
+  feature_data,
+  verbose = FALSE,
+  maxgap = 0,
+  all = FALSE,
+  header = FALSE
+)
 }
 \arguments{
 \item{cds}{A CDS object.}
