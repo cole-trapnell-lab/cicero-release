@@ -296,6 +296,8 @@ run_cicero <- function(cds,
 #'   the chromosome name (ex. "chr1") and the second is the chromosome length
 #'   in base pairs. See \code{data(human.hg19.genome)} for an example. If a
 #'   file, should be tab-separated and without header.
+#' @param max_sample_windows Maximum number of random windows to screen to find
+#'   sample_num windows for distance calculation. Default 500.
 #'
 #' @examples
 #'   data("cicero_data")
@@ -344,12 +346,20 @@ run_cicero <- function(cds,
 #'   Calculating the \code{distance_parameter} in a sample window requires
 #'   peaks in that window that are at a distance greater than the
 #'   \code{distance_constraint} parameter. If there are not enough examples at
-#'   high distance, the function will return the warning \code{"Warning: could
-#'   not calculate sample_num distance_parameters - see documentation details"}
-#'   Generally, this means your \code{window} parameter needs to be larger or
-#'   your \code{distance_constraint} parameter needs to be smaller. A less
-#'   likely possibility is that your \code{max_elements} parameter needs to be
-#'   larger. This would occur if your data is particularly dense.
+#'   high distance have been found, the function will return the warning 
+#'   \code{"Warning: could not calculate sample_num distance_parameters - see 
+#'   documentation details"}.When looking for \code{sample_num} example 
+#'   windows, the function will search \code{max_sample_windows} windows. By 
+#'   default this is set at 500, which should be well beyond the 100 windows 
+#'   that need to be found. However, in very sparse datasets, increasing 
+#'   \code{max_sample_windows} may help avoid the above warning. Increasing 
+#'   \code{max_sample_windows} may slow performance in sparse datasets. If you 
+#'   are still not able to get enough example windows, even with a large
+#'   \code{max_sample_windows} paramter, this may mean your \code{window} 
+#'   parameter needs to be larger or your \code{distance_constraint} parameter 
+#'   needs to be smaller. A less likely possibility is that your 
+#'   \code{max_elements} parameter needs to be larger. This would occur if your 
+#'   data is particularly dense.
 #'
 #'   The parameter \code{s} is a constant that captures the power-law
 #'   distribution of contact frequencies between different locations in the
@@ -384,7 +394,8 @@ estimate_distance_parameter <- function(cds,
                                    distance_constraint = 250000,
                                    distance_parameter_convergence = 1e-22,
                                    max_elements = 200,
-                                   genomic_coords = cicero::human.hg19.genome) {
+                                   genomic_coords = cicero::human.hg19.genome,
+                                   max_sample_windows = 500) {
 
   assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(assertthat::is.number(window))
@@ -397,6 +408,7 @@ estimate_distance_parameter <- function(cds,
   if (!is.data.frame(genomic_coords)) {
     assertthat::is.readable(genomic_coords)
   }
+  assertthat::assert_that(assertthat::is.count(max_sample_windows))
 
   grs <- generate_windows(window, genomic_coords)
 
@@ -408,7 +420,7 @@ estimate_distance_parameter <- function(cds,
   distance_parameters_calced <- 0
   it <- 0
 
-  while(sample_num > distance_parameters_calced & it < 3 * sample_num) {
+  while(sample_num > distance_parameters_calced & it < max_sample_windows) {
     it <- it + 1
     win <- sample(seq_len(length(grs)), 1)
     GL <- "Error"
@@ -438,8 +450,9 @@ estimate_distance_parameter <- function(cds,
   }
 
   if(length(distance_parameters) < sample_num)
-    warning(paste("Could not calculate sample_num distance_parameters - see",
-                  "documentation details", collapse = " "))
+    warning(paste0("Could not calculate sample_num distance_parameters (",
+                   length(distance_parameters), " were calculated) - see ",
+                   "documentation details"))
   if(length(distance_parameters) == 0)
     stop("No distance_parameters calculated")
 

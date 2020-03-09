@@ -4,8 +4,11 @@
 \alias{generate_ccans}
 \title{Generate cis-co-accessibility networks (CCANs)}
 \usage{
-generate_ccans(connections_df, coaccess_cutoff_override = NULL,
-  tolerance_digits = 2)
+generate_ccans(
+  connections_df,
+  coaccess_cutoff_override = NULL,
+  tolerance_digits = 2
+)
 }
 \arguments{
 \item{connections_df}{Data frame of connections with columns: Peak1, Peak2,

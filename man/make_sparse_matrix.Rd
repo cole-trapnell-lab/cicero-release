@@ -4,8 +4,7 @@
 \alias{make_sparse_matrix}
 \title{Make a symmetric square sparse matrix from data frame}
 \usage{
-make_sparse_matrix(data, i.name = "Peak1", j.name = "Peak2",
-  x.name = "value")
+make_sparse_matrix(data, i.name = "Peak1", j.name = "Peak2", x.name = "value")
 }
 \arguments{
 \item{data}{data frame}
