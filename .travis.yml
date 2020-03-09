@@ -18,7 +18,6 @@ r_binary_packages:
 - dplyr
 - FNN
 - glasso
-- ggrepel
 - Matrix
 - plyr
 - reshape2
