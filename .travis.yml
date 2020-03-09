@@ -23,9 +23,7 @@ r_binary_packages:
 - data.table
 - dplyr
 - FNN
-- ggplot2
 - glasso
-- ggrepel
 - Matrix
 - plyr
 - reshape2
