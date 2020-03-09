@@ -58,7 +58,8 @@ test_that("estimate_distance_parameter gives correct mean", {
                                         maxit=100, sample_num = 2,
                                         distance_constraint = 250000,
                                         distance_parameter_convergence = 1e-22,
-                                        genomic_coords = sample_genome)
+                                        genomic_coords = sample_genome,
+                                        max_sample_windows = 6)
   mean_alpha <- mean(alphas)
   expect_equal(length(alphas), 2)
   expect_equal(mean_alpha, 2.25, tolerance = 1e-2)
@@ -67,7 +68,8 @@ test_that("estimate_distance_parameter gives correct mean", {
                                         maxit=100, sample_num = 2,
                                         distance_constraint = 250000,
                                         distance_parameter_convergence = 1e-22,
-                                        genomic_coords = "../human.hg19.genome_sub.txt")
+                                        genomic_coords = "../human.hg19.genome_sub.txt",
+                                        max_sample_windows = 6)
   mean_alpha <- mean(alphas)
   expect_equal(length(alphas), 2)
   expect_equal(mean_alpha, 2.25, tolerance = 1e-2)
@@ -78,13 +80,15 @@ test_that("estimate_distance_parameter gives correct mean", {
                                                                     max_elements = 2,
                                                                     distance_constraint = 250000,
                                                                     distance_parameter_convergence = 1e-22,
-                                                                    genomic_coords = sample_genome)))
+                                                                    genomic_coords = sample_genome,
+                                                                    max_sample_windows = 6)))
   testthat::expect_error(alphas <- estimate_distance_parameter(cicero_cds,
                                                                window=10000,
                                                                maxit=100, sample_num = 2,
                                                                distance_constraint = 250000,
                                                                distance_parameter_convergence = 1e-22,
-                                                               genomic_coords = sample_genome),
+                                                               genomic_coords = sample_genome,
+                                                               max_sample_windows = 6),
                          "distance_constraint not less than window")
   set.seed(205)
   testthat::expect_warning(alphas <- estimate_distance_parameter(cicero_cds,
@@ -92,7 +96,8 @@ test_that("estimate_distance_parameter gives correct mean", {
                                                                  maxit=100, sample_num = 2,
                                                                  distance_constraint = 5000,
                                                                  distance_parameter_convergence = 1e-22,
-                                                                 genomic_coords = sample_genome))
+                                                                 genomic_coords = sample_genome,
+                                                                 max_sample_windows = 6))
 })
 
 #### generate_cicero_models ####
@@ -156,7 +161,9 @@ test_that("assemble_connections gives output", {
                                      genomic_coords = "../human.hg19.genome_sub.txt")
   
   cons <- assemble_connections(con_list, silent = FALSE)
-  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, tolerance = 1e-3)
+  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & 
+                      cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, 
+               tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
   expect_equal(nrow(cons), 543482)
 })
@@ -168,12 +175,16 @@ cons <- run_cicero(cicero_cds, sample_genome, window = 500000, silent=TRUE,
 
 test_that("run_cicero gives output", {
   #skip_on_bioc()
-  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, tolerance = 1e-3)
+  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & 
+                      cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, 
+               tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
   expect_equal(nrow(cons), 543482)
   cons <- run_cicero(cicero_cds, window = 500000, silent=TRUE, sample_num = 2,
                      genomic_coords = "../human.hg19.genome_sub.txt")
-  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, tolerance = 1e-3)
+  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & 
+                      cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, 
+               tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
   expect_equal(nrow(cons), 543482)
 })
@@ -188,7 +199,7 @@ test_that("run_cicero gives output bad chromosomes", {
   row.names(fdata) <- gsub("chr", "A0", row.names(fdata))
   fdata$site_name <- row.names(fdata)
   row.names(mtx) <- row.names(fdata)
-  new_inp <- new_cell_data_set(mtx, pdata, fdata)
+  new_inp <- suppressWarnings(new_cell_data_set(mtx, pdata, fdata))
   
   set.seed(2017)
   new_inp <- detect_genes(new_inp, min_expr = .1)
@@ -204,7 +215,9 @@ test_that("run_cicero gives output bad chromosomes", {
                      genomic_coords = "../human.hg19.genome_sub.txt")
   
   #skip_on_bioc()
-  expect_equal(cons[cons$Peak1 == "A018_10025_10225" & cons$Peak2 == "A018_10603_11103",]$coaccess, 0.877, tolerance = 1e-3)
+  expect_equal(cons[cons$Peak1 == "A018_10025_10225" & 
+                      cons$Peak2 == "A018_10603_11103",]$coaccess, 0.877, 
+               tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
   expect_equal(nrow(cons), 543482)
 })
@@ -244,7 +257,8 @@ test_that("compare_connections works", {
   expect_is(cons, "data.frame")
   expect_equal(sum(cons$in_dataset), 4)
   expect_equal(sum(cons$in_dataset2), 22)
-  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & cons$Peak2 == "chr18_10603_11103",]$in_dataset[1], TRUE)
+  expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & 
+                      cons$Peak2 == "chr18_10603_11103",]$in_dataset[1], TRUE)
 })
 
 #### find_overlapping_ccans ####
@@ -275,7 +289,9 @@ expect_equal(nrow(unnorm_ga), 626)
 expect_equal(ncol(unnorm_ga), 200)
 expect_equal(unnorm_ga[1,1], 1.19, tolerance = 1e-2)
 
-input_cds <- suppressWarnings(new_cell_data_set(as.matrix(exprs(input_cds)), gene_metadata = fData(input_cds), cell_metadata = pData(input_cds)))
+input_cds <- suppressWarnings(new_cell_data_set(as.matrix(exprs(input_cds)), 
+                                                gene_metadata = fData(input_cds), 
+                                                cell_metadata = pData(input_cds)))
 unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
 
 test_that("build_gene_activity_matrix works", {
