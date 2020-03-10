@@ -4,8 +4,14 @@
 \alias{make_cicero_cds}
 \title{Create cicero input CDS}
 \usage{
-make_cicero_cds(cds, reduced_coordinates, k = 50, summary_stats = NULL,
-  size_factor_normalize = TRUE, silent = FALSE)
+make_cicero_cds(
+  cds,
+  reduced_coordinates,
+  k = 50,
+  summary_stats = NULL,
+  size_factor_normalize = TRUE,
+  silent = FALSE
+)
 }
 \arguments{
 \item{cds}{Input CDS object.}

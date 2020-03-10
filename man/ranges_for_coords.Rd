@@ -4,8 +4,7 @@
 \alias{ranges_for_coords}
 \title{Construct GRanges objects from coordinate strings}
 \usage{
-ranges_for_coords(coord_strings, meta_data_df = NULL,
-  with_names = FALSE)
+ranges_for_coords(coord_strings, meta_data_df = NULL, with_names = FALSE)
 }
 \arguments{
 \item{coord_strings}{A list of coordinate strings (in the form

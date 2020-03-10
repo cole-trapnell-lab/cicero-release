@@ -17,7 +17,6 @@ r_binary_packages:
 - crayon
 - dplyr
 - FNN
-- ggplot2
 - glasso
 - Matrix
 - plyr
