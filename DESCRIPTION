@@ -36,6 +36,7 @@ Imports:
     stats,
     stringr (>= 1.2.0),    
     tibble (>= 1.4.2),
+    tidyr,
     VGAM (>= 1.0-5),
     utils
 RoxygenNote: 7.0.2
