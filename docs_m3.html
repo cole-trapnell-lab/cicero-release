@@ -467,7 +467,9 @@ cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = umap_coords){% en
             and <code>data("mouse.mm9.genome")</code>. Here is an example call, continuing with our example data:
         </p>
         <p>
-            <strong>Note</strong> for speed in the vignette, we run Cicero here on only a small portion of chromosome 2. 
+            <strong>Note:</strong> for speed in the vignette, we run Cicero here on only a small portion of chromosome 2.
+            In addition, we set the number of sample windows to use when calculating parameters to 2 - this should be much 
+            larger in a real analysis (default is 100).
         </p>
         
 {% highlight R %}
@@ -475,8 +477,9 @@ data("mouse.mm9.genome")
 # use only a small part of the genome for speed
 sample_genome <- subset(mouse.mm9.genome, V1 == "chr2")
 sample_genome$V2[1] <- 10000000
-## Usually use the whole mouse.mm9.genome ##
 
+## Usually use the whole mouse.mm9.genome ##
+## Usually run with sample_num = 100 ##
 conns <- run_cicero(cicero_cds, sample_genome, sample_num = 2) 
 head(conns){% endhighlight %}
         
