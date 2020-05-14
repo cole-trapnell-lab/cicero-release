@@ -13,36 +13,27 @@ r:
 - bioc-release
 
 r_binary_packages:
-- crayon
 - Matrix
-- plyr
-- reshape2
 - stringr
-- VGAM
 - boot
 - class
 - cluster
 - codetools
 - colorspace
 - crayon
-- digest
 - foreign
 - gtable
 - kernsmooth
 - labeling
 - lattice
 - littler
-- magrittr
 - mass
 - mgcv
 - nlme
 - nnet
-- pkgkitten 
 - rcolorbrewer
 - rpart
-- scales
 - spatial
-- stringi
 - survival
 
 after_success:
