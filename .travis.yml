@@ -29,7 +29,6 @@ r_binary_packages:
 - mgcv
 - nlme
 - nnet
-- rcolorbrewer
 - rpart
 - spatial
 - survival
