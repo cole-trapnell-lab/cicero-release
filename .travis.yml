@@ -22,7 +22,6 @@ r_binary_packages:
 - foreign
 - gtable
 - kernsmooth
-- labeling
 - lattice
 - littler
 - mass
