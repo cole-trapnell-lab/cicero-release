@@ -55,7 +55,6 @@ r_binary_packages:
 - purrr
 - r6
 - rcolorbrewer
-- rcpp
 - rlang
 - rpart
 - scales
