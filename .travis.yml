@@ -14,13 +14,11 @@ r:
 
 r_binary_packages:
 - Matrix
-- stringr
 - boot
 - class
 - cluster
 - codetools
 - colorspace
-- crayon
 - foreign
 - gtable
 - kernsmooth
