@@ -4,12 +4,14 @@
 \name{cicero_data}
 \alias{cicero_data}
 \title{Example single-cell chromatin accessibility data}
-\format{A data frame with 35137 rows and 3 variables:
+\format{
+A data frame with 35137 rows and 3 variables:
 \describe{
   \item{Peak}{Peak information}
   \item{Cell}{Cell ID}
   \item{Count}{Reads per cell per peak}
-}}
+}
+}
 \usage{
 cicero_data
 }

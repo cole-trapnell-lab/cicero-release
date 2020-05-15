@@ -4,11 +4,13 @@
 \name{human.hg19.genome}
 \alias{human.hg19.genome}
 \title{Chromosome lengths from human genome hg19}
-\format{A data frame with 93 rows and 2 variables:
+\format{
+A data frame with 93 rows and 2 variables:
 \describe{
   \item{V1}{Chromosome}
   \item{V2}{Chromosome length, base pairs}
-}}
+}
+}
 \usage{
 human.hg19.genome
 }

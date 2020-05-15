@@ -4,11 +4,13 @@
 \name{cell_data}
 \alias{cell_data}
 \title{Metadata for example cells in cicero_data}
-\format{A data frame with 200 rows and 2 variables:
+\format{
+A data frame with 200 rows and 2 variables:
 \describe{
   \item{timepoint}{Time at cell collection}
   \item{cell}{Cell barcode}
-}}
+}
+}
 \usage{
 cell_data
 }
