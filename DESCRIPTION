@@ -51,3 +51,4 @@ Suggests:
 VignetteBuilder: knitr
 biocViews: Sequencing, Clustering, CellBasedAssays, ImmunoOncology 
     GeneRegulation, GeneTarget, Epigenetics, ATACSeq, SingleCell
+LazyData: true
