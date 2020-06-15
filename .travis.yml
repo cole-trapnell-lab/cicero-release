@@ -18,7 +18,7 @@ r_github_packages:
 - cole-trapnell-lab/monocle3
 
 r_binary_packages:
-- api-3
+- api
 - crayon
 - Matrix
 - plyr
