@@ -411,6 +411,16 @@ plot_connections <- function(connection_df,
     view_chr <- split_peak_names(viewpoint)[,1]
     if (chr != view_chr) warning("Viewpoint not on correct chromosome")
     else {
+      if (return_as_list) {
+        message(paste0("In order to use return_as_list functionality along",  
+                       "with a viewpoint, the final step of track ", 
+                       "highlighting must be skipped. After your ",
+                       "modifications, you will need to use the ", 
+                       "Gviz::HighlightTrack function for final plotting. See ", 
+                       "this link for details: ", 
+                       "https://www.bioconductor.org/packages/devel/bioc/vignettes/Gviz/inst/doc/Gviz.html#61_Highlighting"))
+        return(component_list)
+      }
       view_start <- split_peak_names(viewpoint)[,2]
       view_end <- split_peak_names(viewpoint)[,3]
       ht1 <- Gviz::HighlightTrack(trackList = component_list,
