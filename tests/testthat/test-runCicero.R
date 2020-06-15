@@ -165,7 +165,7 @@ test_that("assemble_connections gives output", {
                       cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, 
                tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
-  expect_equal(nrow(cons), 543482)
+  expect_equal(nrow(cons), 543286)
 })
 
 #### run_cicero ####
@@ -179,14 +179,14 @@ test_that("run_cicero gives output", {
                       cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, 
                tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
-  expect_equal(nrow(cons), 543482)
+  expect_equal(nrow(cons), 543286)
   cons <- run_cicero(cicero_cds, window = 500000, silent=TRUE, sample_num = 2,
                      genomic_coords = "../human.hg19.genome_sub.txt")
   expect_equal(cons[cons$Peak1 == "chr18_10025_10225" & 
                       cons$Peak2 == "chr18_10603_11103",]$coaccess, 0.877, 
                tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
-  expect_equal(nrow(cons), 543482)
+  expect_equal(nrow(cons), 543286)
 })
 
 test_that("run_cicero gives output bad chromosomes", {
@@ -219,7 +219,7 @@ test_that("run_cicero gives output bad chromosomes", {
                       cons$Peak2 == "A018_10603_11103",]$coaccess, 0.877, 
                tolerance = 1e-3)
   expect_equal(ncol(cons), 3)
-  expect_equal(nrow(cons), 543482)
+  expect_equal(nrow(cons), 543286)
 })
 
 #### generate_ccans ####
@@ -283,7 +283,7 @@ data(gene_annotation_sample)
 gene_annotation_sub <- gene_annotation_sample[,c(1:3, 8)]
 names(gene_annotation_sub)[4] <- "gene"
 
-input_cds <- annotate_cds_by_site(input_cds, gene_annotation_sub)
+input_cds <- suppressWarnings(annotate_cds_by_site(input_cds, gene_annotation_sub))
 unnorm_ga <- build_gene_activity_matrix(input_cds, cons)
 expect_equal(nrow(unnorm_ga), 626)
 expect_equal(ncol(unnorm_ga), 200)
@@ -310,7 +310,7 @@ test_that("normalize_gene_activities works", {
   cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
   expect_equal(nrow(cicero_gene_activities), 626)
   expect_equal(ncol(cicero_gene_activities), 200)
-  expect_equal(cicero_gene_activities[1,1], 0.00857, tolerance = 1e-5)
+  expect_equal(cicero_gene_activities[1,1], 0.0086, tolerance = 1e-4)
   
   cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga,
                                                            unnorm_ga),
@@ -321,18 +321,18 @@ test_that("normalize_gene_activities works", {
   cicero_gene_activities2 <- cicero_gene_activities[[2]]
   expect_equal(nrow(cicero_gene_activities1), 626)
   expect_equal(ncol(cicero_gene_activities1), 200)
-  expect_equal(cicero_gene_activities1[1,1], 0.00857, tolerance = 1e-5)
+  expect_equal(cicero_gene_activities1[1,1], 0.0086, tolerance = 1e-4)
   
   expect_equal(nrow(cicero_gene_activities2), 626)
   expect_equal(ncol(cicero_gene_activities2), 200)
-  expect_equal(cicero_gene_activities2[1,1], 0.00857, tolerance = 1e-5)
+  expect_equal(cicero_gene_activities2[1,1], 0.0086, tolerance = 1e-4)
   
   
   unnorm_ga <- as.matrix(unnorm_ga)
   cicero_gene_activities <- normalize_gene_activities(unnorm_ga, num_genes)
   expect_equal(nrow(cicero_gene_activities), 626)
   expect_equal(ncol(cicero_gene_activities), 200)
-  expect_equal(cicero_gene_activities[1,1], 0.00857, tolerance = 1e-5)
+  expect_equal(cicero_gene_activities[1,1], 0.0086, tolerance = 1e-4)
   
   cicero_gene_activities <- normalize_gene_activities(list(unnorm_ga,
                                                            unnorm_ga),
@@ -343,11 +343,11 @@ test_that("normalize_gene_activities works", {
   cicero_gene_activities2 <- cicero_gene_activities[[2]]
   expect_equal(nrow(cicero_gene_activities1), 626)
   expect_equal(ncol(cicero_gene_activities1), 200)
-  expect_equal(cicero_gene_activities1[1,1], 0.00857, tolerance = 1e-5)
+  expect_equal(cicero_gene_activities1[1,1], 0.0086, tolerance = 1e-4)
   
   expect_equal(nrow(cicero_gene_activities2), 626)
   expect_equal(ncol(cicero_gene_activities2), 200)
-  expect_equal(cicero_gene_activities2[1,1], 0.00857, tolerance = 1e-5)
+  expect_equal(cicero_gene_activities2[1,1], 0.0086, tolerance = 1e-4)
   
 })
 

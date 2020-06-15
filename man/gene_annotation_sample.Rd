@@ -4,7 +4,8 @@
 \name{gene_annotation_sample}
 \alias{gene_annotation_sample}
 \title{Example gene annotation information}
-\format{A data frame with 15129 rows and 8 variables:
+\format{
+A data frame with 15129 rows and 8 variables:
 \describe{
   \item{chromosome}{Chromosome}
   \item{start}{Exon starting base}
@@ -14,7 +15,8 @@
   \item{gene}{Gene ID}
   \item{transcript}{Transcript ID}
   \item{symbol}{Gene symbol}
-}}
+}
+}
 \usage{
 gene_annotation_sample
 }

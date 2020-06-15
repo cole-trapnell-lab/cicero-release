@@ -4,11 +4,13 @@
 \name{mouse.mm9.genome}
 \alias{mouse.mm9.genome}
 \title{Chromosome lengths from mouse genome mm9}
-\format{A data frame with 93 rows and 2 variables:
+\format{
+A data frame with 93 rows and 2 variables:
 \describe{
   \item{V1}{Chromosome}
   \item{V2}{Chromosome length, base pairs}
-}}
+}
+}
 \usage{
 mouse.mm9.genome
 }
