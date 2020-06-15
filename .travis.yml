@@ -17,41 +17,6 @@ r:
 r_github_packages:
 - cole-trapnell-lab/monocle3
 
-r_binary_packages:
-- api
-- crayon
-- Matrix
-- plyr
-- reshape2
-- stringr
-- VGAM
-- boot
-- class
-- cluster
-- codetools
-- colorspace
-- crayon
-- digest
-- foreign
-- gtable
-- kernsmooth
-- labeling
-- lattice
-- littler
-- magrittr
-- mass
-- mgcv
-- nlme
-- nnet
-- pkgkitten 
-- rcolorbrewer
-- rcpp
-- rpart
-- scales
-- spatial
-- stringi
-- survival
-
 script: 
   - |
     travis_wait 20 R CMD build --no-build-vignettes .
