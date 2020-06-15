@@ -1,7 +1,7 @@
 Package: cicero
 Type: Package
 Title: Precict cis-co-accessibility from single-cell chromatin accessibility data
-Version: 1.5.5
+Version: 1.5.6
 Authors@R: c(
     person("Hannah", "Pliner", email = "hpliner@uw.edu", role = c("aut", "cre")), 
     person("Cole", "Trapnell", email = "coletrap@uw.edu", role = c("aut")))
@@ -34,6 +34,7 @@ Imports:
     reshape2 (>= 1.4.3),
     S4Vectors (>= 0.14.7),
     stats,
+    stringi,
     stringr (>= 1.2.0),    
     tibble (>= 1.4.2),
     tidyr,

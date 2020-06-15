@@ -105,8 +105,8 @@ build_composite_gene_activity_matrix <- function(input_cds,
 
     # Find distance between cicero peaks. If distance already calculated, skip
     if ("dist" %in% colnames(cicero_cons_info) == FALSE) {
-        Peak1_cols <- stringr::str_split_fixed(cicero_cons_info$Peak1, "_", 3)
-        Peak2_cols <- stringr::str_split_fixed(cicero_cons_info$Peak2, "_", 3)
+        Peak1_cols <- split_peak_names(cicero_cons_info$Peak1)
+        Peak2_cols <- split_peak_names(cicero_cons_info$Peak2)
         Peak1_bp <- round((as.integer(Peak1_cols[,3]) +
                           as.integer(Peak1_cols[,2])) / 2)
         Peak2_bp <- round((as.integer(Peak2_cols[,3]) +
@@ -150,14 +150,14 @@ build_composite_gene_activity_matrix <- function(input_cds,
     distal_safe_sites <- setdiff(distal_safe_sites, promoter_safe_sites)
 
     # Get accessibility info for promoters
-    promoter_access_mat_in_cicero_map <- accessibility_mat[promoter_safe_sites,]
+    promoter_access_mat_in_cicero_map <- accessibility_mat[promoter_safe_sites,, drop=FALSE]
 
     # Get accessibility for distal sites
-    distal_activity_scores <- accessibility_mat[distal_safe_sites,]
+    distal_activity_scores <- accessibility_mat[distal_safe_sites,, drop=FALSE]
 
     # Scale connectivity matrix by site_weights
-    scaled_site_weights <- site_weights[distal_safe_sites,distal_safe_sites]
-    total_linked_site_weights <- promoter_conn_matrix[,distal_safe_sites] %*%
+    scaled_site_weights <- site_weights[distal_safe_sites,distal_safe_sites, drop=FALSE]
+    total_linked_site_weights <- promoter_conn_matrix[,distal_safe_sites, drop=FALSE] %*%
         scaled_site_weights
     total_linked_site_weights <- 1/Matrix::rowSums(total_linked_site_weights,
                                                 na.rm=TRUE)
@@ -166,7 +166,7 @@ build_composite_gene_activity_matrix <- function(input_cds,
     total_linked_site_weights[is.nan(total_linked_site_weights)] <- 0
     total_linked_site_weights <- Matrix::Diagonal(x=total_linked_site_weights)
     scaled_site_weights <- total_linked_site_weights %*%
-        promoter_conn_matrix[,distal_safe_sites] %*%
+        promoter_conn_matrix[,distal_safe_sites, drop=FALSE] %*%
         scaled_site_weights
     scaled_site_weights@x[scaled_site_weights@x > 1] <- 1
 
@@ -174,7 +174,7 @@ build_composite_gene_activity_matrix <- function(input_cds,
     distal_activity_scores <- scaled_site_weights %*% distal_activity_scores
 
     distal_activity_scores <-
-        distal_activity_scores[row.names(promoter_access_mat_in_cicero_map),]
+        distal_activity_scores[row.names(promoter_access_mat_in_cicero_map),, drop=FALSE]
 
     # Sum distal and promoter scores
     promoter_activity_scores <- distal_activity_scores +

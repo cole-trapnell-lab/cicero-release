@@ -408,11 +408,11 @@ plot_connections <- function(connection_df,
   }
 
   if(!is.null(viewpoint)) {
-    view_chr <- stringr::str_split_fixed(viewpoint, "_", 3)[,1]
+    view_chr <- split_peak_names(viewpoint)[,1]
     if (chr != view_chr) warning("Viewpoint not on correct chromosome")
     else {
-      view_start <- stringr::str_split_fixed(viewpoint, "_", 3)[,2]
-      view_end <- stringr::str_split_fixed(viewpoint, "_", 3)[,3]
+      view_start <- split_peak_names(viewpoint)[,2]
+      view_end <- split_peak_names(viewpoint)[,3]
       ht1 <- Gviz::HighlightTrack(trackList = component_list,
                                   start = as.numeric(view_start),
                                   end = as.numeric(view_end),

@@ -23,7 +23,7 @@ test_that("make_atac_cds makes a valid cds object", {
                "Input must be file path, matrix, or data.frame")
   test_cds <-make_atac_cds("../cicero_data_sub.txt", binarize=TRUE)
   expect_is(test_cds, "CellDataSet")
-  expect_equal(nrow(exprs(test_cds)), 2148)
+  expect_equal(nrow(exprs(test_cds)), 2149)
   expect_equal(ncol(exprs(test_cds)), 7)
   expect_match(row.names(test_cds)[1], "chr18_10025_10225")
   expect_match(colnames(test_cds)[1], "AGCGATAGGCGCTATGGTGGAATTCAGTCAGGACGT")
@@ -45,6 +45,7 @@ test_that("ranges_for_coords works", {
 
 
   expect_is(ranges_for_coords("chr1_2039_30239"), "GRanges")
+  expect_is(ranges_for_coords("chr1_random_2039_30239"), "GRanges")
   expect_is(ranges_for_coords("chr1:2039:30239"), "GRanges")
   expect_is(ranges_for_coords("chr1-2039-30239"), "GRanges")
   expect_is(ranges_for_coords("chr1:2,039-30,239"), "GRanges")
@@ -68,6 +69,12 @@ test_that("df_for_coords works", {
             "data.frame")
   expect_equal(df_for_coords(c("chr1:2,039-30,239",
                                "chrX:28884:101293"))$bp2[1], 30239)
+  
+  expect_is(df_for_coords(c("chr1:2,039-30,239", "chrX:28884:101293", 
+                            "chr1_random_2039_30239")),
+            "data.frame")
+  expect_equal(df_for_coords(c("chr1:2,039-30,238", "chrX:28884:101293", 
+                               "chr1_random_2039_30239"))$bp2[3], 30239)
 })
 
 #### annotate_cds_by_site ####
@@ -170,11 +177,11 @@ test_that("annotate_cds_by_site works", {
   expect_true(is.na(fData(test_cds3)$type[3]))
 
   # check tie
-  feat2 <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18"),
-                     bp1 = c(10125, 10125, 50000, 100000),
-                     bp2 = c(10703, 10703, 60000, 110000),
+  feat2 <- data.frame(chr = c("chr18", "chr18", "chr18", "chr18", "chr18_GL456216_random"),
+                      bp1 = c(10125, 10125, 50000, 100000, 32820116),
+                      bp2 = c(10703, 10703, 60000, 110000, 32820118),
                      type = c("Acetylated", "Methylated",
-                              "Acetylated", "Methylated"),
+                              "Acetylated", "Methylated", "Other"),
                      stringsAsFactors = FALSE)
   test_cds2 <- annotate_cds_by_site(test_cds, feat2, all=FALSE)
   expect_equal(fData(test_cds2)$type[2], "Acetylated")
@@ -197,13 +204,13 @@ test_that("make_sparse_matrix works", {
                             "chr18_32820116_32820994"),
                    jcol = c("chr18_41888433_41890138",
                             "chr18_33038287_33039444",
-                            "chr18_25533921_25534483"),
+                            "chr18_random_25533921_25534483"),
                    xcol = c(1,2,3))
   sm <- make_sparse_matrix(df, "icol", "jcol", "xcol")
   expect_equal(sm["chr18_30209631_30210783", "chr18_41888433_41890138"], 1)
   expect_equal(sm["chr18_45820294_45821666", "chr18_33038287_33039444"], 2)
-  expect_equal(sm["chr18_25533921_25534483", "chr18_32820116_32820994"], 3)
-  expect_equal(sm["chr18_25533921_25534483", "chr18_30209631_30210783"], 0)
+  expect_equal(sm["chr18_random_25533921_25534483", "chr18_32820116_32820994"], 3)
+  expect_equal(sm["chr18_random_25533921_25534483", "chr18_30209631_30210783"], 0)
   expect_error(make_sparse_matrix(df, "icol", "xcol", "jcol"),
                "x.name column must be numeric")
   expect_error(make_sparse_matrix(df, "icol", "hannah", "jcol"),
@@ -221,7 +228,7 @@ test_that("find_overlapping_coordinates works", {
   #skip_on_bioc()
   test_coords <- c("chr18_10025_10225", "chr18_10603_11103", "chr18_11604_13986",
                  "chr18_157883_158536", "chr18_217477_218555",
-                 "chr18_245734_246234")
+                 "chr18_245734_246234", "chr18_random_245734_246234")
   expect_equal(length(find_overlapping_coordinates(test_coords,
                                                    "chr18:10,100-1246234")), 6)
   expect_equal(length(find_overlapping_coordinates(test_coords,
@@ -229,6 +236,9 @@ test_that("find_overlapping_coordinates works", {
   expect_equal(length(find_overlapping_coordinates(test_coords,
                                                    "chr18_10227_10601",
                                                    maxgap = 1)), 2)
+  expect_equal(length(find_overlapping_coordinates(test_coords,
+                                                   "chr18_random_10227_245736",
+                                                   maxgap = 1)), 1)
   expect_equal(length(find_overlapping_coordinates(test_coords,
                                                    c("chr18_10227_10602",
                                                      "chr18:11604-246234"))), 5)

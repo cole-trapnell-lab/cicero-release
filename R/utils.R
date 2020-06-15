@@ -44,7 +44,7 @@ make_atac_cds <- function(input, binarize = FALSE) {
   cellinfo$temp <- seq_len(nrow(cellinfo))
 
   dhsinfo <- data.frame(site_name = levels(intersect_lean$site_name))
-  dhsinfo <- cbind(dhsinfo, stringr::str_split_fixed(dhsinfo$site_name, "_", 3))
+  dhsinfo <- cbind(dhsinfo, split_peak_names(dhsinfo$site_name))
   row.names(dhsinfo) <- dhsinfo$site_name
   names(dhsinfo) <- c("site_name", "chr", "bp1", "bp2")
   dhsinfo$chr <- gsub("chr","", dhsinfo$chr)
@@ -126,7 +126,7 @@ ranges_for_coords <- function(coord_strings,
     }
 
     coord_strings <- gsub(",", "", coord_strings)
-    coord_cols <- stringr::str_split_fixed(coord_strings, ":|-|_", 3)
+    coord_cols <- split_peak_names(coord_strings)
     gr <- GenomicRanges::GRanges(coord_cols[, 1],
          ranges = IRanges::IRanges(as.numeric(coord_cols[,2]),
                                    as.numeric(coord_cols[, 3])),
@@ -163,8 +163,7 @@ ranges_for_coords <- function(coord_strings,
 #' @export
 df_for_coords <- function(coord_strings) {
   coord_strings <- gsub(",", "", coord_strings)
-  coord_cols <- as.data.frame(stringr::str_split_fixed(coord_strings, ":|-|_",
-                                                       3),
+  coord_cols <- as.data.frame(split_peak_names(coord_strings),
                               stringsAsFactors = FALSE )
   names(coord_cols) <- c("chr", "bp1", "bp2")
   coord_cols$Peak <- coord_strings
@@ -503,4 +502,13 @@ is_color <- function(x, df=NULL) {
 assertthat::on_failure(is_color) <- function(call, env) {
   paste0(deparse(call$x),
          " must be a valid color or a column in input data frame")
+}
+
+split_peak_names <- function(inp) {
+  out <- stringr::str_split_fixed(stringi::stri_reverse(inp), 
+                                  ":|-|_", 3)
+  out[,1] <- stringi::stri_reverse(out[,1])
+  out[,2] <- stringi::stri_reverse(out[,2])
+  out[,3] <- stringi::stri_reverse(out[,3])
+  out[,c(3,2,1), drop=FALSE]
 }
