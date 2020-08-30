@@ -17,68 +17,11 @@ r:
 r_github_packages:
 - cole-trapnell-lab/monocle3
 
-r_binary_packages:
-- assertthat
-- crayon
-- data.table
-- dplyr
-- FNN
-- glasso
-- Matrix
-- plyr
-- reshape2
-- stringr
-- tibble
-- VGAM
-- bh
-- boot
-- class
-- cli
-- cluster
-- codetools
-- colorspace
-- crayon
-- digest
-- fansi
-- foreign
-- gdtools
-- glue
-- gtable
-- kernsmooth
-- labeling
-- lattice
-- lazyeval
-- littler
-- magrittr
-- mass
-- mgcv
-- nlme
-- nnet
-- pillar
-- pkgconfig 
-- pkgkitten 
-- plogr
-- purrr
-- r6
-- rcolorbrewer
-- rcpp
-- rlang
-- rpart
-- scales
-- spatial
-- stringi
-- survival
-- svglite
-- tidyselect
-- utf8
-- viridislite
-- withr
-
-script: 
-  - |
-    travis_wait 20 R CMD build --no-build-vignettes .
+script: 	
+  - |	
+    travis_wait 20 R CMD build --no-build-vignettes .	
     travis_wait 20 R CMD check --no-build-vignettes cicero*tar.gz
-    
+
 after_success:
 - Rscript -e 'covr::codecov()'
 
