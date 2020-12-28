@@ -1,4 +1,4 @@
-[![Travis build status](https://travis-ci.org/cole-trapnell-lab/cicero-release.svg?branch=master)](https://travis-ci.org/cole-trapnell-lab/cicero-release)
+[![Travis build status](https://travis-ci.org/cole-trapnell-lab/cicero-release.svg?branch=master)](https://travis-ci.com/cole-trapnell-lab/cicero)
 [![Coverage status](https://codecov.io/gh/cole-trapnell-lab/cicero-release/branch/master/graph/badge.svg)](https://codecov.io/github/cole-trapnell-lab/cicero-release?branch=master)
 # Cicero
 ### Predicting the cis-regulatory landscape
