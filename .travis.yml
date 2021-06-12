@@ -17,10 +17,14 @@ r:
 r_github_packages:
 - cole-trapnell-lab/monocle3
 
-script: 	
-  - |	
-    travis_wait 20 R CMD build --no-build-vignettes .	
-    travis_wait 20 R CMD check --no-build-vignettes cicero*tar.gz
+r_build_args: --no-build-vignettes
+r_check_args: --no-build-vignettes
+
+install:
+- R -e 'install.packages("devtools")'
+- R -e 'devtools::install_deps(dep = T)'
+script:
+- R CMD build . --no-build-vignettes
 
 after_success:
 - Rscript -e 'covr::codecov()'
