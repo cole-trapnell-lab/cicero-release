@@ -32,6 +32,15 @@ r_binary_packages:
 - spatial
 - survival
 
+r_build_args: --no-build-vignettes
+r_check_args: --no-build-vignettes
+
+install:
+- R -e 'install.packages("devtools")'
+- R -e 'devtools::install_deps(dep = T)'
+script:
+- R CMD build . --no-build-vignettes
+
 after_success:
 - Rscript -e 'covr::codecov()'
 
