@@ -526,7 +526,7 @@ formula to account for overall assay efficiency.
 agg_cds <- reduceDimension(agg_cds, max_components = 2,
           residualModelFormulaStr="~num_genes_expressed",
           reduction_method = 'DDRTree')
-agg_cds <- orderCells(agg_cds)
+agg_cds <- suppressWarnings(orderCells(agg_cds))
 
 plot_cell_trajectory(agg_cds, color_by = "timepoint")
 ```
@@ -548,7 +548,7 @@ state 4. We now reorder cells setting the root state to 4. We can then check
 that the ordering makes sense by coloring the plot by Pseudotime.
 
 ```{r, fig.align='center', fig.height=4, fig.width=4, eval=TRUE}
-agg_cds <- orderCells(agg_cds, root_state = 4)
+agg_cds <- suppressWarnings(orderCells(agg_cds, root_state = 4))
 plot_cell_trajectory(agg_cds, color_by = "Pseudotime")
 ```
 
