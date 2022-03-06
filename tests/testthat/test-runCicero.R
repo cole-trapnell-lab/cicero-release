@@ -2,23 +2,23 @@ context("runCicero")
 
 #### make_cicero_cds ####
 
-  data(cicero_data)
-  load("../tsne_coord.Rdata")
-  data("human.hg19.genome")
+data(cicero_data)
+load("../tsne_coord.Rdata")
+data("human.hg19.genome")
 
-  sample_genome <- subset(human.hg19.genome, V1 == "chr18")
-  input_cds <- make_atac_cds(cicero_data)
+sample_genome <- subset(human.hg19.genome, V1 == "chr18")
+input_cds <- make_atac_cds(cicero_data)
 
-  set.seed(2017)
-  input_cds <- detectGenes(input_cds, min_expr = .1)
-  input_cds <- estimateSizeFactors(input_cds)
-  input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
+set.seed(2017)
+input_cds <- detectGenes(input_cds, min_expr = .1)
+input_cds <- estimateSizeFactors(input_cds)
+input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
 
-  set.seed(2018)
-  cicero_cds <- make_cicero_cds(input_cds,
-                                reduced_coordinates = tsne_coords,
-                                silent = TRUE,
-                                summary_stats = c("num_genes_expressed"))
+set.seed(2018)
+cicero_cds <- make_cicero_cds(input_cds,
+                              reduced_coordinates = tsne_coords,
+                              silent = TRUE,
+                              summary_stats = c("num_genes_expressed"))
 
 test_that("make_cicero_cds aggregates correctly", {
   #skip_on_bioc()
@@ -48,6 +48,34 @@ test_that("make_cicero_cds aggregates correctly", {
                                    "Size_Factor", "num_genes_expressed"))
   expect_equal(nrow(exprs(cicero_cds)), 6146)
   expect_equal(ncol(exprs(cicero_cds)), 34)
+})
+
+set.seed(2018)
+cicero_cds_temp <- make_cicero_cds(input_cds,
+                                   reduced_coordinates = tsne_coords,
+                                   silent = TRUE,
+                                   summary_stats = c("num_genes_expressed"),
+                                   return_agg_info = TRUE,
+                                   size_factor_normalize = FALSE)
+cicero_cds2 <- cicero_cds_temp[[1]]
+agg_info <- cicero_cds_temp[[2]]
+
+test_that("make_cicero_cds returns agg_info", {
+  expect_is(cicero_cds2, "CellDataSet")
+  expect_equal(nrow(fData(cicero_cds2)), nrow(fData(input_cds)))
+  expect_named(pData(cicero_cds2),c("agg_cell", "mean_num_genes_expressed",
+                                   "Size_Factor", "num_genes_expressed"))
+  expect_equal(nrow(exprs(cicero_cds2)), 6146)
+  expect_equal(ncol(exprs(cicero_cds2)), 34)
+  
+  expect_is(agg_info, "data.frame")
+
+  agg_test_cell <- agg_info$agg_cell[[1]]
+  test_agg <- as.character(agg_info[agg_info$agg_cell == agg_test_cell,]$cell)
+  temp_exprs <- exprs(input_cds)[,test_agg]
+  test_agg <- Matrix::rowSums(temp_exprs)
+  expect_equal(sum(exprs(cicero_cds2)[,agg_test_cell] != test_agg), 0)
+  
 })
 
 #### estimate_distance_parameter ####
