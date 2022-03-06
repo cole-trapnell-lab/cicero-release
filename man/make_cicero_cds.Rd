@@ -10,7 +10,8 @@ make_cicero_cds(
   k = 50,
   summary_stats = NULL,
   size_factor_normalize = TRUE,
-  silent = FALSE
+  silent = FALSE,
+  return_agg_info = FALSE
 )
 }
 \arguments{
@@ -32,9 +33,15 @@ summarized (mean) by bin in the resulting CDS object.}
 normalized by size factor?}
 
 \item{silent}{Logical, should warning and info messages be printed?}
+
+\item{return_agg_info}{Logical, should a list of the assignments of cells to
+aggregated bins be output? When \code{TRUE}, this function returns a list 
+of two items, first, the aggregated CDS object and second, a data.frame 
+with the binning information.}
 }
 \value{
-Aggregated CDS object.
+Aggregated CDS object. If return_agg_info is \code{TRUE}, a list 
+  of the aggregated CDS object and a data.frame of aggregation info.
 }
 \description{
 Function to generate an aggregated input CDS for cicero. \code{run_cicero}

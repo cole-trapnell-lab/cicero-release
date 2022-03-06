@@ -49,6 +49,34 @@ test_that("make_cicero_cds aggregates correctly", {
   expect_equal(ncol(exprs(cicero_cds)), 34)
 })
 
+set.seed(2018)
+cicero_cds_temp <- make_cicero_cds(input_cds,
+                                   reduced_coordinates = tsne_coords,
+                                   silent = TRUE,
+                                   summary_stats = c("num_genes_expressed"),
+                                   return_agg_info = TRUE,
+                                   size_factor_normalize = FALSE)
+cicero_cds2 <- cicero_cds_temp[[1]]
+agg_info <- cicero_cds_temp[[2]]
+
+test_that("make_cicero_cds returns agg_info", {
+  expect_is(cicero_cds2, "cell_data_set")
+  expect_equal(nrow(fData(cicero_cds2)), nrow(fData(input_cds)))
+  expect_named(pData(cicero_cds2),c("agg_cell", "mean_num_genes_expressed",
+                                   "Size_Factor", "num_genes_expressed"))
+  expect_equal(nrow(exprs(cicero_cds2)), 6146)
+  expect_equal(ncol(exprs(cicero_cds2)), 34)
+  
+  expect_is(agg_info, "data.frame")
+
+  agg_test_cell <- as.character(agg_info$agg_cell[[1]])
+  test_agg <- as.character(agg_info[agg_info$agg_cell == agg_test_cell,]$cell)
+  temp_exprs <- exprs(input_cds)[,test_agg]
+  test_agg <- Matrix::rowSums(temp_exprs)
+  expect_equal(sum(exprs(cicero_cds2)[,agg_test_cell] != test_agg), 0)
+  
+})
+
 #### estimate_distance_parameter ####
 
 test_that("estimate_distance_parameter gives correct mean", {

@@ -19,6 +19,10 @@
 #' @param size_factor_normalize Logical, should accessibility values be
 #'   normalized by size factor?
 #' @param silent Logical, should warning and info messages be printed?
+#' @param return_agg_info Logical, should a list of the assignments of cells to
+#'   aggregated bins be output? When \code{TRUE}, this function returns a list 
+#'   of two items, first, the aggregated CDS object and second, a data.frame 
+#'   with the binning information.
 #'
 #' @details Aggregation of similar cells is done using a k-nearest-neighbors
 #'   graph and a randomized "bagging" procedure. Details are available in the
@@ -26,7 +30,8 @@
 #'   for publication details. KNN is calculated using
 #'   \code{\link[FNN]{knn.index}}
 #'
-#' @return Aggregated CDS object.
+#' @return Aggregated CDS object. If return_agg_info is \code{TRUE}, a list 
+#'   of the aggregated CDS object and a data.frame of aggregation info.
 #' @export
 #'
 #' @examples
@@ -45,7 +50,8 @@ make_cicero_cds <- function(cds,
                             k=50,
                             summary_stats = NULL,
                             size_factor_normalize = TRUE,
-                            silent = FALSE) {
+                            silent = FALSE, 
+                            return_agg_info = FALSE) {
   
   assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(is.data.frame(reduced_coordinates) |
@@ -72,6 +78,7 @@ make_cicero_cds <- function(cds,
   }
   assertthat::assert_that(is.logical(size_factor_normalize))
   assertthat::assert_that(is.logical(silent))
+  assertthat::assert_that(is.logical(return_agg_info))
   
   reduced_coordinates <- as.data.frame(reduced_coordinates)
   
@@ -127,12 +134,24 @@ make_cicero_cds <- function(cds,
                    "\nMean shared cells bin-bin: ", mean(shared),
                    "\nMedian shared cells bin-bin: ", median(shared)))
     
-    if (mean(shared)/k > .1) warning("On average, more than 10% of cells are shared between paired bins.")
+    if (mean(shared)/k > .1)
+      warning("On average, more than 10% of cells are shared between paired bins.")
   }
   
   exprs_old <- exprs(cds)
   
-  mask <- sapply(seq_len(nrow(cell_sample)), function(x) seq_len(ncol(exprs_old)) %in% cell_sample[x,,drop=FALSE])
+  mask <- sapply(seq_len(nrow(cell_sample)), 
+                 function(x) seq_len(ncol(exprs_old)) %in% cell_sample[x,,drop=FALSE])
+  
+  if (return_agg_info) {
+    row.names(mask) <- colnames(exprs_old)
+    colnames(mask) <- paste0("agg_", chosen)
+    agg_map <- reshape2::melt(mask)
+    agg_map <- agg_map[agg_map$value,]
+    agg_map$value <- NULL
+    names(agg_map) <- c("cell", "agg_cell")
+  }
+  
   mask <- Matrix::Matrix(mask)
   new_exprs <- exprs_old %*% mask
   
@@ -155,7 +174,7 @@ make_cicero_cds <- function(cds,
     data.frame(df_l)
   })
   
-  new_pdata$agg_cell <- paste("agg", chosen, sep="")
+  new_pdata$agg_cell <- paste("agg_", chosen, sep="")
   new_pdata <- new_pdata[,new_pcols, drop = FALSE] # fixes order, drops X1 and temp
   
   row.names(new_pdata) <- new_pdata$agg_cell
@@ -186,6 +205,9 @@ make_cicero_cds <- function(cds,
                                     gene_metadata = fData(cicero_cds)))
   }
   
+  if (return_agg_info) {
+    return(list(cicero_cds, agg_map))
+  }
   cicero_cds
 }
 
