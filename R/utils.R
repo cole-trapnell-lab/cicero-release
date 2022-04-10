@@ -512,3 +512,29 @@ split_peak_names <- function(inp) {
   out[,3] <- stringi::stri_reverse(out[,3])
   out[,c(3,2,1), drop=FALSE]
 }
+
+estimateSizeFactorsSimp <- function(cds) {
+  if (any(class(exprs(cds)) %in% c("dgCMatrix", "dgTMatrix"))) {
+    sizeFactors(cds) <- estimate_sf_sparse(exprs(cds))
+  }else{
+    sizeFactors(cds) <- estimate_sf_dense(exprs(cds))
+  }
+  return(cds)
+}
+
+estimate_sf_sparse <- function(counts){
+  counts <- round(counts)
+  cell_total <- Matrix::colSums(counts)
+  sfs <- cell_total / exp(mean(log(cell_total)))
+  sfs[is.na(sfs)] <- 1
+  sfs
+}
+
+estimate_sf_dense <- function(counts){
+  CM <- round(counts)
+  cell_total <- apply(CM, 2, sum)
+  sfs <- cell_total / exp(mean(log(cell_total)))
+  sfs[is.na(sfs)] <- 1
+  sfs
+}
+

@@ -195,7 +195,7 @@ make_cicero_cds <- function(cds,
                                                  lowerDetectionLimit=0))
   
   cicero_cds <- monocle::detectGenes(cicero_cds, min_expr = .1)
-  cicero_cds <- BiocGenerics::estimateSizeFactors(cicero_cds)
+  cicero_cds <- estimateSizeFactorsSimp(cicero_cds)
   #cicero_cds <- suppressWarnings(BiocGenerics::estimateDispersions(cicero_cds))
 
   if (any(!c("chr", "bp1", "bp2") %in% names(fData(cicero_cds)))) {
