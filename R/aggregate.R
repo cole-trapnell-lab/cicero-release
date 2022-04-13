@@ -186,7 +186,7 @@ aggregate_by_cell_bin <- function(cds, group_col) {
                                      lowerDetectionLimit=0))
 
     compart_cds <- detectGenes(compart_cds, min_expr=0.1)
-    compart_cds <- estimateSizeFactors(compart_cds)
+    compart_cds <- estimateSizeFactorsSimp(compart_cds)
     compart_cds <- estimateDispersions(compart_cds)
 
     fData(compart_cds)$use_for_ordering <- FALSE
