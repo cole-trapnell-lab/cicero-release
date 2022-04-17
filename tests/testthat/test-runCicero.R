@@ -299,10 +299,10 @@ test_that("find_overlapping_ccans works", {
   over <- find_overlapping_ccans(CCAN_assigns)
   expect_is(over, "data.frame")
   expect_equal(ncol(over), 2)
-  expect_equal(nrow(over), 100)
+  expect_equal(nrow(over), 98)
   over <- find_overlapping_ccans(CCAN_assigns, min_overlap = 3000000)
   skip_on_bioc()
-  expect_equal(nrow(over), 4)
+  expect_equal(nrow(over), 2)
 })
 
 #### activity scores ####
