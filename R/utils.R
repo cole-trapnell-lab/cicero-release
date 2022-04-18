@@ -32,17 +32,17 @@ make_atac_cds <- function(input, binarize = FALSE) {
   }
   assertthat::assert_that(assertthat::are_equal(ncol(intersect_lean), 3))
   assertthat::assert_that(is.logical(binarize))
-
+  
   names(intersect_lean) <- c("site_name", "cell_name", "read_count")
-
+  
   assertthat::assert_that(is.numeric(intersect_lean$read_count))
-
+  
   intersect_lean$site_name <- as.factor(intersect_lean$site_name)
   intersect_lean$cell_name <- as.factor(intersect_lean$cell_name)
   cellinfo <- data.frame(cells=levels(intersect_lean$cell_name))
   row.names(cellinfo) <- cellinfo$cells
   cellinfo$temp <- seq_len(nrow(cellinfo))
-
+  
   dhsinfo <- data.frame(site_name = levels(intersect_lean$site_name))
   dhsinfo <- cbind(dhsinfo, split_peak_names(dhsinfo$site_name))
   row.names(dhsinfo) <- dhsinfo$site_name
@@ -50,7 +50,7 @@ make_atac_cds <- function(input, binarize = FALSE) {
   dhsinfo$chr <- gsub("chr","", dhsinfo$chr)
   dhsinfo <- dhsinfo[order(as.character(dhsinfo$chr),
                            as.numeric(as.character(dhsinfo$bp2))),]
-
+  
   intersect_lean_ord <- intersect_lean[order(intersect_lean$site_name,
                                              intersect_lean$cell_name),]
   dhsinfo <- dhsinfo[order(dhsinfo$site_name),]
@@ -59,21 +59,21 @@ make_atac_cds <- function(input, binarize = FALSE) {
   intersect_lean_ord$cell_name <- factor(intersect_lean_ord$cell_name)
   intersect_lean_ord$site_name_num <- as.numeric(intersect_lean_ord$site_name)
   intersect_lean_ord$cell_name_num <- as.numeric(intersect_lean_ord$cell_name)
-
+  
   if(binarize) intersect_lean_ord$read_count <-
     as.numeric(intersect_lean_ord$read_count > 0)
   sparse_intersect <- Matrix::sparseMatrix(i=intersect_lean_ord$site_name_num,
                                            j=intersect_lean_ord$cell_name_num,
                                            x=intersect_lean_ord$read_count)
-
+  
   fd <- methods::new("AnnotatedDataFrame", data = dhsinfo)
   pd <- methods::new("AnnotatedDataFrame", data = cellinfo)
   atac_cds <-  suppressWarnings(newCellDataSet(methods::as(sparse_intersect,
                                                            "sparseMatrix"),
-                              phenoData = pd,
-                              featureData = fd,
-                              expressionFamily=negbinomial.size(),
-                              lowerDetectionLimit=0))
+                                               phenoData = pd,
+                                               featureData = fd,
+                                               expressionFamily=negbinomial.size(),
+                                               lowerDetectionLimit=0))
   if(binarize) {
     atac_cds@expressionFamily <- binomialff()
     atac_cds@expressionFamily@vfamily <- "binomialff"
@@ -118,30 +118,30 @@ make_atac_cds <- function(input, binarize = FALSE) {
 ranges_for_coords <- function(coord_strings,
                               meta_data_df = NULL,
                               with_names = FALSE) {
-    assertthat::assert_that(is.logical(with_names))
-    if (!is.null(meta_data_df)) {
-      assertthat::assert_that(is.data.frame(meta_data_df))
-      assertthat::assert_that(assertthat::are_equal(length(coord_strings),
-                                                    nrow(meta_data_df)))
+  assertthat::assert_that(is.logical(with_names))
+  if (!is.null(meta_data_df)) {
+    assertthat::assert_that(is.data.frame(meta_data_df))
+    assertthat::assert_that(assertthat::are_equal(length(coord_strings),
+                                                  nrow(meta_data_df)))
+  }
+  
+  coord_strings <- gsub(",", "", coord_strings)
+  coord_cols <- split_peak_names(coord_strings)
+  gr <- GenomicRanges::GRanges(coord_cols[, 1],
+                               ranges = IRanges::IRanges(as.numeric(coord_cols[,2]),
+                                                         as.numeric(coord_cols[, 3])),
+                               mcols = meta_data_df)
+  if (!is.null(meta_data_df)) {
+    for (n in names(meta_data_df)) {
+      newname <- paste0("mcols.", n)
+      names(GenomicRanges::mcols(gr))[which(names(GenomicRanges::mcols(gr)) ==
+                                              newname)] <- n
     }
-
-    coord_strings <- gsub(",", "", coord_strings)
-    coord_cols <- split_peak_names(coord_strings)
-    gr <- GenomicRanges::GRanges(coord_cols[, 1],
-         ranges = IRanges::IRanges(as.numeric(coord_cols[,2]),
-                                   as.numeric(coord_cols[, 3])),
-         mcols = meta_data_df)
-    if (!is.null(meta_data_df)) {
-      for (n in names(meta_data_df)) {
-        newname <- paste0("mcols.", n)
-        names(GenomicRanges::mcols(gr))[which(names(GenomicRanges::mcols(gr)) ==
-                                                newname)] <- n
-      }
-    }
-    if (with_names) {
-        gr$coord_string <- coord_strings
-    }
-    gr
+  }
+  if (with_names) {
+    gr$coord_string <- coord_strings
+  }
+  gr
 }
 
 #' Construct a data frame of coordinate info from coordinate strings
@@ -228,7 +228,7 @@ annotate_cds_by_site <- function(cds,
                                  maxgap = 0,
                                  all = FALSE,
                                  header = FALSE) {
-
+  
   assertthat::assert_that(is(cds, "CellDataSet"))
   assertthat::assert_that(is.character(feature_data) |
                             is.data.frame(feature_data))
@@ -236,10 +236,10 @@ annotate_cds_by_site <- function(cds,
   assertthat::assert_that(is.logical(verbose))
   assertthat::assert_that(is.logical(all))
   assertthat::assert_that(is.logical(header))
-
+  
   if (verbose) print("Generating fData ranges")
   granges <- ranges_for_coords(rownames(fData(cds)), with_names=TRUE)
-
+  
   if (is(feature_data, "character")) {
     if (verbose) print("Reading data file")
     ch <- read.table(feature_data, header=header, stringsAsFactors = FALSE)
@@ -253,16 +253,16 @@ annotate_cds_by_site <- function(cds,
     dtt <- GenomicRanges::makeGRangesFromDataFrame(feature_data,
                                                    keep.extra.columns = TRUE)
   }
-
+  
   if (verbose) print("Determining overlaps")
-
+  
   if(maxgap == "nearest") {
     ol <- GenomicRanges::nearest(granges, dtt, select = "all")
   } else {
     ol <- GenomicRanges::findOverlaps(granges, dtt, select = "all",
                                       maxgap = maxgap)
   }
-
+  
   olaps <- data.frame(
     row_name = GenomicRanges::mcols(granges[
       S4Vectors::queryHits(ol)])@listData$coord_string,
@@ -270,12 +270,12 @@ annotate_cds_by_site <- function(cds,
       IRanges::pintersect(granges[S4Vectors::queryHits(ol)],
                           dtt[S4Vectors::subjectHits(ol)]))
   )
-
+  
   olaps <- cbind(olaps,
                  as.data.frame(GenomicRanges::mcols(
                    dtt[S4Vectors::subjectHits(ol)])))
   if (verbose) print("Assigning labels")
-
+  
   if (all) {
     olaps <- olaps %>%
       dplyr::rename(overlap = width) %>%
@@ -286,20 +286,20 @@ annotate_cds_by_site <- function(cds,
     olaps <- olaps[!duplicated(olaps$row_name),]
     olaps <- olaps %>% dplyr::rename(overlap = width)
   }
-
+  
   if (verbose) print("Merging to fData table")
   fd <- fData(cds)
   fd$row_name <- row.names(fd)
   fd <- data.table::as.data.table(fd)
   data.table::setkey(fd, "row_name")
-
+  
   fd <- merge(fd, olaps, by="row_name", all.x=TRUE)
-
+  
   fData(cds) <- as.data.frame(fd)
   row.names(fData(cds)) <- fData(cds)$row_name
   fData(cds)$row_name <- NULL
   fData(cds) <- fData(cds)[row.names(exprs(cds)),]
-
+  
   cds
 }
 
@@ -324,19 +324,19 @@ make_sparse_matrix <- function(data,
      !x.name %in% names(data)) {
     stop('i.name, j.name, and x.name must be columns in data')
   }
-
+  
   data$i <- as.character(data[,i.name])
   data$j <- as.character(data[,j.name])
   data$x <- data[,x.name]
-
+  
   if(!class(data$x) %in%  c("numeric", "integer"))
     stop('x.name column must be numeric')
-
+  
   peaks <- data.frame(Peak = unique(c(data$i, data$j)),
                       index = seq_len(length(unique(c(data$i, data$j)))))
-
+  
   data <- data[,c("i", "j", "x")]
-
+  
   data <- rbind(data, data.frame(i=peaks$Peak, j = peaks$Peak, x = 0))
   data <- data[!duplicated(data[,c("i", "j", "x")]),]
   data <- data.table::as.data.table(data)
@@ -347,21 +347,21 @@ make_sparse_matrix <- function(data,
   data.table::setkey(data, "j")
   data <- data[peaks]
   data <- as.data.frame(data)
-
+  
   data <- data[,c("index", "i.index", "x")]
   data2 <- data
   names(data2) <- c("i.index", "index", "x")
-
+  
   data <- rbind(data, data2)
-
+  
   data <- data[!duplicated(data[,c("index", "i.index")]),]
   data <- data[data$index >= data$i.index,]
-
+  
   sp_mat <- Matrix::sparseMatrix(i=as.numeric(data$index),
                                  j=as.numeric(data$i.index),
                                  x=data$x,
                                  symmetric = TRUE)
-
+  
   colnames(sp_mat) <- peaks[order(peaks$index),]$Peak
   row.names(sp_mat) <- peaks[order(peaks$index),]$Peak
   return(sp_mat)
@@ -394,25 +394,25 @@ make_sparse_matrix <- function(data,
 compare_connections <- function(conns1,
                                 conns2,
                                 maxgap = 0) {
-
+  
   assertthat::assert_that(is(conns1, "data.frame"))
   assertthat::assert_that(is(conns2, "data.frame"))
   assertthat::assert_that(assertthat::is.number(maxgap))
-
+  
   conns2 <- conns2[,c(1,2)]
   names(conns2) <- c("Peak1", "Peak2")
   conns22 <- conns2[,c(2,1)]
   names(conns22) <- c("Peak1", "Peak2")
   conns2 <- rbind(conns2, conns22)
   conns2 <- conns2[!duplicated(conns2),]
-
+  
   alt1 <- ranges_for_coords(conns2$Peak1)
   alt2 <- ranges_for_coords(conns2$Peak2)
-
+  
   conns11 <- ranges_for_coords(conns1$Peak1)
   conns12 <- ranges_for_coords(conns1$Peak2)
-
-
+  
+  
   ol1 <- GenomicRanges::findOverlaps(conns11,
                                      alt1,
                                      maxgap = maxgap,
@@ -423,14 +423,14 @@ compare_connections <- function(conns1,
                                      select="all")
   ol1 <- as.list(ol1)
   ol2 <- as.list(ol2)
-
+  
   olap <- mapply(function(o1, o2) {
     if (length(o1) == 0) out <- FALSE
     else if (length(intersect(o1,o2) > 0)) out <- TRUE
     else out <- FALSE
     return(out)
   }, ol1, ol2)
-
+  
   return(olap)
 }
 
@@ -476,7 +476,7 @@ find_overlapping_coordinates <- function(coord_list,
       if(length(y) == 0) return(NA)
       return(coord_list[y])
     })
-
+    
     return(as.character(unlist(ol1)))
   }
 }
@@ -513,6 +513,8 @@ split_peak_names <- function(inp) {
   out[,c(3,2,1), drop=FALSE]
 }
 
+########### Borrowed from monocle to avoid bug ##############
+
 estimateSizeFactorsSimp <- function(cds) {
   if (any(class(exprs(cds)) %in% c("dgCMatrix", "dgTMatrix"))) {
     sizeFactors(cds) <- estimate_sf_sparse(exprs(cds))
@@ -537,4 +539,118 @@ estimate_sf_dense <- function(counts){
   sfs[is.na(sfs)] <- 1
   sfs
 }
+
+estimateDispersionsSimp <- function (object, modelFormulaStr = "~ 1", 
+                                     relative_expr = TRUE, 
+                                     min_cells_detected = 1, 
+                                     remove_outliers = TRUE, cores = 1, 
+                                     ...) {
+  dispModelName = "blind"
+  object@dispFitInfo = new.env(hash = TRUE)
+  dfi <- estimateDispersionsForCellDataSet(object, modelFormulaStr, 
+                                           relative_expr, min_cells_detected, 
+                                           remove_outliers, 
+                                           cores)
+  object@dispFitInfo[[dispModelName]] <- dfi
+  object
+}
+
+
+estimateDispersionsForCellDataSet <- function (cds, modelFormulaStr, 
+                                               relative_expr, 
+                                               min_cells_detected,
+                                               removeOutliers, verbose = FALSE) 
+{
+  mu <- NA
+  model_terms <- unlist(lapply(stringr::str_split(modelFormulaStr, "~|\\+|\\*"), 
+                               stringr::str_trim))
+  model_terms <- model_terms[model_terms != ""]
+  cds_pdata <- dplyr::group_by(dplyr::select(tibble::rownames_to_column(pData(cds)), 
+                                              "rowname"))
+  disp_table <- as.data.frame(cds_pdata %>% 
+                                dplyr::do(disp_calc_helper_NB(cds[, .$rowname],
+                                                              cds@expressionFamily, 
+                                                              min_cells_detected)))
+  
+  disp_table <- subset(disp_table, is.na(mu) == FALSE)
+  res <- parametricDispersionFit(disp_table, verbose)
+  fit <- res[[1]]
+  coefs <- res[[2]]
+  CD <- cooks.distance(fit)
+  cooksCutoff <- 4/nrow(disp_table)
+  outliers <- union(names(CD[CD > cooksCutoff]), setdiff(row.names(disp_table), 
+                                                         names(CD)))
+  res <- parametricDispersionFit(disp_table[row.names(disp_table) %in% 
+                                              outliers == FALSE, ], verbose)
+  fit <- res[[1]]
+  coefs <- res[[2]]
+  names(coefs) <- c("asymptDisp", "extraPois")
+  ans <- function(q) coefs[1] + coefs[2]/q
+  attr(ans, "coefficients") <- coefs
+  res <- list(disp_table = disp_table, disp_func = ans)
+  return(res)
+}
+
+disp_calc_helper_NB <- function (cds, expressionFamily, min_cells_detected) 
+{
+  rounded <- round(exprs(cds))
+  nzGenes <- Matrix::rowSums(rounded > cds@lowerDetectionLimit)
+  nzGenes <- names(nzGenes[nzGenes > min_cells_detected])
+  x <- t(t(rounded[nzGenes, ])/pData(cds[nzGenes, ])$Size_Factor)
+  xim <- mean(1/pData(cds[nzGenes, ])$Size_Factor)
+  f_expression_mean <- Matrix::rowMeans(x)
+  f_expression_var <- Matrix::rowMeans((x - f_expression_mean)^2)
+  disp_guess_meth_moments <- f_expression_var - xim * f_expression_mean
+  disp_guess_meth_moments <- disp_guess_meth_moments/(f_expression_mean^2)
+  res <- data.frame(mu = as.vector(f_expression_mean), 
+                    disp = as.vector(disp_guess_meth_moments))
+  res[res$mu == 0]$mu = NA
+  res[res$mu == 0]$disp = NA
+  res$disp[res$disp < 0] <- 0
+  res <- cbind(gene_id = row.names(fData(cds[nzGenes, ])), 
+               res)
+  res
+}
+
+parametricDispersionFit <- function (disp_table, verbose = FALSE, 
+                                     initial_coefs = c(1e-06, 1)) {
+  coefs <- initial_coefs
+  iter <- 0
+  while (TRUE) {
+    residuals <- disp_table$disp/(coefs[1] + coefs[2]/disp_table$mu)
+    good <- disp_table[which((residuals > initial_coefs[1]) & 
+                               (residuals < 10000)), ]
+    if (verbose) 
+      fit <- glm(disp ~ I(1/mu), data = good, family = Gamma(link = "identity"), 
+                 start = coefs)
+    else suppressWarnings(fit <- glm(disp ~ I(1/mu), data = good, 
+                                     family = Gamma(link = "identity"), 
+                                     start = coefs))
+    oldcoefs <- coefs
+    coefs <- coefficients(fit)
+    if (coefs[1] < initial_coefs[1]) {
+      coefs[1] <- initial_coefs[1]
+    }
+    if (coefs[2] < 0) {
+      stop("Parametric dispersion fit failed. Try a local fit and/or a pooled estimation. (See '?estimateDispersions')")
+    }
+    if (sum(log(coefs/oldcoefs)^2) < initial_coefs[1]) 
+      break
+    iter <- iter + 1
+    if (iter > 10) {
+      warning("Dispersion fit did not converge.")
+      break
+    }
+  }
+  if (!all(coefs > 0)) {
+    stop("Parametric dispersion fit failed. Try a local fit and/or a pooled estimation. (See '?estimateDispersions')")
+  }
+  list(fit, coefs)
+}
+
+
+
+
+
+
 
