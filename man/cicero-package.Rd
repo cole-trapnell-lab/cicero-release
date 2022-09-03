@@ -6,9 +6,7 @@
 \alias{cicero-package}
 \title{cicero}
 \description{
-Cicero computes putative cis-regulatory maps from single-cell chromatin 
-    accessibility data. It also extends monocle 2 for use in chromatin accessibility
-    data.
+Cicero computes putative cis-regulatory maps from single-cell chromatin accessibility data. It also extends monocle 2 for use in chromatin accessibility data.
 }
 \author{
 \strong{Maintainer}: Hannah Pliner \email{hpliner@uw.edu}
