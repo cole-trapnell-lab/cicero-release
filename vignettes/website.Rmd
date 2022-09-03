@@ -468,7 +468,9 @@ First, we download and load in the data (same as above):
 #temp <- textConnection(readLines(gzcon(url("http://staff.washington.edu/hpliner/data/kidney_data.txt.gz"))))
 
 # read in the data
-cicero_data <- read.table(temp)
+#cicero_data <- read.table(temp)
+
+#input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
 ```
 
 Next, we preprocess the data using Latent Semantic Indexing (LSI) and then 
