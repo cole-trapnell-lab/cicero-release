@@ -465,7 +465,7 @@ First, we download and load in the data (same as above):
 ```{r}
 # Code to download (54M) and unzip the file - can take a couple minutes 
 # depending on internet connection:
-temp <- textConnection(readLines(gzcon(url("http://staff.washington.edu/hpliner/data/kidney_data.txt.gz"))))
+#temp <- textConnection(readLines(gzcon(url("http://staff.washington.edu/hpliner/data/kidney_data.txt.gz"))))
 
 # read in the data
 cicero_data <- read.table(temp)
