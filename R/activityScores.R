@@ -162,7 +162,10 @@ build_composite_gene_activity_matrix <- function(input_cds,
     total_linked_site_weights[is.finite(total_linked_site_weights) == FALSE] <- 0
     total_linked_site_weights[is.na(total_linked_site_weights)] <- 0
     total_linked_site_weights[is.nan(total_linked_site_weights)] <- 0
+    site_names <- names(total_linked_site_weights)
     total_linked_site_weights <- Matrix::Diagonal(x=total_linked_site_weights)
+    row.names(total_linked_site_weights) <- site_names
+    colnames(total_linked_site_weights) <- site_names
     scaled_site_weights <- total_linked_site_weights %*%
         promoter_conn_matrix[,distal_safe_sites, drop=FALSE] %*%
         scaled_site_weights
