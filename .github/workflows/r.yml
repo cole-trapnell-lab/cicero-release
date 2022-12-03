@@ -26,7 +26,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: docker://pandoc/core:2.9
       - name: Set up R ${{ matrix.r-version }}
         uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
         with:
@@ -35,7 +34,7 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pandoc")
+          install.packages("rmarkdown", "pandoc")
         shell: Rscript {0}
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
