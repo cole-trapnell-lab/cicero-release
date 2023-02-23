@@ -195,7 +195,7 @@ section on clustering cells.
 Next, we access the tSNE coordinates from the input CDS object where
 they are stored by Monocle and run make_cicero_cds:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 tsne_coords <- t(reducedDimA(input_cds))
 row.names(tsne_coords) <- row.names(pData(input_cds))
 cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
@@ -227,7 +227,7 @@ included with the package and can be accessed with
 data("human.hg19.genome"). Here is an example call, continuing with our
 example data:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 data("human.hg19.genome")
 sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 sample_genome$V2[1] <- 10000000
@@ -246,7 +246,7 @@ Visualization section on the [Cicero
 website](https://cole-trapnell-lab.github.io/cicero-release), but to get
 a basic plot from your co-accessibility table is quite simple:
 
-```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=TRUE}
+```{r, fig.width = 7, fig.height = 4, fig.align='center', eval=FALSE}
 data(gene_annotation_sample)
 plot_connections(conns, "chr18", 8575097, 8839855, 
                  gene_model = gene_annotation_sample, 
@@ -270,7 +270,7 @@ in the comparisons.
 For example, if we wanted to compare our Cicero predictions to a set of
 (made-up) ChIA-PET connections, we could run:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
                                     "chr18_49500_49600"), 
                           Peak2 = c("chr18_10600_10700", "chr18_111700_111800", 
@@ -285,7 +285,7 @@ matches fairly closely to the last line shown of conns. The difference
 is only \~67 base pairs, which could be a matter of peak-calling. This
 is where the max_gap parameter can be useful:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 conns$in_chia_100 <- compare_connections(conns, chia_conns, maxgap=100)
 
 head(conns)
@@ -301,7 +301,7 @@ measure, like the number of ligations in ChIA-PET, or simply a column of
 in the Advanced Visualization section of the [Cicero
 website](https://cole-trapnell-lab.github.io/cicero-release).
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Add a column of 1s called "coaccess"
 chia_conns <-  data.frame(Peak1 = c("chr18_10000_10200", "chr18_10000_10200", 
                                     "chr18_49500_49600"), 
@@ -340,7 +340,7 @@ automatically was too strict or loose, or for speed if you are rerunning
 the code and know what the cutoff will be, since the cutoff finding
 procedure can be slow.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 CCAN_assigns <- generate_ccans(conns)
 
 head(CCAN_assigns)
@@ -372,7 +372,7 @@ own. normalize_gene_activities also requires a named vector of of total
 accessible sites per cell. This is easily found in the pData table of
 your CDS, called "num_genes_expressed". See below for an example.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 
 #### Add a column for the pData table indicating the gene if a peak is a promoter ####
 # Create a gene annotation set that only marks the transcription start sites of 
