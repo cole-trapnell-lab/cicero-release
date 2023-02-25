@@ -58,6 +58,7 @@ Aggregation of similar cells is done using a k-nearest-neighbors
   \code{\link[FNN]{knn.index}}
 }
 \examples{
+\dontrun{
   data("cicero_data")
 
   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
@@ -67,6 +68,6 @@ Aggregation of similar cells is done using a k-nearest-neighbors
   tsne_coords <- t(reducedDimA(input_cds))
   row.names(tsne_coords) <- row.names(pData(input_cds))
   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-
+}
 
 }

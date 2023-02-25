@@ -1,7 +1,7 @@
 Package: cicero
 Type: Package
 Title: Predict cis-co-accessibility from single-cell chromatin accessibility data
-Version: 1.16.1
+Version: 1.16.2
 Authors@R: c(
     person("Hannah", "Pliner", email = "hpliner@uw.edu", role = c("aut", "cre")), 
     person("Cole", "Trapnell", email = "coletrap@uw.edu", role = c("aut")))
@@ -40,7 +40,7 @@ Imports:
     tidyr,
     VGAM (>= 1.0-5),
     utils
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Suggests:
     AnnotationDbi (>= 1.38.2),
     knitr,
