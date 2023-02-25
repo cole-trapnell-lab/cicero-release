@@ -35,6 +35,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #'   data("cicero_data")
 #'
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
@@ -44,7 +45,7 @@
 #'   tsne_coords <- t(reducedDimA(input_cds))
 #'   row.names(tsne_coords) <- row.names(pData(input_cds))
 #'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'
+#' }
 #'
 make_cicero_cds <- function(cds,
                             reduced_coordinates,
