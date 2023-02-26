@@ -53,3 +53,5 @@ Suggests:
 VignetteBuilder: knitr
 biocViews: Sequencing, Clustering, CellBasedAssays, ImmunoOncology, 
     GeneRegulation, GeneTarget, Epigenetics, ATACSeq, SingleCell
+Remotes:
+    github::cole-trapnell-lab/monocle3
