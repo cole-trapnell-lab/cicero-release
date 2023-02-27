@@ -12,7 +12,7 @@ A data frame with 200 rows and 2 variables:
 }
 }
 \usage{
-cell_data
+data(cell_data)
 }
 \description{
 Metadata information for cicero_data

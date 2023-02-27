@@ -13,7 +13,7 @@ A data frame with 35137 rows and 3 variables:
 }
 }
 \usage{
-cicero_data
+data(cicero_data)
 }
 \description{
 A dataset containing a subset of a single-cell ATAC-seq
