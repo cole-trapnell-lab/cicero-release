@@ -12,7 +12,7 @@ A data frame with 93 rows and 2 variables:
 }
 }
 \usage{
-mouse.mm9.genome
+data(mouse.mm9.genome)
 }
 \description{
 A list of the chromosomes in mm9 and their lengths

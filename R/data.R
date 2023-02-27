@@ -10,6 +10,7 @@
 #'   \item{Cell}{Cell ID}
 #'   \item{Count}{Reads per cell per peak}
 #' }
+#' @usage data(cicero_data)
 "cicero_data"
 
 #' Chromosome lengths from human genome hg19
@@ -22,6 +23,7 @@
 #'   \item{V1}{Chromosome}
 #'   \item{V2}{Chromosome length, base pairs}
 #' }
+#' @usage data(human.hg19.genome)
 "human.hg19.genome"
 
 #' Chromosome lengths from mouse genome mm9
@@ -34,6 +36,7 @@
 #'   \item{V1}{Chromosome}
 #'   \item{V2}{Chromosome length, base pairs}
 #' }
+#' @usage data(mouse.mm9.genome)
 "mouse.mm9.genome"
 
 #' Example gene annotation information
@@ -52,6 +55,7 @@
 #'   \item{transcript}{Transcript ID}
 #'   \item{symbol}{Gene symbol}
 #' }
+#' @usage data(gene_annotation_sample)
 "gene_annotation_sample"
 
 #' Metadata for example cells in cicero_data
@@ -63,4 +67,5 @@
 #'   \item{timepoint}{Time at cell collection}
 #'   \item{cell}{Cell barcode}
 #' }
+#' @usage data(cell_data)
 "cell_data"

@@ -12,7 +12,7 @@ A data frame with 93 rows and 2 variables:
 }
 }
 \usage{
-human.hg19.genome
+data(human.hg19.genome)
 }
 \description{
 A list of the chromosomes in hg19 and their lengths

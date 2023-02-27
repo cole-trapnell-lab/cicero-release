@@ -18,7 +18,7 @@ A data frame with 15129 rows and 8 variables:
 }
 }
 \usage{
-gene_annotation_sample
+data(gene_annotation_sample)
 }
 \description{
 Gencode gene annotation data from chromosome 18 of the
