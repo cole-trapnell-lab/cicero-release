@@ -900,7 +900,7 @@ find_ccan_cutoff <- function(connection_df, tolerance_digits) {
   connection_df <- connection_df[connection_df$coaccess > 0,]
   tolerance <- 10^-(tolerance_digits)
   bottom <- 0
-  top <- 1
+  top <- max(connection_df$coaccess)
   while ((top - bottom) > tolerance) {
     test_val <- bottom + round((top - bottom)/2, digits = tolerance_digits + 1)
     ccan_num_test <- number_of_ccans(connection_df, test_val)
