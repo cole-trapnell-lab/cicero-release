@@ -35,17 +35,15 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'   data("cicero_data")
 #'
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#' }
+#'   input_cds <- preprocess_cds(input_cds, method = "LSI")
+#'   input_cds <- reduce_dimension(input_cds, preprocess_method = "LSI")
+#'   umap_coords <- reducedDims(input_cds)$UMAP
+#'   cicero_cds <- make_cicero_cds(input_cds,
+#'                                 reduced_coordinates = umap_coords)
+#'
 #'
 make_cicero_cds <- function(cds,
                             reduced_coordinates,
@@ -55,7 +53,7 @@ make_cicero_cds <- function(cds,
                             silent = FALSE, 
                             return_agg_info = FALSE) {
   
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(is.data.frame(reduced_coordinates) |
                             is.matrix(reduced_coordinates))
   assertthat::assert_that(assertthat::are_equal(nrow(reduced_coordinates),
@@ -157,8 +155,8 @@ make_cicero_cds <- function(cds,
   mask <- Matrix::Matrix(mask)
   new_exprs <- exprs_old %*% mask
   
-  new_exprs <- Matrix::t(new_exprs)
-  new_exprs <- as.matrix(new_exprs)
+  #new_exprs <- Matrix::t(new_exprs)
+  #new_exprs <- as.matrix(new_exprs)
   
   pdata <- pData(cds)
   new_pcols <- "agg_cell"
@@ -176,28 +174,22 @@ make_cicero_cds <- function(cds,
     data.frame(df_l)
   })
   
-  new_pdata$agg_cell <- paste("agg", chosen, sep="")
+  new_pdata$agg_cell <- paste("agg_", chosen, sep="")
   new_pdata <- new_pdata[,new_pcols, drop = FALSE] # fixes order, drops X1 and temp
   
   row.names(new_pdata) <- new_pdata$agg_cell
-  row.names(new_exprs) <- new_pdata$agg_cell
-  new_exprs <- as.matrix(t(new_exprs))
+  colnames(new_exprs) <- new_pdata$agg_cell
+  #new_exprs <- as.matrix(t(new_exprs))
   
   fdf <- fData(cds)
   new_pdata$temp <- NULL
   
-  fd <- new("AnnotatedDataFrame", data = fdf)
-  pd <- new("AnnotatedDataFrame", data = new_pdata)
+  cicero_cds <-  suppressWarnings(new_cell_data_set(new_exprs,
+                                                 cell_metadata = new_pdata,
+                                                 gene_metadata = fdf))
   
-  cicero_cds <-  suppressWarnings(newCellDataSet(new_exprs,
-                                                 phenoData = pd,
-                                                 featureData = fd,
-                                                 expressionFamily=negbinomial.size(),
-                                                 lowerDetectionLimit=0))
-  
-  cicero_cds <- monocle::detectGenes(cicero_cds, min_expr = .1)
-  cicero_cds <- estimateSizeFactorsSimp(cicero_cds)
-  #cicero_cds <- suppressWarnings(BiocGenerics::estimateDispersions(cicero_cds))
+  cicero_cds <- monocle3::detect_genes(cicero_cds, min_expr = .1)
+  cicero_cds <- estimate_size_factors(cicero_cds)
 
   if (any(!c("chr", "bp1", "bp2") %in% names(fData(cicero_cds)))) {
     fData(cicero_cds)$chr <- NULL
@@ -208,8 +200,9 @@ make_cicero_cds <- function(cds,
   }
   
   if (size_factor_normalize) {
-    Biobase::exprs(cicero_cds) <-
-      t(t(Biobase::exprs(cicero_cds))/Biobase::pData(cicero_cds)$Size_Factor)
+    cicero_cds <- suppressWarnings(new_cell_data_set(Matrix::t(Matrix::t(exprs(cicero_cds))/pData(cicero_cds)$Size_Factor), 
+                                    cell_metadata = pData(cicero_cds), 
+                                    gene_metadata = fData(cicero_cds)))
   }
   
   if (return_agg_info) {
@@ -249,13 +242,12 @@ make_cicero_cds <- function(cds,
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
-#'   cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
+#'   input_cds <- preprocess_cds(input_cds, method = "LSI")
+#'   input_cds <- reduce_dimension(input_cds, preprocess_method = "LSI")
+#'   umap_coords <- reducedDims(input_cds)$UMAP
+#'   cicero_cds <- make_cicero_cds(input_cds,
+#'                                 reduced_coordinates = umap_coords)
+#'   cons <- run_cicero(cicero_cds, sample_genome, sample_num=2)
 #'
 run_cicero <- function(cds,
                        genomic_coords,
@@ -263,7 +255,7 @@ run_cicero <- function(cds,
                        silent=FALSE,
                        sample_num = 100) {
   # Check input
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(is.logical(silent))
   assertthat::assert_that(assertthat::is.number(window))
   assertthat::assert_that(assertthat::is.count(sample_num))
@@ -328,12 +320,11 @@ run_cicero <- function(cds,
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   input_cds <- preprocess_cds(input_cds, method = "LSI")
+#'   input_cds <- reduce_dimension(input_cds, preprocess_method = "LSI")
+#'   umap_coords <- reducedDims(input_cds)$UMAP
+#'   cicero_cds <- make_cicero_cds(input_cds,
+#'                                 reduced_coordinates = umap_coords)
 #'   distance_parameters <- estimate_distance_parameter(cicero_cds,
 #'                                                      sample_num=5,
 #'                                                      genomic_coords = sample_genome)
@@ -420,7 +411,7 @@ estimate_distance_parameter <- function(cds,
                                    genomic_coords = cicero::human.hg19.genome,
                                    max_sample_windows = 500) {
 
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(assertthat::is.number(window))
   assertthat::assert_that(assertthat::is.count(maxit))
   assertthat::assert_that(assertthat::is.number(s), s < 1, s > 0)
@@ -475,7 +466,7 @@ estimate_distance_parameter <- function(cds,
   if(length(distance_parameters) < sample_num)
     warning(paste0("Could not calculate sample_num distance_parameters (",
                    length(distance_parameters), " were calculated) - see ",
-                   "documentation details"))
+                  "documentation details"))
   if(length(distance_parameters) == 0)
     stop("No distance_parameters calculated")
 
@@ -523,7 +514,7 @@ estimate_distance_parameter <- function(cds,
 #'   Further details are available in the publication that accompanies this
 #'   package. Run \code{citation("cicero")} for publication details.
 #'
-#' @return A list of results for each window. Either a \code{glasso} object, or
+#' @return A list of results for each window. Either a \code{glassoFast} object, or
 #'   a character description of why the window was skipped. This list can be
 #'   directly input into \code{\link{assemble_connections}} to create a
 #'   reconciled list of cicero co-accessibility scores.
@@ -533,12 +524,11 @@ estimate_distance_parameter <- function(cds,
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   input_cds <- preprocess_cds(input_cds, method = "LSI")
+#'   input_cds <- reduce_dimension(input_cds, preprocess_method = "LSI")
+#'   umap_coords <- reducedDims(input_cds)$UMAP
+#'   cicero_cds <- make_cicero_cds(input_cds,
+#'                                 reduced_coordinates = umap_coords)
 #'   model_output <- generate_cicero_models(cicero_cds,
 #'                                          distance_parameter = 0.3,
 #'                                          genomic_coords = sample_genome)
@@ -568,7 +558,7 @@ generate_cicero_models <- function(cds,
                                    max_elements = 200,
                                    genomic_coords = cicero::human.hg19.genome) {
 
-  assertthat::assert_that(is(cds, "CellDataSet"))
+  assertthat::assert_that(is(cds, "cell_data_set"))
   assertthat::assert_that(assertthat::is.number(distance_parameter))
   assertthat::assert_that(assertthat::is.number(s), s < 1, s > 0)
   assertthat::assert_that(assertthat::is.number(window))
@@ -599,11 +589,11 @@ generate_cicero_models <- function(cds,
 
     rho_mat <- get_rho_mat(dist_matrix, distance_parameter, s)
 
-    vals <- exprs(win_range)
+    vals <- as.matrix(exprs(win_range))
     cov_mat <- cov(t(vals))
     diag(cov_mat) <- diag(cov_mat) + 1e-4
 
-    GL <- glasso::glasso(cov_mat, rho_mat)
+    GL <- cicero_glasso_fast(cov_mat, rho_mat, thr = 1e-4)
     colnames(GL$w) <- row.names(GL$w) <- row.names(vals)
     colnames(GL$wi) <- row.names(GL$wi) <- row.names(vals)
     return(GL)
@@ -623,7 +613,7 @@ generate_cicero_models <- function(cds,
 #' assembles the connections into a data frame with cicero co-accessibility
 #' scores.
 #'
-#' This function combines glasso models computed on overlapping windows of the
+#' This function combines glassoFast models computed on overlapping windows of the
 #' genome. Pairs of sites whose regularized correlation was calculated twice
 #' are first checked for qualitative concordance (both zero, positive or
 #' negative). If they not concordant, NA is returned. If they are concordant
@@ -641,12 +631,11 @@ generate_cicero_models <- function(cds,
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   input_cds <- preprocess_cds(input_cds, method = "LSI")
+#'   input_cds <- reduce_dimension(input_cds, preprocess_method = "LSI")
+#'   umap_coords <- reducedDims(input_cds)$UMAP
+#'   cicero_cds <- make_cicero_cds(input_cds,
+#'                                 reduced_coordinates = umap_coords)
 #'   model_output <- generate_cicero_models(cicero_cds,
 #'                                          distance_parameter = 0.3,
 #'                                          genomic_coords = sample_genome)
@@ -746,13 +735,13 @@ find_distance_parameter <- function(dist_mat,
   distance_parameter_min <- 0
   it <- 0
   while(found != TRUE & it < maxit) {
-    vals <- exprs(gene_range)
+    vals <- as.matrix(exprs(gene_range))
     cov_mat <- cov(t(vals))
     diag(cov_mat) <- diag(cov_mat) + 1e-4
 
-    rho <- get_rho_mat(dist_mat, distance_parameter, s)
+    rho_mat <- get_rho_mat(dist_mat, distance_parameter, s)
 
-    GL <- glasso::glasso(cov_mat, rho)
+    GL <- cicero_glasso_fast(cov_mat, rho_mat, thr = 1e-4)
     big_entries <- sum(dist_mat > distance_constraint)
 
     if (((sum(GL$wi[dist_mat > distance_constraint] != 0)/big_entries) > 0.05) |
@@ -849,12 +838,11 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
 #'   sample_genome <- subset(human.hg19.genome, V1 == "chr18")
 #'   sample_genome$V2[1] <- 100000
 #'   input_cds <- make_atac_cds(cicero_data, binarize = TRUE)
-#'   input_cds <- reduceDimension(input_cds, max_components = 2, num_dim=6,
-#'                                reduction_method = 'tSNE',
-#'                                norm_method = "none")
-#'   tsne_coords <- t(reducedDimA(input_cds))
-#'   row.names(tsne_coords) <- row.names(pData(input_cds))
-#'   cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = tsne_coords)
+#'   input_cds <- preprocess_cds(input_cds, method = "LSI")
+#'   input_cds <- reduce_dimension(input_cds, preprocess_method = "LSI")
+#'   umap_coords <- reducedDims(input_cds)$UMAP
+#'   cicero_cds <- make_cicero_cds(input_cds,
+#'                                 reduced_coordinates = umap_coords)
 #'   cicero_cons <- run_cicero(cicero_cds, sample_genome, sample_num = 2)
 #'   ccan_assigns <- generate_ccans(cicero_cons)
 #'  }
@@ -973,4 +961,19 @@ find_overlapping_ccans <- function(ccan_assignments, min_overlap=1) {
   olaps <- olaps[!duplicated(olaps),]
   olaps <- olaps[olaps$CCAN1 != olaps$CCAN2, ]
   return(olaps)
+}
+
+
+
+
+cicero_glasso_fast <- function(cov_mat, rho_mat, thr = 1e-4) {
+  out <- glassoFast::glassoFast(cov_mat,
+                                rho_mat,
+                                thr = thr)   # keep quiet
+
+  # Convert the output list to the naming convention that Cicero expects.
+  #   out$Theta  -> w
+  #   out$W      -> wi
+  list(w  = out$w,
+       wi = out$wi)
 }
