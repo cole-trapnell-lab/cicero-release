@@ -2,8 +2,8 @@ monocle_theme_opts <- function()
 {
   theme(strip.background = element_rect(colour = 'white', fill = 'white')) +
     theme(panel.border = element_blank()) +
-    theme(axis.line.x = element_line(size=0.25, color="black")) +
-    theme(axis.line.y = element_line(size=0.25, color="black")) +
+    theme(axis.line.x = element_line(linewidth=0.25, color="black")) +
+    theme(axis.line.y = element_line(linewidth=0.25, color="black")) +
     theme(panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_blank()) +
     theme(panel.grid.major.x = element_blank(),
@@ -746,17 +746,17 @@ plot_accessibility_in_pseudotime <- function(cds_subset,
 
   g_plot <- ggplot2::ggplot(data=mean.wt) +
     ggplot2::geom_bar(stat="identity",
-                      ggplot2::aes_string(x = "int_start", y = "mean"),
-                      color="#3C1642", fill= "#1DD3B0", size = .2) +
-    ggplot2::geom_line(ggplot2::aes_string(x = "Pseudotime",
-                                           y = "expectation"),
+                      ggplot2::aes(x = .data[["int_start"]], y = .data[["mean"]]),
+                      color="#3C1642", fill= "#1DD3B0", linewidth = .2) +
+    ggplot2::geom_line(ggplot2::aes(x = .data[["Pseudotime"]],
+                                    y = .data[["expectation"]]),
                        data=merged_df_with_vgam) +
     ggplot2::facet_wrap(~feature_label, nrow=NULL, ncol=1, scales="free_y") +
     ggplot2::ylab("Percent of cells accessible") +
     ggplot2::xlab("Pseudotime") +
     ggplot2::theme(text = ggplot2::element_text(size=6)) +
-    ggplot2::theme(axis.line.x = ggplot2::element_line(size = .2),
-                   axis.line.y = ggplot2::element_line(size = .2)) +
+    ggplot2::theme(axis.line.x = ggplot2::element_line(linewidth = .2),
+                   axis.line.y = ggplot2::element_line(linewidth = .2)) +
     monocle_theme_opts()
 
   return(g_plot)

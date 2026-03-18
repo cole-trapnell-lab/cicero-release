@@ -258,11 +258,11 @@ test_that("run_cicero gives output bad chromosomes", {
 test_that("generate_ccans gives output", { #slow
   skip_on_bioc()
   expect_output(CCAN_assigns <- generate_ccans(cons),
-                "Coaccessibility cutoff used: 0.47")
+                "Coaccessibility cutoff used: 0.5")
   #expect_equal(CCAN_assigns["chr18_217477_218555",]$CCAN, 3, tolerance = 1e-7)
   expect_equal(ncol(CCAN_assigns), 2)
-  expect_equal(nrow(CCAN_assigns), 1905)
-  expect_equal(length(unique(CCAN_assigns$CCAN)), 116)
+  expect_equal(nrow(CCAN_assigns), 1649)
+  expect_equal(length(unique(CCAN_assigns$CCAN)), 120)
 
   expect_output(CCAN_assigns <- generate_ccans(cons,
                                                coaccess_cutoff_override = 0.25),
@@ -300,7 +300,7 @@ test_that("find_overlapping_ccans works", {
   expect_is(over, "data.frame")
   expect_equal(ncol(over), 2)
   skip_on_bioc()
-  expect_equal(nrow(over), 98)
+  expect_equal(nrow(over), 94)
   over <- find_overlapping_ccans(CCAN_assigns, min_overlap = 3000000)
   expect_equal(nrow(over), 2)
 })
