@@ -809,7 +809,7 @@ make_ccan_graph <- function(connections_df, coaccess_cutoff) {
                                    connections_df$coaccess > coaccess_cutoff,]
   if(nrow(cons_info_gr) == 0) stop("No connections for graph")
   cons_graph <- make_sparse_matrix(cons_info_gr, x.name = "coaccess")
-  site_graph <- igraph::graph.adjacency(cons_graph,
+  site_graph <- igraph::graph_from_adjacency_matrix(cons_graph,
                                         mode = "undirected",
                                         weighted = TRUE)
   return(site_graph)
@@ -900,7 +900,7 @@ find_ccan_cutoff <- function(connection_df, tolerance_digits) {
   connection_df <- connection_df[connection_df$coaccess > 0,]
   tolerance <- 10^-(tolerance_digits)
   bottom <- 0
-  top <- 1
+  top <- max(connection_df$coaccess, na.rm = TRUE)
   while ((top - bottom) > tolerance) {
     test_val <- bottom + round((top - bottom)/2, digits = tolerance_digits + 1)
     ccan_num_test <- number_of_ccans(connection_df, test_val)
