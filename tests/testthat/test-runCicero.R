@@ -12,7 +12,7 @@ input_cds <- make_atac_cds(cicero_data)
 set.seed(2017)
 input_cds <- detectGenes(input_cds, min_expr = .1)
 input_cds <- estimateSizeFactors(input_cds)
-input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
+#input_cds <- suppressWarnings(suppressMessages(estimateDispersions(input_cds)))
 
 set.seed(2018)
 cicero_cds <- make_cicero_cds(input_cds,

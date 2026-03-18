@@ -484,7 +484,7 @@ pData(input_cds)$cell <- NULL
 agg_cds <- aggregate_nearby_peaks(input_cds, distance = 10000)
 agg_cds <- detectGenes(agg_cds)
 agg_cds <- estimateSizeFactors(agg_cds)
-agg_cds <- estimateDispersions(agg_cds)
+#agg_cds <- estimateDispersions(agg_cds)
 ```
 
 ## Choose sites for dimensionality reduction
@@ -569,7 +569,7 @@ agg_cds <- reduceDimension(agg_cds, max_components = 2,
 # skipped due to monocle bug
 # agg_cds <- suppressWarnings(orderCells(agg_cds))
 
-plot_cell_trajectory(agg_cds, color_by = "timepoint")
+#plot_cell_trajectory(agg_cds, color_by = "timepoint")
 ```
 
 Once you have a cell trajectory, you need to make sure that pseudotime
