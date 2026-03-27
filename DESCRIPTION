@@ -24,6 +24,7 @@ Imports:
     GenomicRanges (>= 1.30.3),
     ggplot2 (>= 2.2.1),
     glasso (>= 1.8),
+    glassoFast(>= 1.0.1),
     grDevices,
     igraph (>= 1.1.0),
     IRanges (>= 2.10.5),
